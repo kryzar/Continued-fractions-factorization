@@ -89,4 +89,28 @@ void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_inde
             }
             j --; 
       }
+}
+
+
+void find_A(mpz_t A, const mpz_t *Ans, mpz_t hist_vect, const mpz_t N){
+      /* This function finds the A of the S-congruence A^2 = Q^2 mod N.
+       *
+       * param A: Is already initialized. It is used to store the result.
+       * param Ans: An array which contains the A_n's. 
+       * param hist_vect: An history vector which is associated to an S-Set
+       * param N: The integer to be factored
+       */
+      
+      mp_bitcnt_t i;
+
+      i = mpz_scan1(hist_vect, 0);
+      mpz_clrbit(hist_vect, i);
+      mpz_set(A, Ans[i]); 
+
+      while  ( 0 != mpz_cmp_ui(hist_vect, 0) ){
+            i = mpz_scan1(hist_vect, i+1);
+            mpz_clrbit(hist_vect, i); 
+            mpz_mul(A, A, Ans[i]); 
+            mpz_mod(A, A, N);
+      }
 } 
