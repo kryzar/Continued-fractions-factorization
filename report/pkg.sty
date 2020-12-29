@@ -1,0 +1,124 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{LoLaTeXpackage}[2020/02/01 LoLaTeXpackage]
+
+% Packages
+%% Mathématique
+\RequirePackage{amsfonts}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{mathrsfs} % pour avoir \mathscr
+\RequirePackage{dsfont} % plus jolis ensembles Q, R, C
+%% Bric à brac
+\RequirePackage{xcolor}
+\RequirePackage{enumitem}
+\RequirePackage{fancyhdr}
+\RequirePackage[hidelinks]{hyperref}
+\RequirePackage[left=2.6cm, right=2.6cm]{geometry}
+%%% Modifier la table des matières, voir ci-après
+\RequirePackage{lmodern}
+\RequirePackage{tocloft} 
+
+\DeclareOption{noindent}{
+	%% Pas d'indentation sur les paragraphes
+	\setlength{\parindent}{0pt}
+	%% On enlève les alinéas
+	\setlist[itemize, 1]{leftmargin=*, align=left}
+	\setlist[itemize, 2]{leftmargin=*, align=left}
+	\setlist[itemize, 3]{leftmargin=*, align=left}
+	\setlist[enumerate, 1]{leftmargin=*, align=left}
+	\setlist[enumerate, 2]{leftmargin=*, align=left}
+	\setlist[enumerate, 3]{leftmargin=*, align=left}
+	\setlist[description, 1]{leftmargin=*, align=left}
+	\setlist[description, 2]{leftmargin=*, align=left}
+	\setlist[description, 3]{leftmargin=*, align=left}
+}
+
+\ProcessOptions\relax
+
+% Environnements mathématiques
+\newcounter{theoremcounter}[section]
+\renewcommand\thetheoremcounter{\arabic{section}.\arabic{theoremcounter}}
+\theoremstyle{plain} % default is plain
+\newtheorem{corollaire}[theoremcounter]{Corollaire}
+\newtheorem*{corollaire*}{Corollaire}
+\newtheorem{fait}[theoremcounter]{Fait}
+\newtheorem*{fait*}{Fait}
+\newtheorem{lemme}[theoremcounter]{Lemme}
+\newtheorem*{lemme*}{Lemme}
+\newtheorem{proposition}[theoremcounter]{Proposition}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{theoreme}[theoremcounter]{Théorème}
+\newtheorem*{theoreme*}{Théorème}
+\newtheorem{enoncefaux}[theoremcounter]{Énoncé faux}
+\newtheorem*{enoncefaux*}{Énoncé faux}
+\theoremstyle{definition} % default is definition
+\newtheorem{exemple}[theoremcounter]{Exemple}
+\newtheorem*{exemple*}{Exemple}
+\newtheorem{definition}[theoremcounter]{Définition}
+\newtheorem*{definition*}{Définition}
+\newtheorem{question}[theoremcounter]{Question}
+\newtheorem*{question*}{Question}
+\newtheorem{remarque}[theoremcounter]{Remarque}
+\newtheorem*{remarque*}{Remarque}
+
+% Commande pour se mettre des notes en rouge et en gras dans le document
+\newcommand{\NTS}[1]{\textcolor{red}{\textbf{#1}}} % NTS = Note To Self
+
+% Bric à brac
+%% jolis signes <= et >=
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+%% Style des itemize enumerate, (a) … au lieu de 1. … 
+%%% leftmargin=* supprime l'indentation
+%%% align=left pour que le label soit aligné à gauche de sa boîte
+\setlist[enumerate, 1]{label=(\roman*)}
+\setlist[enumerate, 2]{label=(\alph*)}
+\setlist[enumerate, 3]{label=\arabic*.}
+\setlist[enumerate]{font=\normalshape} % éviter l'italique dans les thm
+\setlist[itemize, 2]{label=$\ast$}
+\setlist[itemize, 3]{label=$\bullet$}
+
+% Macros mathématiques
+%% Structures usuelles
+\newcommand{\N}{\mathds{N}}					% monoïde des entiers naturels
+\newcommand{\Z}{\mathds{Z}}					% anneau des entiers relatifs
+\newcommand{\Q}{{\mathds{Q}}}					% corps des rationnels
+\newcommand{\R}{\mathds{R}}					% corps des réels
+\newcommand{\C}{\mathds{C}}					% corps des complexes
+\newcommand{\Fp}{\mathds{F}_p}				% corps fini à p éléments
+\newcommand{\Fq}{\mathds{F}_q}				% corps fini à q éléments
+\newcommand{\ssi}{si, et seulement si, }
+%% Opérateurs et ensembles usuels
+\DeclareMathOperator{\Aut}{Aut}				% automorphismes d'une structure
+\DeclareMathOperator{\End}{End}				% endomorphismes d'une structure
+\DeclareMathOperator{\Hom}{Hom}				% Homomorphismes d'une structure
+\DeclareMathOperator{\GL}{GL}				% groupe linéaire général d'une structure
+\DeclareMathOperator{\Ker}{Ker}				% noyau d'un morphisme
+\newcommand{\kro}[2]{{\left(\frac{#1}{#2}\right)}} % symbole de Kronecker
+\DeclareMathOperator{\Id}{Id}				% fonction identité
+\renewcommand{\Im}{\mathrm{Im}}				% image d'une fonction
+\newcommand{\im}{\mathfrak{I}}				% partie imaginaire d'un complexe
+\DeclareMathOperator{\pgcd}{pgcd}			% pgcd
+\DeclareMathOperator{\ppcm}{ppcm}			% ppcm
+\newcommand{\re}{\mathfrak{re}}				% partie réelle d'un complexe
+\DeclareMathOperator{\rg}{rg}				% rang d'un module
+%% Algèbre commutative et théorie de Galois
+\newcommand{\An}{\mathfrak{A}_n}			% n-ième groupe alterné
+\DeclareMathOperator{\Car}{Car}				% caractéristique d'un anneau
+\DeclareMathOperator{\Disc}{\Delta}			% discriminant d'une algèbre
+\DeclareMathOperator{\Frac}{Frac}			% corps des fractions d'un anneau
+\DeclareMathOperator{\Gal}{Gal}				% groupe de Galois
+\newcommand{\m}{\mathfrak{m}}				% m un idéal maximal
+\DeclareMathOperator{\Norm}{N}				% norme d'un idéal
+\newcommand{\OK}{{\mathcal{O}_K}}				% anneau des entiers d'un corps de nombres K
+\newcommand{\OL}{{\mathcal{O}_L}}				% anneau des entiers d'un corps de nombres L
+\newcommand{\p}{\mathfrak{p}}				% p un idéal premier
+\renewcommand{\P}{\mathfrak{P}}				% P un idéal premier
+\DeclareMathOperator{\Res}{Res}				% résultant de deux polynômes
+\newcommand{\Sn}{\mathfrak{S}_n}			% n-ième groupe symétrique
+\DeclareMathOperator{\Spec}{Spec}				% spectre d'un anneau
+\DeclareMathOperator{\Spm}{Spm}				% spectre maximal d'un anneau
+\newcommand{\X}{\mathscr{X}}				% ensemble des plongements d'une extension
+
+\endinput
