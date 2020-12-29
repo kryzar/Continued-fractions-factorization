@@ -92,15 +92,67 @@ void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_inde
 }
 
 
-void find_A(mpz_t A, const mpz_t *Ans, mpz_t hist_vect, const mpz_t N){
-      /* This function finds the A of the S-congruence A^2 = Q^2 mod N.
-       *
-       * param A: Is already initialized. It is used to store the result.
-       * param Ans: An array which contains the A_n's. 
-       * param hist_vect: An history vector which is associated to an S-Set
-       * param N: The integer to be factored
+void find_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns, mpz_t hist_vect,
+              const mpz_t N, mpz_t R, mpz_t X, mpz_t Q_temp){
+
+      /* This function finds the A and the Q of the S-congruence A^2 = Q^2 mod N.
+       
+       * param A: Is already initialized. It is used to store the value of A.
+       * param Ans: An array which contains the A_n's.
+       * param Q: Is already initialized. It is used to store the value of Q.
+       * param Qns: An array which contains the Q_n's. 
+       * param hist_vect: An history vector which is associated to an S-Set.
+       *                  (at the end, the vector is zero).
+       * param N: The integer to be factored.
+       * param R: An auxiliary variable already initialized for the computation of Q. 
+       * param X: An auxiliary variable already initialized for the computation of Q.
+       * param Q_temp: An auxiliary variable already initialized for the computation of Q. 
        */
-      
+
+       /* In the comments, let Q1, Q2, ... be the Q_i of the S-Set 
+        *  and A1, A2, ... be the A_i of the S-Set */
+
+      mp_bitcnt_t i;
+
+      mpz_set_ui(Q, 1); // Q <-- 1
+
+      i = mpz_scan1(hist_vect, 0);
+      mpz_clrbit(hist_vect, i);
+
+      mpz_set(A, Ans[i]); // A <-- A1
+      mpz_set(R, Qns[i]); // R <-- Q1
+
+      while  ( 0 != mpz_cmp_ui(hist_vect, 0) ){
+            i = mpz_scan1(hist_vect, i+1);
+            mpz_clrbit(hist_vect, i);
+
+            mpz_mul(A, A, Ans[i]); // A <-- A * Ai 
+            mpz_mod(A, A, N);
+  
+            mpz_set(Q_temp, Qns[i]); // X <-- pgcd(R, Q_i)
+            mpz_gcd(X, R, Q_temp);
+
+            mpz_mul(Q, Q, X); // Q <-- QX mod N 
+            mpz_mod(Q, Q, N); 
+ 
+            mpz_divexact(Q_temp, Q_temp, X); // R <-- R / X * Q_temp / X
+            mpz_divexact(R, R, X); 
+            mpz_mul(R, R, Q_temp);
+      }
+      mpz_sqrt(X, R); // X <-- sqrt(R)
+      mpz_mul(Q, Q, X); // Q <-- QX mod N 
+      mpz_mod(Q, Q, N); 
+}
+
+
+
+void find_A(mpz_t A, const mpz_t *Ans, mpz_t hist_vect, const mpz_t N){
+      // @Antoine, comme les calculs de A et de Q suivent exactement la 
+      // même structure de boucle, boucle qui nécessite de trouver 
+      // le bit à 1 de hist_vect et de le modifier, il vaut mieux les faire
+      // dans une même fonction. Je mets ici la fonction pour le calcul de 
+      // A seul et en dessous la fonction pour le calcul de Q seul. Fonctions
+      // que j'ai fusionnées dans find_A_Q. 
       mp_bitcnt_t i;
 
       i = mpz_scan1(hist_vect, 0);
@@ -114,3 +166,34 @@ void find_A(mpz_t A, const mpz_t *Ans, mpz_t hist_vect, const mpz_t N){
             mpz_mod(A, A, N);
       }
 } 
+
+
+void find_Q(mpz_t Q, const mpz_t *Qns, mpz_t hist_vect, const mpz_t N,
+            mpz_t R, mpz_t X, mpz_t Q_temp){
+      // à ne pas utiliser 
+      mp_bitcnt_t i; 
+
+      mpz_set_ui(Q, 1);
+      
+      i = mpz_scan1(hist_vect, 0); // R <-- Q_1 
+      mpz_clrbit(hist_vect, i); 
+      mpz_set(R, Qns[i]);
+      
+      while  ( 0 != mpz_cmp_ui(hist_vect, 0) ){
+            i = mpz_scan1(hist_vect, i+1); // X <-- pgcd(R, Q_i)
+            mpz_clrbit(hist_vect, i); // with Q1, Q2, ... the Q_i of the S-Set
+
+            mpz_set(Q_temp, Qns[i]); 
+            mpz_gcd(X, R, Q_temp);
+
+            mpz_mul(Q, Q, X); // Q <-- QX mod N 
+            mpz_mod(Q, Q, N); 
+ 
+            mpz_divexact(Q_temp, Q_temp, X); // R <-- R / X * Q_temp / X
+            mpz_divexact(R, R, X); 
+            mpz_mul(R, R, Q_temp);
+      }
+      mpz_sqrt(X, R); // X <-- sqrt(R)
+      mpz_mul(Q, Q, X); // Q <-- QX mod N 
+      mpz_mod(Q, Q, N); 
+}
