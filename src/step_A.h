@@ -11,7 +11,7 @@
 struct Params {
 	mpz_t	 N;			// Integer to factor
 	unsigned k;	            // Integer k used in sqrt(kN)
-	mpz_t    n_lim;		// Size of the cont. frac. expansion of sqrt(kN)
+	size_t n_lim;		// Size of the cont. frac. expansion of sqrt(kN)
 	size_t nb_want_AQp;     // Number of wanted A-Q pairs (A_{n-1}, Qn) with
                               // Qn factorisable with the primes of the factor base
 };
