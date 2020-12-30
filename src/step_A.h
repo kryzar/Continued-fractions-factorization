@@ -20,9 +20,9 @@ struct Params {
 
 typedef struct Params Params;
 
+#define malloc_mpz_array(s_array) (mpz_t *)malloc((s_array)*sizeof(mpz_t))
 
-mpz_t * mpz_alloc_array(size_t s_array);
-void mpz_init_array(mpz_t *array, size_t s_array);
-void mpz_free_array(mpz_t *array, size_t s_array);
+void init_mpz_array(mpz_t *array, size_t s_array);
+void free_mpz_array(mpz_t *array, size_t s_array);
 
 #endif
