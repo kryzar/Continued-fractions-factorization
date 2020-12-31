@@ -3,45 +3,41 @@
 
 Intuitivement, une fraction continue est une expression — finie ou infinie — de
 la forme suivante\footnote{Notez que nous ne nous autorisons que des $1$ aux
-numérateurs.} :
-\[a_0 + \cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{a_3 + \dots}}}\]
-telle que $a_0\in \Z$ et $a_i \in [\![1, 9]\!]$ pour tout $i\in \N^*$.
+numérateurs.} : \[a_0 + \cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{a_3 +
+\dots}}}\] telle que $a_0\in \Z$ et $a_i \in \N^*$ pour tout $i\in \N^*$.
 Toujours intuitivement, nous voulons affûbler cette fraciton continue d'une
 valeur. Si la fraction continue est finie, cette une bonne vieille fraciton,
 c'est à dire un élément du corps $\Q$~; si la fraction continue est infinie, on
 calcule d'abord $a_0$, puis $a_0 + \frac{1}{a_1}$, puis $a_0 + \frac{1}{a_1
 +\frac{1}{a_2}}$, et on continue une infinité de fois. La limite de la suite
-générée est la \og{} valeur \fg{} de la fraction continue. Nous ferons sens plus
-précis de l'intuition dans le prochain paragraphe. \\
+générée est la \og{} valeur \fg{} de la fraction continue. Nous ferons sens
+plus précis de l'intuition dans le prochain paragraphe. \\
 
-Les fractions continues émanent de la volonté d'approcher des réels
-irrationels par des fractions d'entiers. Par exemple, la fraction $\frac{103
-993}{33 102}$ approche $\pi$ avec une précision meilleure que le milliardième.
-Comment générer une telle fraction continue pour un réel irrationnel $x$ ?
-On part de l'identité suivante $x = x + \ent{x} - \ent{x}$ et l'on écrit
-\[x = \ent{x} + \cfrac{1}{\cfrac{1}{x - \ent{x}}}.\]
-On pose désormais $a_1 = \frac{1}{x - \ent{x}}$ (qui est bien défini par
-irrationalité de $x$) et l'on répète la première étape sur $a_1$ :
-\[x = \ent{x} + \cfrac{1}{a_1} = \ent{x} + \cfrac{1}{\ent{a_1} +
-\cfrac{1}{\cfrac{1}{a_1 - \ent{a_1}}}}.\]
-On recommence : on pose $a_2 = \frac{1}{a_1 - \ent{a_1}}$ pour obtenir
-\[x = \ent{x} + \cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{\cfrac{1}{a_2 -
-\ent{a_2}}}}}.\]
+Les fractions continues émanent de la volonté d'approcher des réels irrationels
+par des fractions d'entiers. Par exemple, la fraction $\frac{103 993}{33 102}$
+approche $\pi$ avec une précision meilleure que le milliardième.  Comment
+générer une telle fraction continue pour un réel irrationnel $x$ ?  On part de
+l'identité $x = x + \ent{x} - \ent{x}$ et l'on écrit \[x = \ent{x} +
+\cfrac{1}{\cfrac{1}{x - \ent{x}}}.\] On pose désormais $a_1 = \frac{1}{x -
+\ent{x}}$ (qui est bien défini par irrationalité de $x$) et l'on répète la
+première étape sur $a_1$ : \[x = \ent{x} + \cfrac{1}{a_1} = \ent{x} +
+\cfrac{1}{\ent{a_1} + \cfrac{1}{\cfrac{1}{a_1 - \ent{a_1}}}}.\] On recommence :
+on pose $a_2 = \frac{1}{a_1 - \ent{a_1}}$ pour obtenir \[x = \ent{x} +
+\cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{\cfrac{1}{a_2 - \ent{a_2}}}}}.\]
 Comme le réel $x$ est irrationnel, ce procédé ne s'arrête jamais. Nous
-construisons alors la suite de terme général
-\[a_n = \frac{1}{a_{n-1} - \ent{a_{n-1}}}, \quad \forall n \geq 1\]
-et associons canoniquement à \emph{l'irrationnel} $x$ la fraction continue
-\emph{infinie}
-\[a_0 + \cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{a_3 +
-\dots}}}.\]
+construisons alors la suite de terme général \[a_n = \frac{1}{a_{n-1} -
+\ent{a_{n-1}}}, \quad \forall n \geq 1\] et associons canoniquement à
+\emph{l'irrationnel} $x$ la fraction continue \emph{infinie} \[a_0 +
+\cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{a_3 + \dots}}}.\]
 
 \begin{remarque}
-La méthode de construction d'une fraction continue \emph{finie} pour un
-rationnel est la même : il faut simplement s'arrêter lorsque l'on tombe sur un
-$a_n$ vérifiant $a_n = \ent{a_n}$. Cet algorithme termine (\NTS{ref}) et
-s'exécute plus simplement en utilisant… l'algorithme d'Euclide. Par ailleurs,
-réaffirmons que la fraction continue d'un irrationel (encore une fois, dans un
-sens qui sera précisé au prochain paragraphe) est forcément infinie.
+	La méthode de construction d'une fraction continue \emph{finie} pour un
+	rationnel est la même : il faut simplement s'arrêter lorsque l'on tombe sur
+	un $a_n$ vérifiant $a_n = \ent{a_n}$. Cet algorithme termine (\NTS{ref}) et
+	s'exécute plus simplement en utilisant… l'algorithme d'Euclide. Par
+	ailleurs, réaffirmons que la fraction continue d'un irrationel (encore une
+	fois, dans un sens qui sera précisé au prochain paragraphe) est forcément
+	infinie.
 \end{remarque}
 
 \subsubsection{Formalisation}
