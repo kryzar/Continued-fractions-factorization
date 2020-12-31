@@ -27,9 +27,10 @@ alors la suite d'éléments \emph{irrationnels} de terme général \[x_n =
 \frac{1}{x_{n-1} - \ent{x_{n-1}}}, \quad \forall n \geq 1.\] On associe alors à
 \emph{l'irrationnel} $x$ la fraction continue \emph{infinie}\footnote{Lorsque
 nous aurons correctement défini la notion de fraction continue, cette fraction
-continue canoniquement associée à $x$ sera notée $\hat{x}$.} \[a_0 +
-\cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{a_3 + \dots}}},\] où l'on a posé
-\[a_i = \ent{x_i}\] pour tout $i\in \N$. Fixons ces notations :
+continue canoniquement associée à $x$ sera notée $\hat{x}$.} \[\hat{x}_0 +
+\cfrac{1}{\hat{x}_1 + \cfrac{1}{\hat{x}_2 + \cfrac{1}{\hat{x}_3 + \dots}}},\]
+où l'on a posé \[\hat{x}_i = \ent{x_i}\] pour tout $i\in \N$. Fixons ces
+notations :
 
 \begin{notation}\label{notations}
 	Soit $x\in \R$ un élément irrationel. Notons $x_0 = x$ puis \[x_n :=
@@ -40,11 +41,11 @@ continue canoniquement associée à $x$ sera notée $\hat{x}$.} \[a_0 +
 \begin{remarque}
 	La méthode de construction d'une fraction continue \emph{finie} pour un
 	rationnel est la même : il faut simplement s'arrêter lorsque l'on tombe sur
-	un $a_n$ vérifiant $a_n = \ent{a_n}$. Cet algorithme termine (\NTS{ref}) et
-	s'exécute plus simplement en utilisant… l'algorithme d'Euclide. Par
-	ailleurs, réaffirmons que la fraction continue d'un irrationel (encore une
-	fois, dans un sens qui sera précisé au prochain paragraphe) est forcément
-	infinie.
+	un $\hat{x}_n$ vérifiant $\hat{x}_n = \ent{\hat{x}_n}$. Cet algorithme
+	termine (\NTS{ref}) et s'exécute plus simplement en utilisant… l'algorithme
+	d'Euclide. Par ailleurs, réaffirmons que la fraction continue d'un
+	irrationel (encore une fois, dans un sens qui sera précisé au prochain
+	paragraphe) est forcément infinie.
 \end{remarque}
 
 \subsubsection{Formalisation}
