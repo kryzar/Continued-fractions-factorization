@@ -11,24 +11,31 @@ c'est à dire un élément du corps $\Q$~; si la fraction continue est infinie, 
 calcule d'abord $a_0$, puis $a_0 + \frac{1}{a_1}$, puis $a_0 + \frac{1}{a_1
 +\frac{1}{a_2}}$, et on continue une infinité de fois. La limite de la suite
 générée est la \og{} valeur \fg{} de la fraction continue. Nous ferons sens
-plus précis de l'intuition dans le prochain paragraphe. \\
+plus précis de l'intuition dans la prochaine sous-section. \\
 
 Les fractions continues émanent de la volonté d'approcher des réels irrationels
 par des fractions d'entiers. Par exemple, la fraction $\frac{103 993}{33 102}$
 approche $\pi$ avec une précision meilleure que le milliardième.  Comment
 générer une telle fraction continue pour un réel irrationnel $x$ ?  On part de
 l'identité $x = x + \ent{x} - \ent{x}$ et l'on écrit \[x = \ent{x} +
-\cfrac{1}{\cfrac{1}{x - \ent{x}}}.\] On pose désormais $a_1 = \frac{1}{x -
-\ent{x}}$ (qui est bien défini par irrationalité de $x$) et l'on répète la
-première étape sur $a_1$ : \[x = \ent{x} + \cfrac{1}{a_1} = \ent{x} +
-\cfrac{1}{\ent{a_1} + \cfrac{1}{\cfrac{1}{a_1 - \ent{a_1}}}}.\] On recommence :
-on pose $a_2 = \frac{1}{a_1 - \ent{a_1}}$ pour obtenir \[x = \ent{x} +
-\cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{\cfrac{1}{a_2 - \ent{a_2}}}}}.\]
-Comme le réel $x$ est irrationnel, ce procédé ne s'arrête jamais. Nous
-construisons alors la suite de terme général \[a_n = \frac{1}{a_{n-1} -
-\ent{a_{n-1}}}, \quad \forall n \geq 1\] et associons canoniquement à
-\emph{l'irrationnel} $x$ la fraction continue \emph{infinie} \[a_0 +
-\cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{a_3 + \dots}}}.\]
+\cfrac{1}{\cfrac{1}{x - \ent{x}}}.\] On pose $x_0 = x$ et $x_1 = \frac{1}{x_0 -
+\ent{x_0}}$ (qui est bien défini par irrationalité de $x$) et l'on répète la
+première étape sur $x_1$ : \[x = \ent{x_0} + \cfrac{1}{x_1} = \ent{x_0} +
+\cfrac{1}{\ent{x_1} + \cfrac{1}{\cfrac{1}{x_1 - \ent{x_1}}}}.\] Comme le réel
+$x$ est irrationnel, on peut répéter ce procédé indéfiniment. Nous construisons
+alors la suite d'éléments \emph{irrationnels} de terme général \[x_n =
+\frac{1}{x_{n-1} - \ent{x_{n-1}}}, \quad \forall n \geq 1.\] On associe alors à
+\emph{l'irrationnel} $x$ la fraction continue \emph{infinie}\footnote{Lorsque
+nous aurons correctement défini la notion de fraction continue, cette fraction
+continue canoniquement associée à $x$ sera notée $\hat{x}$.} \[a_0 +
+\cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{a_3 + \dots}}},\] où l'on a posé
+\[a_i = \ent{x_i}\] pour tout $i\in \N$. Fixons ces notations :
+
+\begin{notation}\label{notations}
+	Soit $x\in \R$ un élément irrationel. Notons $x_0 = x$ puis \[x_n :=
+	\frac{1}{x_{n-1} - \ent{x_n}}, \quad \forall n \geq 1.\] Par ailleurs,
+	notons \[\hat{x}_n := \ent{x_n}, \quad \forall n\in \N.\]
+\end{notation}
 
 \begin{remarque}
 	La méthode de construction d'une fraction continue \emph{finie} pour un
@@ -41,5 +48,72 @@ construisons alors la suite de terme général \[a_n = \frac{1}{a_{n-1} -
 \end{remarque}
 
 \subsubsection{Formalisation}
+
+Formellement, on peut définir\footnote{La définition mathématique est
+descriptive et non prescriptive.} une fraction continue ainsi :
+
+\begin{definition}[Fraction continue]
+	On appelle \emph{fraction continue} toute suite non vide (finie ou infinie)
+	$(a_i)_{i\in U} \in \N^\N$, $U\subset \N$, d'entiers qui vérifie \[a_i
+	\geq 1, \quad \forall i\in U\setminus\{0\}.\] Cette suite est alors notée
+	\[a_0 + \cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{a_3 + \dots}}}.\]
+\end{definition}
+
+\begin{notation}
+	Soit $x\in \R$ un élément irrationel. On note $\hat{x}$ la fraction
+	continue infinie canoniquement associée à $x$ par la méthode exposée dans
+	le premier paragraphe. Autrement dit, $\hat{x}$ est la fraction continue
+	donnée par la suite infinie (voir \ref{notations}) $(\hat{x}_i)_{i\in
+	\N})$.
+\end{notation}
+
+Il est naturel d'associer à une fraction continue (finie ou infinie) une suite
+(finie ou infinie) de fractions \og intermédiaires \fg{} appelées
+\emph{réduites}. Pour n'avoir aucun problème de division par zéro, nous nous
+plaçons temporairement dans un corps de fractions rationnelles en $\N$
+indeterminées.
+
+\begin{definition}[Réduites formelles]
+	Soit $(X_i)_{i\in \N}$ une suite (infinie) d'indeterminées sur le corps
+	$\Q$. On définit \[[X_0] = X_0]\] puis par récurrence \[[X_1, \dots,
+	X_n] = X_0 + \frac{1}{[X_1, \dots, X_n]}.\] Ces éléments sont dans
+	$\Q((X_i)_{i\in \N})$.
+\end{definition}
+
+\begin{definition}[Réduites d'une fraction continue]
+	Distinguons les cas finis et infinis. Soit $f$ une fraction
+	continue.
+	\begin{itemize}
+		\item Si $f$ est donnée par la suite finie $(a_0, \dots, a_n)$, pour
+		tout $k\in [\![0, n]\!]$ on appelle \emph{$k$-ième réduite de $f$}
+		l'élément $[a_0, \dots, a_k]$.
+		\item Si $f$ est donnée par la suite infinie $(a_i)_{i\in \N}$, pour
+		tout $k\in \N$ on appelle \emph{$k$-ième réduite de $f$} l'élément
+		$[a_0, \dots, a_k]$.
+	\end{itemize}
+\end{definition}
+
+\begin{exemple}
+	Soit $f$ la fraction continue infinie donnée par la suite $(1)_{i\in \N}$.
+	La première réduite est $[1] = 1$, la deuxième est \[[1, 1] = 1 +
+	\frac{1}{[1]} = 1 + \frac{1}{1},\] la troisième est \[[1, 1, 1] = 1 +
+	\frac{1}{[1, 1]} = 1 + \frac{1}{1 + \cfrac{1}{1}}.\] Plus généralement, la
+	$k$-ième réduite de $f$ est de la forme \[[1, 1, \dots, 1] = 1 +
+	\cfrac{1}{1 + \cfrac{1}{\dots \\ \cfrac{1}{1 +
+	\cfrac{1}{1}}}}.\]
+\end{exemple}
+
+Remarquons que les réduites de toute fraction continue sont des éléments
+rationnels, ce même si la fraction continue est égale à $\hat{x}$ pour un
+certain irrationel $x$. De fait, $x$ n'est égal à aucune des réduites de
+$\hat{x}$. Les fractions continues finies ne se comportent pas pareil puisque
+toute fraction continue finie donnée par la suite $(a_1, \dots, a_n)$ est
+\emph{égale}\footnote{Au sens bien connu de l'égalité dans le corps $\Q$} à la
+réduite $[a_1, \dots, a_n]$. Toutefois, en reprenant les notations
+\ref{notations}, on a
+\begin{equation}
+	x = [\hat{x}_1, \dots, \hat{x}_{n-1}, x_n], \quad \forall x\in \N.
+\end{equation}
+Cette égalité sera fondamentale dans notre algorithme de factorisation.
 
 \subsubsection{Irrationels quadratiques}
