@@ -24,5 +24,6 @@ typedef struct Params Params;
 
 void init_mpz_array(mpz_t *array, size_t s_array);
 void free_mpz_array(mpz_t *array, size_t s_array);
+void init_factor_base(mpz_t *factor_base, size_t s_fb, const mpz_t N);
 
 #endif
