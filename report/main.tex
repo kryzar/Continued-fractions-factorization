@@ -1,12 +1,17 @@
 % main.tex
 
 \documentclass[a4paper, 12pt, oneside]{article}
+\usepackage[french]{babel}
+\usepackage{mathtools}
 \usepackage{pkg}
 
+\DeclarePairedDelimiter\ent{\lfloor}{\rfloor}
 \newcommand{\en}[1]{(en: \textit{#1})}
 
 \begin{document}
 
+\section{Théorie}
+\input{ss-fractions-continues}
 
 \addcontentsline{toc}{section}{Bibliographie}
 \bibliographystyle{alpha-fr}
