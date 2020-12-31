@@ -1,3 +1,4 @@
+#include "step_A.h"
 #include "step_C.h"
 #include <gmp.h>
 
@@ -142,4 +143,36 @@ void find_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns, mpz_t hist_v
       mpz_sqrt(X, R); // X <-- sqrt(R)
       mpz_mul(Q, Q, X); // Q <-- QX mod N 
       mpz_mod(Q, Q, N); 
+}
+
+void find_factor(const mpz_t *Ans, const mpz_t *Qns, mpz_t *exp_vects, 
+                 mpz_t *hist_vects, size_t nb_AQp, const mpz_t N){
+
+      size_t i; 
+      size_t *lin_rel_indexes; 
+      size_t nb_lin_rel;
+      mpz_t A; 
+      mpz_t Q; 
+      mpz_t R; 
+      mpz_t X; 
+      mpz_t temp; 
+      mpz_t gcd; 
+
+      lin_rel_indexes = (size_t *)malloc(nb_AQp * sizeof(size_t)); 
+      mpz_inits(A, Q, R, X, temp, gcd, NULL);
+
+      gauss_elimination(exp_vects, hist_vects, lin_rel_indexes, &nb_lin_rel, nb_AQp); 
+      for (i = 0; i < nb_lin_rel; i++){
+            find_A_Q(A, Ans, Q, Qns, hist_vects[lin_rel_indexes[i]], N, R, X, temp);
+            mpz_sub(temp, A, Q);    // temp <-- A - Q
+            mpz_gcd(gcd, temp, N);  // gcd <-- pgcd (A - Q, N)
+            if (mpz_cmp_ui(gcd, 1) && mpz_cmp(gcd, N)){
+                  gmp_printf("factor : %Zd \n", gcd); // A CHANGER
+            }
+      }
+
+
+      free(lin_rel_indexes); lin_rel_indexes = NULL;
+      mpz_clears(A, Q, R, X, temp, gcd, NULL); 
+
 }
