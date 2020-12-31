@@ -106,7 +106,7 @@ Remarquons que les réduites de toute fraction continue sont des éléments
 rationnels, ce même si la fraction continue est égale à $\hat{x}$ pour un
 certain irrationel $x$. De fait, $x$ n'est égal à aucune des réduites de
 $\hat{x}$. Mais en reprenant les notations \ref{notations}, on a toutefois
-\begin{equation}
+\begin{equation}\ref{egalite-reduite}
 	x = [\hat{x}_1, \dots, \hat{x}_{n-1}, x_n], \quad \forall x\in \N.
 \end{equation}
 Cette égalité sera cruciale dans notre algorithme de factorisation. \\
@@ -123,10 +123,11 @@ ce n'est pas aussi simple.
 
 \begin{definition}
 	Soient $l$ un réel et $f$ une fraction continue donnée par la suite infinie
-	$(a_i)_{i\in \N}$. On dit que \emph{$f$ est égale à $l$} ou que \emph{$f$
-	converge vers $l$} et l'on note $f = l$ si la suite des réduits de $f$
-	converge vers $l$. Si une fraction continue infinie est égale à un certain
-	réel, on dit qu'elle converge.
+	$(a_i)_{i\in \N}$. On dit que \emph{$f$ est égale à $l$}, que \emph{$f$
+	converge vers $l$}, ou encore que \emph{$f$ est le développement en
+	fraction continue de $l$} et l'on note $f = l$ si la suite des réduites de
+	$f$ converge vers $l$. Si une fraction continue infinie est égale à un
+	certain réel, on dit qu'elle converge.
 \end{definition}
 
 \begin{exemple}[Nombre d'or]
@@ -159,3 +160,94 @@ est égal à $[a_0, \dots, a_n]$, il est aussi égal à $[a_0, \dots, a_n - 1, 1
 et n'est égal à aucune autre fraction continue (\NTS{ref}).
 
 \subsubsection{Irrationels quadratiques}
+
+L'adaptation de l'algorithme de Fermat-Kraitchik avec les fractions continues
+utilise crucialement le développement en fraction continue de $\sqrt{kN}$, où
+$N$ est le nombre à factoriser et $k\in \N*$ un entier arbitraire. Intéréssons
+nous aux fractions continues de ces nombres.
+
+\begin{definition}[Irrationel quadratique]
+	On appelle \emph{irrationel quadratique} tout nombre réel, algébrique sur
+	$\Q$, de degré $2$. Un irrationel quadratique est dit \emph{réduit} si son
+	conjugué est dans l'intervalle $]\!]-1, 0[\![$.
+\end{definition}
+
+Les fractions continues d'irrationnels quaratiques sont sujettes à des
+phénomènes de périodicité.
+
+\begin{definition}
+	Soit $f$ la fraction continue donnée par une suite $(a_i)_{i\in \N}$. On
+	dit que $f$ est \emph{périodique} si la suite l'est à partir d'un certain
+	rang.  Autrement dit, il existe un rang $n_0\in \N$ et une période $p\in
+	\N^*$ tels que \[a_{i} = a_{i+p}, \quad \forall i\geq n_0.\] On note alors
+	\[f = [a_0, \dots, a_{n_0 - 1}, \overline{a_{n_0}, \dots, a_{n_0 + p
+	-1}}].\] On dit enfin que $f$ est \emph{purement périodique} si $n_0 = 0$.
+\end{definition}
+
+\begin{exemple}
+	La fraction continue du nombre d'or est purement périodique de période $1$.
+	La fraction continue de l'irrationel $\sqrt{14}$ vaut \[\sqrt{14} = [4,
+	\overline{2, 1, 3, 1, 2, 8}].\]
+\end{exemple}
+
+Nous disposons des deux résultats fondamentaux suivants.
+
+\begin{theoreme}[Lagrange, 1770]
+	Un réel irrationel est un irrationel quadratique \ssi son développement en
+	fraction continue est périodique.
+\end{theoreme}
+
+\begin{theoreme}[Galois, 1829]
+	Un irrationnel quadratique est réduit \ssi son développement en fraction
+	continue est purement périodique.
+\end{theoreme}
+
+Un troisième résultat donne encore plus d'informations dans le cas où
+l'irrationel quadratique considéré est une racine carrée.
+
+\begin{theoreme}[Legendre, 1798]
+	Un réel irrationel est la racine carrée d'un entier $>1$ \ssi son
+	développement en fraction continue est de la forme \[[a_0, \overline{a_1,
+	a_2, \dots, a_2, a_1, 2a_0}].\]
+\end{theoreme}
+
+Ces phrénomènes de périodicité devront être pris en compte dans les paramètres
+d'entrée de l'algorithme de factorisation, voir \NTS{réf}. En plus de la suite
+des réduites, nous aurons besoins d'une autre suite importante.
+
+\begin{lemme}
+	Soit $x$ un irrationel quadratique. Alors l'élément $\frac{1}{x - \ent{x}}$
+	est lui aussi un irrationel quadratique. \NTS{réf}
+\end{lemme}
+
+Fixons $N$ l'entier à factoriser et $k\in \N*$ tel que $\sqrt{kN}$ est un
+irrationel quadratique. Posons alors $x := \sqrt{kN}$. D'après l'identité
+\label{egalite-reduite} et en reprenant les notations \label{notations}, nous
+pouvons écrire donner un développement partiel (jusqu'à un rang donné $n\in
+\N$) de $x$ en fraction continue \[x = [\hat{x}_1, \dots, \hat{x}_{n-1},
+x_n].\] D'après le lemme précédent, $x_n$ est lui aussi un irrationel
+quadratique, i.e. il est solution d'une équation quadratique. On peut
+(\NTS{réf, dém. de 2.5.8}) de fait l'écrire de manière unique 
+
+\begin{equation}
+	x_n = \frac{P_n + x}{Q_n}, \quad P_n, Q_n \in \Z.
+\end{equation}
+
+Ces notations $P_n$ et $Q_n$ seront réutilisées plus tard. La $n$-ième réduite
+de $x$ étant un nombre rationnel, on peut l'écrire sous la forme
+$\frac{A_n}{B_n}$, où $A_n, B_n$ sont entiers et la fraction est irréductible
+bien définie. Les entiers $A_n$, $B_n$, $Q_n$ et l'irrationel $x$ se
+rencontrent dans un grand nombre d'égalités numériques. Nous choisissons de
+n'exposer que les plus utiles à notre propos\footnote{Pour plus de contenu et
+de détails, la lectrice pourra se référer à \NTS{réf}.}. Pour tout $n\geqslant
+1$, on a \[A_{n-1}^2 - kN B_{n-1}^2 = (-1)^n Q_n\] et donc
+\begin{equation}
+	A_{n-1}^2 \equiv (-1)^n Q_n.
+\end{equation}
+On a également
+\begin{equation}
+	\begin{cases}
+		P_n < \sqrt{kN} \\
+		Q_n < 2\sqrt{kN}.
+	\end{cases}
+\end{equation}
