@@ -114,6 +114,27 @@ réduite $[a_1, \dots, a_n]$. Toutefois, en reprenant les notations
 \begin{equation}
 	x = [\hat{x}_1, \dots, \hat{x}_{n-1}, x_n], \quad \forall x\in \N.
 \end{equation}
-Cette égalité sera fondamentale dans notre algorithme de factorisation.
+Cette égalité sera fondamentale dans notre algorithme de factorisation. \\
+
+Nous donnons à présent un sens à l'égalité entre une fraction continue et un
+réel. Si la fraction continue est finie, alors elle est en particulier un
+élément du corps $\Q$ et il n'y a rien à faire. Nous nous concentrons sur le
+cas infini.
+
+\begin{definition}
+	Soient $l$ un réel et $f$ une fraction continue donnée par la suite infinie
+	$(a_i)_{i\in \N}$. On dit que \emph{$f$ est égale à $l$} et l'on note $f =
+	l$ si la suite des réduits de $f$ converge vers $l$.
+\end{definition}
+
+\begin{exemple}[Nombre d'or]
+	On appelle \emph{nombre d'or} et l'on note $\varphi$ l'unique racine réelle
+	positive du polynôme $X^2 - X - 1 \in \Z[X]$. On a $\varphi =\frac{1 +
+	\sqrt{5}}{2} \simeq 1, 618$. Comme $\varphi^2 = \varphi + 1$ et que
+	$\varphi \neq 0$, on a $\varphi = 1 + \frac{1}{\varphi} = 1 + \cfrac{1}{1 +
+	\cfrac{1}{\varphi}}$. En réalité, $\varphi$ est égal à une fraction
+	continue : \[\varphi = 1 + \cfrac{1}{1 + \cfrac{1}{1 + \cfrac{1}{1 +
+	\dots}}}.\]
+\end{exemple}
 
 \subsubsection{Irrationels quadratiques}
