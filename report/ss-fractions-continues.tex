@@ -124,8 +124,10 @@ ce n'est pas aussi simple.
 
 \begin{definition}
 	Soient $l$ un réel et $f$ une fraction continue donnée par la suite infinie
-	$(a_i)_{i\in \N}$. On dit que \emph{$f$ est égale à $l$} et l'on note $f =
-	l$ si la suite des réduits de $f$ converge vers $l$.
+	$(a_i)_{i\in \N}$. On dit que \emph{$f$ est égale à $l$} ou que \emph{$f$
+	converge vers $l$} et l'on note $f = l$ si la suite des réduits de $f$
+	converge vers $l$. Si une fraction continue infinie est égale à un certain
+	réel, on dit qu'elle converge.
 \end{definition}
 
 \begin{exemple}[Nombre d'or]
@@ -137,5 +139,24 @@ ce n'est pas aussi simple.
 	continue : \[\varphi = 1 + \cfrac{1}{1 + \cfrac{1}{1 + \cfrac{1}{1 +
 	\dots}}}.\]
 \end{exemple}
+
+Dans quelle mesure une fraction continue converge-t-elle ? Des raisonnements
+d'analyse élémentaire (\NTS{réf}) permettent de montrer que toute fraction
+continue infinie converge, et qu'elle converge vers un irrationnel !
+
+\begin{theoreme}
+	La fonction canonique \[x \mapsto \cfrac{1}{\hat{x}_0 +
+	\cfrac{1}{\hat{x}_1 + \cfrac{1}{\hat{x}_2 + \dots}}}\] est une
+	\emph{bijection} entre l'ensemble des nombres réels irrationnels et des
+	fractions continues infinies.
+\end{theoreme}
+
+En particulier, un réel $x$ et une fraction continue $f$ sont égaux \ssi $f$
+est la fraction continue donnée par la suite $(\hat{x}_{i\in \N})$. Attention,
+les réels tout entier ne sont pas en bijection avec les fractions continues
+(finies ou infinies). En effet, un rationnel est égal (au sens donné dans les
+paragraphes précédents) à exactement deux fractions continues : si un rationnel
+est égal à $[a_0, \dots, a_n]$, il est aussi égal à $[a_0, \dots, a_n - 1, 1]$
+et n'est égal à aucune autre fraction continue (\NTS{ref}).
 
 \subsubsection{Irrationels quadratiques}
