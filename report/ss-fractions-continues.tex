@@ -52,7 +52,7 @@ continue canoniquement associée à $x$ sera notée $\hat{x}$.} \[a_0 +
 Formellement, on peut définir\footnote{La définition mathématique est
 descriptive et non prescriptive.} une fraction continue ainsi :
 
-\begin{definition}[Fraction continue]
+\begin{definition}[Fraction continue]\label{def-fracont}
 	On appelle \emph{fraction continue} toute suite non vide (finie ou infinie)
 	$(a_i)_{i\in U} \in \N^\N$, $U\subset \N$, d'entiers qui vérifie \[a_i
 	\geq 1, \quad \forall i\in U\setminus\{0\}.\] Cette suite est alors notée
@@ -106,20 +106,21 @@ indeterminées.
 Remarquons que les réduites de toute fraction continue sont des éléments
 rationnels, ce même si la fraction continue est égale à $\hat{x}$ pour un
 certain irrationel $x$. De fait, $x$ n'est égal à aucune des réduites de
-$\hat{x}$. Les fractions continues finies ne se comportent pas pareil puisque
-toute fraction continue finie donnée par la suite $(a_1, \dots, a_n)$ est
-\emph{égale}\footnote{Au sens bien connu de l'égalité dans le corps $\Q$} à la
-réduite $[a_1, \dots, a_n]$. Toutefois, en reprenant les notations
-\ref{notations}, on a
+$\hat{x}$. Mais en reprenant les notations \ref{notations}, on a toutefois
 \begin{equation}
 	x = [\hat{x}_1, \dots, \hat{x}_{n-1}, x_n], \quad \forall x\in \N.
 \end{equation}
-Cette égalité sera fondamentale dans notre algorithme de factorisation. \\
+Cette égalité sera cruciale dans notre algorithme de factorisation. \\
 
-Nous donnons à présent un sens à l'égalité entre une fraction continue et un
-réel. Si la fraction continue est finie, alors elle est en particulier un
-élément du corps $\Q$ et il n'y a rien à faire. Nous nous concentrons sur le
-cas infini.
+Même si les fractions continues finie restent des suites (déf.
+\ref{def-fracont}), leur représentation graphique permet de les voir
+trivialement comme des éléments du corps $\Q$. En effet, en représentant \[a_0
++ \cfrac{1}{a_1 + \cfrac{1}{a_2 + \dots}}\] la fraction continue finie $f$
+associée à la suite finie $(a_0, \dots, a_n)$, on peut la voir comme l'élément
+rationnel \[a_0 + \cfrac{1}{a_1 + \cfrac{1}{a_2 + \dots}}.\] Cet élément n'est
+autre que sa dernière réduite $[a_0, \dots, a_n]$ et on dit que $f$ est égale à
+l'élément rationnel $[a_0, \dots, a_n]$. Pour les fractions continues infinies,
+ce n'est pas aussi simple.
 
 \begin{definition}
 	Soient $l$ un réel et $f$ une fraction continue donnée par la suite infinie
