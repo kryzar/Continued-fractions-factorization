@@ -21,21 +21,24 @@ void free_mpz_array(mpz_t *array, size_t s_array){
       array = NULL;
 }
 
-void init_factor_base(mpz_t *factor_base, size_t s_fb, const mpz_t N){
+void init_factor_base(mpz_t *factor_base, size_t s_fb, const mpz_t N, unsigned k){
+      mpz_t kN;
       mpz_t prime; 
       size_t i;
-
+      
+      mpz_init(kN);
       mpz_init_set_ui(prime, 2); 
       mpz_init_set_ui(factor_base[0], 2);
 
+      mpz_mul_ui(kN, N, k);
       i = 1; 
       while (i < s_fb){
             mpz_nextprime(prime, prime); 
-            if ( 1 == mpz_legendre(N, prime) ){
+            if ( 1 == mpz_legendre(kN, prime) ){
                   mpz_init_set(factor_base[i], prime); 
                   i ++; 
             }
       }
 
-      mpz_clear(prime); 
+      mpz_clears(kN, prime, NULL); 
 }

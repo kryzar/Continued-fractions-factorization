@@ -20,13 +20,13 @@ int main(int argc, char **argv) {
        /************************
        *  Just for the test    *
        *************************/
-
-      mpz_init_set_str(P.N, "13290059 ", 10); 
-      P.n_lim =  150000;
-      P.k = 1; 
-      P.nb_want_AQp = 20;
-      s_fb = 17;
-
+ 
+      mpz_init_set_str(P.N, "340282366920938463463374607431768211457", 10); 
+      P.n_lim =  1400000;
+      P.k = 257;
+      P.nb_want_AQp = 2060; 
+      s_fb = 2700; 
+      
        /************************
        *      Allocations      *
        *************************/
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
        /************************
        *  Looking for a factor  *
        *************************/
-      init_factor_base(factor_base, s_fb, P.N);
+      init_factor_base(factor_base, s_fb, P.N, P.k);
       create_AQ_pairs(P, Ans, Qns, &nb_AQp, exp_vects, hist_vects, factor_base, s_fb);
       find_factor(Ans, Qns, exp_vects, hist_vects, nb_AQp, P.N); 
 
