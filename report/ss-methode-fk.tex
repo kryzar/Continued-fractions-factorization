@@ -1,8 +1,9 @@
-\subsection{Méthodes de factorisation de Fermat-Kraitchik}
+\subsection{Méthodes de factorisation de Fermat-Kraitchik et utilisation des
+fractions continues}
 
 Dans toute section, $N$ désigne un entier naturel composé impair.
 
-\subsubsection{Méthode de Fermat}
+\subsubsection{Méthodes de Fermat et Kraitchik}
 
 La méthode de factorisation de Fermat par du constat suivant.
 
@@ -30,9 +31,7 @@ proches l'un de l'autre, on le trouve par essais successis. \\
 
 La méthode de Fermat n'est cependant pas du tout efficace lorsque les facteurs
 de $N$ ne sont pas proches. D'après \NTS{MB}, la méthode est alors encore plus
-coûteuse que la méthode des divisions successives.
-
-\subsubsection{Le raffinement de Kraitchik et l'usage des fractions continues}
+coûteuse que la méthode des divisions successives. \\
 
 Dans les années 1920, Maurice Kraitchik a raffiné la méthode de Fermat pour
 améliorer son efficacité. Ses idées sont au cœur des algorithmes de
@@ -71,4 +70,8 @@ u^2\pmod{N}.\] Cette méthode souffre toutefois d'un problème d'efficacité,
 puisqu'il est nécessaire de calculer un grand nombre de $K(x_i)$. La croissance
 de la fonction associée au polynôme $K$ étant quadratique, le coût des calculs
 devient prohibitif. Nous allons maintenant voir que les fractions continues
-sont une solution efficace à ce problème.
+sont une solution efficace à ce problème. \\
+
+\subsubsection{Utilisation des fractions continues}
+
+\subsubsection{Recherche de congruences de carrés}
