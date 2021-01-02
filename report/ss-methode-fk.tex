@@ -33,3 +33,42 @@ de $N$ ne sont pas proches. D'après \NTS{MB}, la méthode est alors encore plus
 coûteuse que la méthode des divisions successives.
 
 \subsubsection{Le raffinement de Kraitchik et l'usage des fractions continues}
+
+Dans les années 1920, Maurice Kraitchik a raffiné la méthode de Fermat pour
+améliorer son efficacité. Ses idées sont au cœur des algorithmes de
+factorisations les plus performants en 2020. Son idée essentielle est que pour
+factoriser $N$, il n'est pas \emph{nécessaire} de l'exprimer comme différence
+de deux carrés ~; trouver une différence de deux carrés qui soit un multiple de
+$N$ \emph{suffit}.
+
+\begin{lemme}
+	Conaître deux entiers $u, v \in \Z$ tels que $u^2 \equiv v^2 \equiv
+	\pmod{N}$ et $u\not\equiv \pm v\pmod{N}$ fournit une factorisation de $N$.
+\end{lemme}
+
+\begin{proof}
+	Posons $g =\pgcd(u-v, N)$ et $g' = \pgcd(u+v, N)$. Comme $u\not\equiv \pm
+	v\pmod{N}$, on a $g<N$ et $g'<N$. Enfin ni $g$ et $g'$ ne sont réduits à
+	$1$ : si l'un deux l'est, l'autre vaut $N$, contradiction. Donc $g$ et $g'$
+	sont tous deux des facteurs non triviaux de $N$.
+\end{proof}
+
+\begin{remarque}
+	Dans l'algorithme, nous nous contenterons de chercher des $u, v$ tels que
+	$n$ divise la différence de leurs carrés, sans vérifier s'ils vérifient $u
+	\not\equiv \pm v\pmod{N}$. Comme le polynôme $X^2 - v^2 \in \Z/N\Z$ a
+	exactement quatre racines, il y a \og{} une chance sur deux \fg pour que
+	$u$ et $v$ nous fournissentun facteur non trivial de $N$. \\
+	\NTS{Margot tu confirmes qu'on vérifie pas si $u\equiv \pm v$ ?}
+\end{remarque}
+
+Comment trouver de tels couples $(u, v)$ ? Kraitchik a originellement utilisé
+le polynôme $K := X^2 - N \in \Z[X]$. Trouver une famille d'entiers $x_1,
+\cdots, x_k$ telle que $K(x_1)\cdots K(x_r)$ soit un carré fournit un tel
+couple $(u, v)$. Il faut poser $u = x_1\cdots x_r$ et $v = K(x_1)\cdots K(x_r)$
+: \[v^2 \equiv (x_1^2 - N)\cdots (x_k^2 - N) \equiv x_1^2 \cdots x_k^2 \equiv
+u^2\pmod{N}.\] Cette méthode souffre toutefois d'un problème d'efficacité,
+puisqu'il est nécessaire de calculer un grand nombre de $K(x_i)$. La croissance
+de la fonction associée au polynôme $K$ étant quadratique, le coût des calculs
+devient prohibitif. Nous allons maintenant voir que les fractions continues
+sont une solution efficace à ce problème.
