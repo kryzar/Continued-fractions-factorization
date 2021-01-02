@@ -1,0 +1,35 @@
+\subsection{Méthodes de factorisation de Fermat-Kraitchik}
+
+Dans toute section, $N$ désigne un entier naturel composé impair.
+
+\subsubsection{Méthode de Fermat}
+
+La méthode de factorisation de Fermat par du constat suivant.
+
+\begin{lemme}
+	Factoriser $N$ est équivalent à l'exprimer comme différence de deux carrés
+	d'entiers.
+\end{lemme}
+
+\begin{proof}
+	En effet, si $N = u^2 - v^2, u, v\in \Z$ alors $N = (u-v)(u + v)$.
+	Réciproquement si l'on a une factorisation $N = ab$, alors \[N =
+	\left(\frac{a+b}{2}\right)^2 - \left(\frac{a-b}{2}\right)^2.\]
+\end{proof}
+
+La méthode de Fermat cherche donc à exploiter cette propriété en exprimant $N$
+comme la différence de deux carrés et en déduire une factorisation. Celle-ci se
+montre particulièrement efficace lorsque $N$ est le produit de deux entiers
+proches l'un de l'autre. Notons $N=ab$ une factorisation de $N$,
+$r=\frac{a+b}{2}$ et $s=\frac{a-b}{2}$. On a \[N = r^2 - s^2\] et que l'entier
+$r$ est donc plus grand que $\sqrt{N}$ tout en lui étant proche. Il existe donc
+un entier positif $u$ \emph{pas trop grand} tel que \[\ent{\sqrt{N}} + u = r\]
+et donc tel que $(\ent{\sqrt{N}} + u)^2 - n$ soit un carré. Trouver un tel
+entier $u$ donne alors la factorisation de $N$. Comme les facteurs de $N$ sont
+proches l'un de l'autre, on le trouve par essais successis. \\
+
+La méthode de Fermat n'est cependant pas du tout efficace lorsque les facteurs
+de $N$ ne sont pas proches. D'après \NTS{MB}, la méthode est alors encore plus
+coûteuse que la méthode des divisions successives.
+
+\subsubsection{Le raffinement de Kraitchik et l'usage des fractions continues}
