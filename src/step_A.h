@@ -16,8 +16,6 @@ struct Params {
                               // Qn factorisable with the primes of the factor base
 };
 
-// je sais pas pour le type de n_lim 
-
 typedef struct Params Params;
 
 #define malloc_mpz_array(s_array) (mpz_t *)malloc((s_array)*sizeof(mpz_t))

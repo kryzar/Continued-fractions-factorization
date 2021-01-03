@@ -57,37 +57,37 @@ int is_qn_factorisable(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows, const mpz_t 
 }
 
 
+void init_hist_vects(mpz_t *hist_vects, const size_t nb_AQp){
 
-void add_hist_vect(mpz_t *hist_vects, const size_t nb_AQp){
+      /* This function initializes the hist_vects array and computes
+       * the history vectors. 
 
-      /* This function adds in hist_vects the (nb_AQp + 1) th 
-       * history vector. ie 2^(nb_AQp) written in base 2. 
-       */
-
-      /* param hist_vects: The array of history vectors. Is is already 
+       * param hist_vects: The array of history vectors. Is is already 
        *                    allocated (size P.nb_want_AQp) but isn't 
        *                    initialized.
-       * param nb_AQp: The index which indicates where to put the (nb_AQp + 1)the
-       *                history vector.
+       * param nb_AQp: The number of AQ pairs found with Qn completely
+       *               factorisable with the primes of the factor base.
        */
 
-      mpz_init(hist_vects[nb_AQp]); 
-      mpz_setbit(hist_vects[nb_AQp], nb_AQp); 
+      size_t i; 
+
+      for (i = 0; i < nb_AQp; i++){
+            mpz_init(hist_vects[i]); 
+            mpz_setbit(hist_vects[i], i); 
+      }
 }
 
 
-void add_exp_vect(mpz_t *exp_vects, size_t *reduced_fb_indexes,
+void init_exp_vect(mpz_t exp_vect, size_t *reduced_fb_indexes,
                   size_t *nb_reduced_fb_indexes, const size_t *Qn_odd_pows,
-                  const size_t nb_Qn_odd_pows, const size_t nb_AQp, const size_t n){
+                  const size_t nb_Qn_odd_pows, const size_t n){
       
-      /* This function adds in exp_vects[nb_AQp] the exponent vector
-       * associated to Q_n. 
-      
-       * param exp_vects: The array of exponent vectors. It is already
-       *                  allocated (size P.nb_want_AQp) but isn't 
-       *                  initialized.
-       *                   exp_vects[0], ..., exp_vects[nb_AQp - 1] have
-       *                   already been computed. 
+      /* This function initializes exp_vect and computes its value with
+       * the data stored in Qn_odd_pows, reduced_fb_indexes and n. 
+       *
+       *
+       * param exp_vect: The exponent vector to compute. Is is not 
+       *                 initialized.
        * param reduced_fb_indexes: An array already allocated, which is 
        *                            the same size as the factor base. 
        *                            It won't be completely filled. Its
@@ -101,8 +101,6 @@ void add_exp_vect(mpz_t *exp_vects, size_t *reduced_fb_indexes,
        * param Qn_odd_pows:  It stores the indexes of the prime 
        *                    factors of Qn that have an odd valuation.
        * param nb_Qn_odd_pows: The number of such prime factors of Qn.
-       * param nb_AQp: The number of A-Q pairs with Qn factorisable
-       *                already found. 
        * param n: The subscript of Qn, which is important for the "parity bit". 
        */
 
@@ -110,12 +108,12 @@ void add_exp_vect(mpz_t *exp_vects, size_t *reduced_fb_indexes,
       size_t Qn_odd_pow; 
       size_t bit_index; 
       
-      mpz_init(exp_vects[nb_AQp]); 
+      mpz_init(exp_vect); 
       
       // Set the "parity bit" which indicates the sign of (-1)^n in the
       // expression A_{n-1}^2 = (-1)^n Qn [mod n]
       if (n & 0x1){
-            mpz_setbit(exp_vects[nb_AQp], 0); // Set the least significant bit to 1
+            mpz_setbit(exp_vect, 0); // Set the least significant bit to 1
       }
 
       for (i = 0; i < nb_Qn_odd_pows; i++){
@@ -127,7 +125,7 @@ void add_exp_vect(mpz_t *exp_vects, size_t *reduced_fb_indexes,
             }
             // Set the bit of the exponent vector to 1 in the column (bit_index)
             // where Qn_odd_pow has been found or add a column and put a 1 in it
-            mpz_setbit(exp_vects[nb_AQp], bit_index + 1); 
+            mpz_setbit(exp_vect, bit_index + 1); 
             // If Qn_odd_pow isn't in the reduced_fb_indexes array, we add it
             if (bit_index == *nb_reduced_fb_indexes){
                   reduced_fb_indexes[*nb_reduced_fb_indexes] = Qn_odd_pow; 
@@ -136,18 +134,15 @@ void add_exp_vect(mpz_t *exp_vects, size_t *reduced_fb_indexes,
       }
 }
 
-
 void create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
-                     mpz_t *exp_vects, mpz_t *hist_vects, 
-                     const mpz_t *factor_base, const unsigned int s_fb){
-
+                     mpz_t *exp_vects, const mpz_t *factor_base, const size_t s_fb){
 
       /* This function computes, by expanding sqrt(kN) into a continued
        * fraction, the A-Q pairs  
        * ie pairs (A_{n-1}, Q_n) such that A_{n-1}^2 = (-1)^n * Q_n mod N.
-       * It only stores a pair if Qn is factorisable with the primes of
-       * the factor base. In this case, it also adds the corresponding
-       * exponent and history vector of Qn.
+       * It only stores a pair if Qn is completely factorisable with the
+       * primes of the factor base. In this case, it also adds the corresponding
+       * exponent vector of Qn.
        */
 
       /* :Param P: Set of parameters for the problem (see step_A.h).
@@ -159,8 +154,6 @@ void create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
        *                with the primes of the factor base.
        * :Param exp_vects: Array of size P.nb_want_AQp (already allocated
        *                   but not initialized) to store the exponent vectors.
-       * :Param hist_vects: Array of size P.nb_want_AQp (already allocated
-       *                    but not initialized) to store the history vectors.
        * :Param factor_base: The factor base.
        * :Param s_fb: The size of the factor_base array.
        */
@@ -244,9 +237,9 @@ void create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
 
             if (is_qn_factorisable(Qn_odd_pows, &nb_Qn_odd_pows, Qn, temp, factor_base, s_fb)){ 
                   mpz_init_set(Ans[*nb_AQp], Anm1); // Store A_{n-1}
-                  mpz_init_set(Qns[*nb_AQp], Qn);   // Store Qn 
-                  add_hist_vect(hist_vects, *nb_AQp); 
-                  add_exp_vect(exp_vects, reduced_fb_indexes, &nb_reduced_fb_indexes, Qn_odd_pows, nb_Qn_odd_pows, *nb_AQp, n); 
+                  mpz_init_set(Qns[*nb_AQp], Qn);   // Store Qn
+                  init_exp_vect(exp_vects[*nb_AQp], reduced_fb_indexes,
+                                &nb_reduced_fb_indexes, Qn_odd_pows, nb_Qn_odd_pows, n); 
                   (*nb_AQp)++; 
             }
       }
