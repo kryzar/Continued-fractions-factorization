@@ -41,7 +41,8 @@ int main(int argc, char **argv) {
        *  Looking for a factor  *
        *************************/
       init_factor_base(factor_base, s_fb, P.N, P.k);
-      create_AQ_pairs(P, Ans, Qns, &nb_AQp, exp_vects, hist_vects, factor_base, s_fb);
+      create_AQ_pairs(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, s_fb);
+      init_hist_vects(hist_vects, nb_AQp);
       find_factor(Ans, Qns, exp_vects, hist_vects, nb_AQp, P.N); 
 
        /************************
