@@ -84,6 +84,31 @@ une fraction réduite $\frac{A_n}{B_n}$ où $A_n, B_n\in \Z$.  En posant
 $\hat{x}_n := \ent{x_n}$ pour tout $n\in \N$, on a l'égalité \NTS{réf} \[x =
 [\hat{x}_1, \dots, \hat{x}_{n-1}, x_n].\] Cet élément $x_n$ est un irrationel
 quadratique et s'écrit de fait \NTS{réf} \[x_n = \frac{P_n + x}{Q_n},\quad P_n,
-Q_n\in \Z,\] de sorte que \[A_{n-1}^2 \equiv (-1)^n Q_n \pmod{N}.\]
+Q_n\in \Z,\] de sorte que
+\begin{equation}
+	A_{n-1}^2 \equiv (-1)^n Q_n \pmod{N}.
+\end{equation}
+
+\begin{definition}
+	Pour tout $n\in \N^*$, on appelle \emph{$n$-ième paire $(A, Q)$} le couple
+	$(A_{n-1}, Q_n)$.
+\end{definition}
+
+D'après l'identité \NTS{réf}, si l'on parvient à trouver une famille $n_1,
+\dots, n_k$ d'indices tels que le produit $Q:=\prod_{i=1}^k (-1)^{n_i} Q_{n_i}$
+soit un carré (dans $\Z$ et non seulement dans $\Z/N\Z$) et $A := \prod_{i=1}^k
+A_{n_i} \not\equiv \pm\sqrt{Q}$, nous aurons factorisé $N$ en vertu du lemme
+\NTS{réf}. \\
+
+Le principal avantage de l'utilisation des fractions continues plutôt que le
+polynôme de Kraitchik réside dans leur croissance. L'inégalité \NTS{réf} assure
+que les éléments $Q_n, n\in \N$ seront plus petits (en valeur absolu) que les
+$K(x'), x'\in \Z$ (dont la croissance lorsque $x'$ s'éloigne de $\sqrt{N}$ est
+approximativement linéaire de pente $2\sqrt{N}$). Les paires $(A, Q)$ seront
+donc plus faciles à manier. Enfin, il est facile de générer le développement en
+fraction continue de $x$ et les paires $(A, Q)$ grace à un algorithme itératif
+dû à Gau\ss et exposé dans \NTS{réf}. Nous allons à présent nous appliquer à
+déterminer des paires $(A, Q)$ pour lesquelles $Q:=\prod_{i=1}^k (-1)^{n_i}
+Q_{n_i}$ est un carré.
 
 \subsubsection{Recherche de congruences de carrés}
