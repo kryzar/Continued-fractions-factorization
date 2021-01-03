@@ -162,7 +162,7 @@ void create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
 	* Declarations, allocations and initializations for the auxilary functions *
 	***************************************************************************/
 	
-	size_t *Qn_odd_pows; 
+      size_t *Qn_odd_pows; 
       size_t *reduced_fb_indexes; 
       size_t  nb_Qn_odd_pows;   
       size_t nb_reduced_fb_indexes; 
@@ -235,12 +235,24 @@ void create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
             * is (Anm1, Qn) a pair with Qn factorisable ? *
             **********************************************/
 
-            if (is_qn_factorisable(Qn_odd_pows, &nb_Qn_odd_pows, Qn, temp, factor_base, s_fb)){ 
-                  mpz_init_set(Ans[*nb_AQp], Anm1); // Store A_{n-1}
-                  mpz_init_set(Qns[*nb_AQp], Qn);   // Store Qn
-                  init_exp_vect(exp_vects[*nb_AQp], reduced_fb_indexes,
-                                &nb_reduced_fb_indexes, Qn_odd_pows, nb_Qn_odd_pows, n); 
-                  (*nb_AQp)++; 
+            if (is_qn_factorisable(Qn_odd_pows, &nb_Qn_odd_pows, Qn, temp, factor_base, s_fb)){
+                  if ( !(n & 0x1) && (0 == nb_Qn_odd_pows) ){
+                        // If Qn is a square with n even: Anm1^2 = sqrt(Qn)^2 mod N.
+                        mpz_sqrt(temp, Qn);        // temp <-- sqrt(Qn)
+                        mpz_sub(temp, Anm1, temp); // temp <-- Anm1 - sqrt(Qn)
+                        mpz_gcd(temp, temp, P.N);  // temp <-- gcd(Anm1 - sqrt(Qn), N)
+                        if (mpz_cmp_ui(temp, 1) && mpz_cmp(temp, P.N)){ // If we find a non trivial factor
+                               // A CHANGER : Que faire quand on trouve un facteur ? 
+                               gmp_printf("factor (found with n even and Qn a square) : %Zd \n", temp);   
+                        }
+                  }else{
+                        // If the exponent vector associated to Qn is not zero
+                        mpz_init_set(Ans[*nb_AQp], Anm1); // Store A_{n-1}
+                        mpz_init_set(Qns[*nb_AQp], Qn);   // Store Qn
+                        init_exp_vect(exp_vects[*nb_AQp], reduced_fb_indexes,
+                                     &nb_reduced_fb_indexes, Qn_odd_pows, nb_Qn_odd_pows, n); 
+                        (*nb_AQp)++; 
+                  }
             }
       }
 
