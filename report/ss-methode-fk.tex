@@ -96,9 +96,15 @@ Q_n\in \Z,\] de sorte que
 
 D'après l'identité \NTS{réf}, si l'on parvient à trouver une famille $n_1,
 \dots, n_k$ d'indices tels que le produit $Q:=\prod_{i=1}^k (-1)^{n_i} Q_{n_i}$
-soit un carré (dans $\Z$ et non seulement dans $\Z/N\Z$) et $A := \prod_{i=1}^k
+soit un carré (dans $\Z$ et non uniquement dans $\Z/N\Z$) et $A := \prod_{i=1}^k
 A_{n_i} \not\equiv \pm\sqrt{Q}$, nous aurons factorisé $N$ en vertu du lemme
-\NTS{réf}. \\
+\NTS{réf}.
+
+\begin{definition}
+	Un ensemble de paires $(A, Q)$ indexé par $n_1, \dots, n_k$ est dit
+	\emph{valide} si le produit $\prod_{i=1}^k (-1)^{n_i} Q_{n_i}$ est un carré
+	(dans $\Z$ et non uniquement dans $\Z/N\Z$).
+\end{definition}
 
 Le principal avantage de l'utilisation des fractions continues plutôt que le
 polynôme de Kraitchik réside dans leur croissance. L'inégalité \NTS{réf} assure
@@ -108,7 +114,73 @@ approximativement linéaire de pente $2\sqrt{N}$). Les paires $(A, Q)$ seront
 donc plus faciles à manier. Enfin, il est facile de générer le développement en
 fraction continue de $x$ et les paires $(A, Q)$ grace à un algorithme itératif
 dû à Gau\ss et exposé dans \NTS{réf}. Nous allons à présent nous appliquer à
-déterminer des paires $(A, Q)$ pour lesquelles $Q:=\prod_{i=1}^k (-1)^{n_i}
-Q_{n_i}$ est un carré.
+déterminer des paires $(A, Q)$ valides.
 
 \subsubsection{Recherche de congruences de carrés}
+
+La méthode présentée ici est celle de Kraitchik lui même et permet de
+\emph{générer} des paires $(A, Q)$ valides sans passer par un algorithme de
+recherche exhaustive. On commence par se fixier $B$ une base de factorisation,
+c'est à dire un ensemble non vide fini de nombres premiers.
+
+\begin{definition}
+	Un entier $m\in \N\setminus \{0, 1\}$ est dit \emph{$B$-friable} si tous
+	les facteurs premiers de $m$ sont dans $B$.
+\end{definition}
+
+L'idée principale de Kraitchik est que connaître suffisamment d'entiers $Q_n,
+n\in \N$ $B$-friables \emph{entièrement factorisés} permet de construire un
+ensemble valide de paires $(A, Q)$.
+
+\begin{proposition}
+	Soit $F$ une famille d'entiers $B$-friables. Si \[\# F \geqslant \# B +
+	1\] alors on peut extraire une sous-famille de $F$ dont le produit des
+	éléments est un carré.
+\end{proposition}
+
+\begin{proof}
+	Posons $F = \{m_1, \dots, m_k\}$ (de sorte que $k = \# F)$ et $B = (p_1,
+	\dots, p_r)$ (de sorte que $\# B = r$). Les éléments $m_j, 1\leqslant j
+	\leqslant k$ s'écrivent alors \[m_j = \prod_{i=1}^r p_r^{v_{p_i}(m_j)}.\]
+	Fixons $j, j'\in [\![1, k]\!]$. Puisque les éléments de $B$ sont fixés et
+	en nombre fini, l'élément $B$-friable $m_j$ peut-être vu comme le vecteur
+	\[v(m_j) := (v_{p_1}(m_j), \dots, v_{p_r}(m_j)).\] L'entier $m_j$ est un
+	carré \ssi les composantes de son vecteur $v(m_j)$ sont paires, i.e. la
+	réduction du vecteur $v(m_j)$ modulo $2$ est nulle. Par propriété des
+	valuations, le vecteur associé au produit $m_j\cdot m_{j'}$ est le vecteur
+	somme $v(m_j) + v(m_{j'})$. Autrement dit, le produit d'une sous-famille
+	$\{m_{j_1}, \dots, m_{j_s}\}$ de $F$ est un carré \ssi les vecteurs
+	$v(m_{j_1}), \dots, v(m_{j_s})$ somment à $0$ modulo $2$. Soit $V$ le
+	$\mathbb{F}_2$-espace vectoriel de $\mathbb{F}_2^r$, qui est de
+	$\mathbb{F}_2$ dimension $r$. Comme $k\geqslant r+1$, la famille $\{v(m_1),
+	\dots, v(m_k)\}$ est liée dans $V$ et il existe de fait des éléments $l_1,
+	\dots, l_k\in \mathbb{F}_2$ tels que \[\sum_{j=1}^r l_j v(m_j) = 0.\]
+	L'élément $\prod_{j=1}^k m_j^{l_j}$ est alors un carré.
+\end{proof}
+
+\begin{corollaire}
+	Il suffit de connaître $\#B + 2$ paires $(A, Q)$ pour en extraire une
+	sous-famille de $Q_n$ dont les paires correspondantes soient valides.
+\end{corollaire}
+
+\begin{proof}
+	Pour appliquer la proposition, il faut ajouter à la base $B$ l'élément $-1$
+	qui n'est pas premier. En effet, nous ne cherchons pas à trouver des
+	éléments $n_1, \dots, n_s$ pour lesquels $\prod_{i=1}^s Q_{n_i}$ est un
+	carré mais $\prod_{i=1}^s (-1)^{n_i}Q_{n_i}$ l'est. On voit alors $B' :=
+	B\cup \{-1\}$ comme une base de factorisation et on obtient le résultat en
+	appliquant la proposition.
+\end{proof}
+
+Notons $B = \{p_1, \dots, p_r\}$. La preuve de la proposition fournit un
+procédé d'algèbre linéaire pour extraire des paires $(A, Q)$ valides d'une
+famille $F = Q_{n_1}, \dots, Q_{n_k}$ connue.  Tout d'abord, lesdits $Q_n$
+doivent être factorisés (ce que nous ferons par divisions successives) et
+$B$-friables. Soit en suite $M$ la matrice \[ M = \left(v_{p_i}(Q_{n_j})
+\pmod{2}\right)_{1\leq i \leq r, 1\leq j \leq k}.\] Soient $l_{n_1}, \dots,
+l_{n_k}$ les éléments de $\mathbb{F}_2$ donnés par la proposition et tels que
+$\prod_{j=1}^k (-1)^{n_j} Q_{n_j}$ soit un carré. Le vecteur $(l_{n_1}, \dots,
+l_{n_k})$ est un élément du noyau de la matrice transposée de $M$. Un tel
+élément est facilement produit avec des algorithmes usuels d'algèbres
+linéaires. Nous verrons dans la prochaine section une version adaptée du pivot
+de Gau\ss{} qui nous permet d'en produire.
