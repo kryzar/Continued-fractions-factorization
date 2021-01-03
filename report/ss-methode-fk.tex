@@ -74,4 +74,16 @@ sont une solution efficace à ce problème. \\
 
 \subsubsection{Utilisation des fractions continues}
 
+Redonnons quelques notations de la sous-section \NTS{réf} sur les fractions
+continues. Nous notons $x := \sqrt{N}$, puis conformément à \NTS{réf} $x_0 :=
+x$ et $x_n = \frac{1}{x_{n-1}- \ent{x_{n-1}}}$ pour tout $n\in \N^*$. Le
+développement en fraction continue de l'irrationel $x$ est donc \[x = \hat{x}_0
++ \cfrac{1}{\hat{x}_1 + \cfrac{1}{\hat{x}_2 + \cfrac{1}{\hat{x}_3 + \dots}}}.\]
+Sa $n$-ième réduite est pour tout $n$ un rationnel et s'exprime de fait comme
+une fraction réduite $\frac{A_n}{B_n}$ où $A_n, B_n\in \Z$.  En posant
+$\hat{x}_n := \ent{x_n}$ pour tout $n\in \N$, on a l'égalité \NTS{réf} \[x =
+[\hat{x}_1, \dots, \hat{x}_{n-1}, x_n].\] Cet élément $x_n$ est un irrationel
+quadratique et s'écrit de fait \NTS{réf} \[x_n = \frac{P_n + x}{Q_n},\quad P_n,
+Q_n\in \Z,\] de sorte que \[A_{n-1}^2 \equiv (-1)^n Q_n \pmod{N}.\]
+
 \subsubsection{Recherche de congruences de carrés}
