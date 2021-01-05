@@ -4,6 +4,7 @@
 #include "step_A.h"
 #include "step_B.h"
 #include "step_C.h"
+#include "lp_var.h"
 
 int main(int argc, char **argv) {
 
@@ -16,16 +17,23 @@ int main(int argc, char **argv) {
       size_t s_fb; 
       size_t nb_AQp; 
       size_t i;
+      AQp_lp *list_AQp_lp = NULL; // For the large prime variation 
 
        /************************
        *  Just for the test    *
        *************************/
  
       mpz_init_set_str(P.N, "340282366920938463463374607431768211457", 10); 
-      P.n_lim =  1400000;
+      P.n_lim =  1330000;
       P.k = 257;
+
+      /*
       P.nb_want_AQp = 2060; 
       s_fb = 2700; 
+      */
+      P.nb_want_AQp = 650; 
+      s_fb = 700; 
+
       
        /************************
        *      Allocations      *
@@ -41,7 +49,9 @@ int main(int argc, char **argv) {
        *  Looking for a factor  *
        *************************/
       init_factor_base(factor_base, s_fb, P.N, P.k);
-      create_AQ_pairs(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, s_fb);
+      create_AQ_pairs_lp_var(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, s_fb, &list_AQp_lp); // for the large prime variation
+      create_AQ_pairs(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, s_fb); // without the large prime variation 
+      
       init_hist_vects(hist_vects, nb_AQp);
       find_factor(Ans, Qns, exp_vects, hist_vects, nb_AQp, P.N); 
 
@@ -64,6 +74,7 @@ int main(int argc, char **argv) {
       free_mpz_array(Qns, nb_AQp); 
       free_mpz_array(exp_vects, nb_AQp); 
       free_mpz_array(hist_vects, nb_AQp); 
+      delete_AQp_lp_list(&list_AQp_lp); // for the large prime variation
 
       return 0; 
 }
