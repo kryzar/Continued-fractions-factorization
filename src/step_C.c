@@ -190,7 +190,7 @@ int find_factor(const mpz_t *Ans, const mpz_t *Qns, mpz_t *exp_vects,
             if (mpz_cmp_ui(gcd, 1) && mpz_cmp(gcd, N)){
                   mpz_set(fact_found, gcd); 
                   return 1; 
-            }
+            } 
       }
 
 

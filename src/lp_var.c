@@ -100,7 +100,7 @@ void delete_AQp_lp_list(AQp_lp **list){
       /*  This function deletes the linked list. It deallocates its memory
        *  and sets its head pointer to NULL. */
        
-      // param **list: a pointer to the head pointer of the list. 
+      // param **list: A pointer to the head pointer of the list. 
        
 
       AQp_lp *current; 
@@ -116,10 +116,10 @@ void delete_AQp_lp_list(AQp_lp **list){
       *list = NULL; 
 }
 
-AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
+int insert_or_eliminate_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1,
                               const mpz_t lp, Data_exp_vect *D_exp_vect, size_t n, mpz_t *Qns,
                               mpz_t *Ans, mpz_t *exp_vects, size_t *nb_AQp, 
-                              const mpz_t N, mpz_t A, mpz_t Q, mpz_t gcd, mpz_t exp_vect){
+                              const mpz_t N, mpz_t A, mpz_t Q, mpz_t gcd, mpz_t exp_vect, mpz_t fact_found){
       
       /* Given a large prime lp, this fonction checks if lp is already 
        * a parameter of a node of the sorted linked list 'list'. If it is, 
@@ -127,8 +127,9 @@ AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
        * elimination to eliminate the large prime and add a new A-Q pair to
        * the Ans, Qns and exp_vect arrays. If not, a node is created. */
        
-      /* return: The head pointer of the modified linked list.
-       * param list: The head pointer of the linked list.
+      /* return: 1 if a non trivial factor was found.
+       *         0 otherwise.
+       * param list: A pointer to the head pointer of the linked list.
        * param Qn: The Qn of a pair (Anm1, Qn) with Qn almost completely factorisable.
        * param Anm1: The Anm1 of a pair (Anm1, Qn) with Qn almost completely factorisable.
        * param lp: The large prime of Qn.
@@ -147,22 +148,26 @@ AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
        *            with Qn a square.
        * param exp_vect: An auxiliary variable already initialized to perform one step 
        *                 of the gaussian elimination.
+       * param fact_found: A mpz_t already initialized to store, if we can, already
+       *                   a non trivial factor of N.
        */
 
       AQp_lp *current; 
 
-      current = list;
+      current = *list;
 
       if (current == NULL){                     // If the list is empty
             // Create a node and return it as the head of the list.
-            return create_AQp_lp(Qn, Anm1, lp, D_exp_vect, n); 
+            *list = create_AQp_lp(Qn, Anm1, lp, D_exp_vect, n);
+            return 0;
       }
       else if (0 < mpz_cmp(current -> lp, lp)){ // If the value of lp is smaller 
                                                 // than the lp of the head node:
             // Create a node and insert it at the start of the list.
             AQp_lp *node = create_AQp_lp(Qn, Anm1, lp, D_exp_vect, n); 
-            node -> next = current; 
-            return node; 
+            node -> next = current;
+            *list = node; 
+            return 0; 
       }
       while(current -> next){
             if (0 < mpz_cmp(current -> next -> lp, lp)){ 
@@ -175,7 +180,7 @@ AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
                         AQp_lp *node = create_AQp_lp(Qn, Anm1, lp, D_exp_vect, n); 
                         node -> next = current -> next; 
                         current -> next = node; 
-                        return list; 
+                        return 0; 
 
                   }else{
                         /***********************************************************
@@ -186,8 +191,7 @@ AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
                          **********************************************************/ 
                         
                         // One step of the gaussian elimination 
-                        mpz_mul(Q, Qn, current  -> Qn);     // Multiply the 2 Qi.  
-                        mpz_mod(Q, Q, N); 
+                        mpz_mul(Q, Qn, current  -> Qn);     // Multiply the 2 Qi.   
                         mpz_mul(A, Anm1, current -> Anm1);  // Multiply the 2 Ai.
                         mpz_mod(A, A, N);
 
@@ -199,8 +203,8 @@ AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
                               mpz_sub(gcd, A, gcd);  
                               mpz_gcd(gcd, gcd, N);    
                               if (mpz_cmp_ui(gcd, 1) && mpz_cmp(gcd, N)){
-                                     // A CHANGER : Que faire quand on trouve un facteur ? 
-                                     gmp_printf("factor (found during the elimination of a large prime) : %Zd \n", gcd);   
+                                    mpz_set(fact_found, gcd); 
+                                    return 1;
                               }
                         }else{
                               // The pair A-Q is a pair such that all the primes 
@@ -211,7 +215,7 @@ AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
                               mpz_init_set(exp_vects[*nb_AQp], exp_vect); 
                               (*nb_AQp) ++;
                         }
-                        return list; 
+                        return 0; 
                   }
             }
             current = current -> next;
@@ -219,7 +223,7 @@ AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
       // Create a AQp_lp and insert in at the end of the list
       AQp_lp *node = create_AQp_lp(Qn, Anm1, lp, D_exp_vect, n); 
       current -> next = node; 
-      return list; 
+      return 0; 
 
 }
 
@@ -274,7 +278,8 @@ int create_AQ_pairs_lp_var(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQ
       mpz_t Q;          // Auxiliary variable for insert_or_eliminate_lp
       mpz_t gcd;        // Auxiliary variable for insert_or_eliminate_lp
       mpz_t exp_vect;   // Auxiliary variable for insert_or_eliminate_lp
-      int r;            // To store the result of the 'is_qn_fact_lp_var' function
+      int r;            // To store the result of the 'is_qn_fact_lp_var' and
+                        // 'insert_or_eliminate_lp' functions. 
 
 	D.Qn_odd_pows = (size_t *)malloc(s_fb * sizeof(size_t)); 
       D.reduced_fb_indexes = (size_t *)malloc(s_fb * sizeof(size_t));
@@ -367,8 +372,11 @@ int create_AQ_pairs_lp_var(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQ
                         (*nb_AQp)++; 
                   }
             }else if (-1 == r){ // If Qn is almost completely factorisable
-                  *list = insert_or_eliminate_lp(*list, Qn, Anm1, lp, &D, n, Qns,
-                              Ans, exp_vects, nb_AQp, P.N, A, Q, gcd, exp_vect); 
+                  r = insert_or_eliminate_lp(list, Qn, Anm1, lp, &D, n, Qns,
+                              Ans, exp_vects, nb_AQp, P.N, A, Q, gcd, exp_vect, fact_found);
+                  if (r){
+                        return 1; 
+                  }
             }
       }
 

@@ -39,10 +39,11 @@ AQp_lp *create_AQp_lp(const mpz_t Qn, const mpz_t Anm1, const mpz_t lp, Data_exp
 void delete_AQp_lp_list(AQp_lp **list);
 
 
-AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
+int insert_or_eliminate_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1,
                               const mpz_t lp, Data_exp_vect *D_exp_vect, size_t n,
                               mpz_t *Qns, mpz_t *Ans, mpz_t *exp_vects, size_t *nb_AQp,
-                              const mpz_t N, mpz_t A, mpz_t Q, mpz_t gcd, mpz_t exp_vect); 
+                              const mpz_t N, mpz_t A, mpz_t Q, mpz_t gcd, mpz_t exp_vect,
+                              mpz_t fact_found); 
 
 int create_AQ_pairs_lp_var(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
                             mpz_t *exp_vects, const mpz_t *factor_base, 

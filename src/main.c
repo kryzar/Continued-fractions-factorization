@@ -20,24 +20,22 @@ int main(int argc, char **argv) {
       size_t nb_AQp; 
       size_t i;
       int found; 
-      //AQp_lp *list_AQp_lp = NULL; // For the large prime variation 
+      AQp_lp *list_AQp_lp = NULL; // For the large prime variation 
 
        /************************
        *  Just for the test    *
        *************************/
- 
+
       mpz_init_set_str(P.N, "340282366920938463463374607431768211457", 10); 
       P.n_lim =  1330000;
       P.k = 257;
 
+      //P.nb_want_AQp = 2060; 
+      //s_fb = 2700; 
       
-      P.nb_want_AQp = 2060; 
-      s_fb = 2700; 
-      
-      //P.nb_want_AQp = 650; 
-      //s_fb = 700; 
-
-      
+      P.nb_want_AQp = 650; 
+      s_fb = 700; 
+   
        /************************
        *      Allocations      *
        *************************/
@@ -53,15 +51,16 @@ int main(int argc, char **argv) {
        *  Looking for a factor  *
        *************************/
       init_factor_base(factor_base, s_fb, P.N, P.k);
-      //create_AQ_pairs_lp_var(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, s_fb, &list_AQp_lp); // for the large prime variation
-      found = create_AQ_pairs(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, s_fb, fact_found); // without the large prime variation 
+      found = create_AQ_pairs_lp_var(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, 
+                                    s_fb, &list_AQp_lp, fact_found);                            // for the large prime variation
+
+      //found = create_AQ_pairs(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, s_fb, fact_found); // without the large prime variation 
       
       if (! found){
             init_hist_vects(hist_vects, nb_AQp);
             found = find_factor(Ans, Qns, exp_vects, hist_vects, nb_AQp, P.N, fact_found); 
       }
-      
-            
+                  
        /************************
        *  Just for the test    *
        *************************/ 
@@ -78,7 +77,6 @@ int main(int argc, char **argv) {
             printf("factor not found \n"); 
       }
 
-
        /************************
        *          Free         *
        *************************/
@@ -87,7 +85,7 @@ int main(int argc, char **argv) {
       free_mpz_array(exp_vects, nb_AQp); 
       free_mpz_array(hist_vects, nb_AQp); 
       free_mpz_array(factor_base, s_fb); 
-      //delete_AQp_lp_list(&list_AQp_lp); // for the large prime variation
+      delete_AQp_lp_list(&list_AQp_lp); // for the large prime variation
       mpz_clear(fact_found); 
 
       return 0; 
