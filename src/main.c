@@ -5,6 +5,7 @@
 #include "step_B.h"
 #include "step_C.h"
 #include "lp_var.h"
+#include <time.h>
 
 int main(int argc, char **argv) {
 
@@ -50,8 +51,7 @@ int main(int argc, char **argv) {
        *************************/
       init_factor_base(factor_base, s_fb, P.N, P.k);
       create_AQ_pairs_lp_var(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, s_fb, &list_AQp_lp); // for the large prime variation
-      create_AQ_pairs(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, s_fb); // without the large prime variation 
-      
+      //create_AQ_pairs(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, s_fb); // without the large prime variation 
       init_hist_vects(hist_vects, nb_AQp);
       find_factor(Ans, Qns, exp_vects, hist_vects, nb_AQp, P.N); 
 
