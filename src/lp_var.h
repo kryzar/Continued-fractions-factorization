@@ -24,9 +24,9 @@ typedef struct AQp_lp{
       mpz_t Qn; 
       mpz_t Anm1; 
       mpz_t lp;               // The large prime. 
-      mpz_t exp_vect;         // The exponent vector associated with Qn
+      mpz_t exp_vect;         // The exponent vector associated to Qn
                               // (the large prime lp is missing).
-      struct AQp_lp *next; 
+      struct AQp_lp *next;    // The next node of the linked list. 
 }AQp_lp; 
 
 
@@ -44,9 +44,9 @@ AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
                               mpz_t *Qns, mpz_t *Ans, mpz_t *exp_vects, size_t *nb_AQp,
                               const mpz_t N, mpz_t A, mpz_t Q, mpz_t gcd, mpz_t exp_vect); 
 
-void create_AQ_pairs_lp_var(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
+int create_AQ_pairs_lp_var(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
                             mpz_t *exp_vects, const mpz_t *factor_base, 
-                            const size_t s_fb, AQp_lp **list); 
+                            const size_t s_fb, AQp_lp **list, mpz_t fact_found); 
 
 
 #endif 

@@ -13,7 +13,8 @@ void init_mpz_array(mpz_t *array, size_t s_array){
 }
 
 void free_mpz_array(mpz_t *array, size_t s_array){
-      size_t i; 
+      size_t i;
+
       for (i = 0; i < s_array; i++){
             mpz_clear(array[i]);
       }
@@ -22,6 +23,17 @@ void free_mpz_array(mpz_t *array, size_t s_array){
 }
 
 void init_factor_base(mpz_t *factor_base, size_t s_fb, const mpz_t N, unsigned k){
+
+      /* This function computes the factor base of size s_fb, which 
+       * contains the prime 2 and the smallest primes p such that
+       * the Legendre symbol (kN/p) = 1. 
+       *
+       * param factor_base: An array of size 's_fb' already allocated but not initialized.
+       * param s_fb: The size of the factor base wanted.
+       * param N: The integer to be factored
+       * param k: The muliplier k used in the expansion of sqrt(kN)
+       */
+
       mpz_t kN;
       mpz_t prime; 
       size_t i;

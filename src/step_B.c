@@ -24,7 +24,7 @@ int is_qn_factorisable(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows, const mpz_t 
        * param Qn_odd_pows: An array to store the indexes of the prime 
        *                    factors of Qn that have an odd valuation. It
        *                    is already allocated and initialized (size s_fb).
-       * param nb_Qn_odd_pows: The number of indexes
+       * param nb_Qn_odd_pows: A pointer to the number of indexes
        *                      added to the array (we start from the 
        *                      beginning). 
        * param Qn: The Qn to be factored. 
@@ -36,7 +36,7 @@ int is_qn_factorisable(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows, const mpz_t 
       mp_bitcnt_t valuation; 
       size_t i_fb ; // Index of a prime of the factor_base array. 
 
-      mpz_set(Q_temp, Qn); /* We are going to simplify Q_temp by the
+      mpz_set(Q_temp, Qn); /* We are going to divide Q_temp by the
                             primes of the factor base */
       *nb_Qn_odd_pows = 0; // To start from the beginning of the array
       i_fb = 0; 
@@ -50,7 +50,7 @@ int is_qn_factorisable(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows, const mpz_t 
             i_fb ++; 
       }
       if ( 0 == mpz_cmp_ui(Q_temp, 1) ){ 
-            // If Q_tem has been completely simplified
+            // If Q_tem has been completely simplified.
             return 1; 
       } 
       return 0; 
@@ -77,27 +77,27 @@ void init_hist_vects(mpz_t *hist_vects, const size_t nb_AQp){
       }
 }
 
-void init_exp_vect(char init, mpz_t exp_vect, Data_exp_vect *D, size_t n){
+void init_exp_vect(const int init, mpz_t exp_vect, Data_exp_vect *D, const size_t n){
 
       // J'ai introduit le paramètre init parce que j'étais bloquée pour la
       // large prime variation lorsque je voulais faire le xor des exponent
       // vector de deux Qn avec le même lp. Ca donne quelque chose de bizarre
       // mais j'ai pas d'autre idée 
 
-      /* This function initializes exp_vect and computes its value with
-       * the data stored in the struct Data_exp_vect.
+      /* This function initializes exp_vect if init = 1  and computes its value with
+       * the data stored in the struct Data_exp_vect and the subscript n.
        *
-       * param init: 1 if exp_vect needs to be initialized
-       *             0 otherwise
+       * param init: 1 if exp_vect needs to be initialized.
+       *             0 otherwise.
        * param exp_vect: The exponent vector to compute. It is not 
        *                  initialized.
        * param D: A pointer to the structure containing the data 
-       *               to compute the exponent vector. (see step_B.h).
+       *          to compute the exponent vector. (see step_B.h).
        *
-       *               P_exp -> reduced_fb_indexes is an array already
-       *               allocated which is the same size as the factor
-       *               base. It won't be completely filled.
-       * param n: The subscript n which is important for the "parity bit"
+       *          P_exp -> reduced_fb_indexes is an array already
+       *          allocated which is the same size as the factor
+       *          base. It won't be completely filled.
+       * param n: The subscript n which is important for the "parity bit".
        *
        */
 
@@ -139,8 +139,8 @@ void init_exp_vect(char init, mpz_t exp_vect, Data_exp_vect *D, size_t n){
       }
 } 
 
-void create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
-                     mpz_t *exp_vects, const mpz_t *factor_base, const size_t s_fb){
+int create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp, mpz_t *exp_vects,
+                    const mpz_t *factor_base, const size_t s_fb, mpz_t fact_found){
 
       /* This function computes, by expanding sqrt(kN) into a continued
        * fraction, the A-Q pairs  
@@ -150,17 +150,21 @@ void create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
        * exponent vector of Qn.
        */
 
-      /* Param P: Set of parameters for the problem (see step_A.h).
+      /* return: 1 if a non trival factor was found.
+       *         0 otherwise.
+       * Param P: Set of parameters for the problem (see step_A.h).
        * Param Ans: Array of size P.nb_want_AQp (already allocated
        *             but not initialized) to store the An's.
        * Param Qns: Array of size P.nb_want_AQp (already allocated
        *             but not initialized) to store the Qn's.
-       * Param nb_AQp: Number of A-Q pairs found with Qn factorisable
-       *                with the primes of the factor base.
+       * Param nb_AQp: A pointer to the number of A-Q pairs found with Qn
+       *               factorisable with the primes of the factor base.
        * Param exp_vects: Array of size P.nb_want_AQp (already allocated
        *                   but not initialized) to store the exponent vectors.
        * Param factor_base: The factor base.
        * Param s_fb: The size of the factor_base array.
+       * Param fact_found: A mpz_t already initialized to store, if 
+       *                   we can, a non trivial factor of N.
        */
 
      /***************************************************************************
@@ -243,8 +247,8 @@ void create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
                         mpz_sub(temp, Anm1, temp); // temp <-- Anm1 - sqrt(Qn)
                         mpz_gcd(temp, temp, P.N);  // temp <-- gcd(Anm1 - sqrt(Qn), N)
                         if (mpz_cmp_ui(temp, 1) && mpz_cmp(temp, P.N)){ // If we find a non trivial factor
-                               // A CHANGER : Que faire quand on trouve un facteur ? 
-                               gmp_printf("factor (found with n even and Qn a square) : %Zd \n", temp);   
+                              mpz_set(fact_found, temp); 
+                              return 1; 
                         }
                   }else{
                         // If the exponent vector associated to Qn is not zero
@@ -261,6 +265,8 @@ void create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
 	******************/
       free(D.Qn_odd_pows); D.Qn_odd_pows = NULL; 
       free(D.reduced_fb_indexes); D.reduced_fb_indexes = NULL; 
-      mpz_clears(Anm1, An, Qnm1, Qn, rnm1, rn, qn, Gn, g, temp, AQtemp, NULL); 
+      mpz_clears(Anm1, An, Qnm1, Qn, rnm1, rn, qn, Gn, g, temp, AQtemp, NULL);
+
+      return 0;
 
 }

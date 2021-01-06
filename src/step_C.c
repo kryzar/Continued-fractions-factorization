@@ -2,15 +2,14 @@
 #include "step_C.h"
 #include <gmp.h>
 
-
 void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_indexes,
                        size_t *nb_lin_rel, const size_t nb_AQp){
 
 
 
       /* This function performs the gaussian elimination to determine 
-       * whether the set of exponent vectors is linearly dependent.
-       * If so, the array 'lin_rel_indexes' will store the indexes of 
+       * if the set of exponent vectors is linearly dependent.
+       * If so, the array 'lin_rel_indexes' stores the indexes of 
        * the lines of the matrix where a linear relation was found. The
        * history vectors keep track of the lines which were xored.
        */
@@ -27,7 +26,7 @@ void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_inde
        *                        'nb_AQp'. It will contain the indexes 
        *                        of the history vectors associated to an
        *                        S-set. 
-       * param nb_lin_rel: a pointer to the number of linear relations
+       * param nb_lin_rel: A pointer to the number of linear relations
        *                     found.
        * param nb_AQp: The size of the exp_vects, hist_vects and 
        *               lin_rel_indexes arrays. 
@@ -46,8 +45,10 @@ void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_inde
 
       *nb_lin_rel = 0; 
 
-      /* Initialization of msb_indexes
-         and j, the index (numbered from 1) of the leftmost column */
+      /***************************************************
+       * Initialization of msb_indexes and j, the index  *
+       * (numbered from 1) of the leftmost column        *
+       **************************************************/
       msb_indexes[0] = mpz_sizeinbase(exp_vects[0], 2); 
       j = msb_indexes[0]; 
       for (i = 1; i < nb_AQp; i++){
@@ -57,7 +58,9 @@ void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_inde
             }
       }
 
-      // Reduction procedure 
+      /***************************************************
+       *               Reduction procedure               *
+       **************************************************/               
       
       while ( j >= 1 ){
 
@@ -145,8 +148,25 @@ void find_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns, mpz_t hist_v
       mpz_mod(Q, Q, N); 
 }
 
-void find_factor(const mpz_t *Ans, const mpz_t *Qns, mpz_t *exp_vects, 
-                 mpz_t *hist_vects, size_t nb_AQp, const mpz_t N){
+int find_factor(const mpz_t *Ans, const mpz_t *Qns, mpz_t *exp_vects, 
+                 mpz_t *hist_vects, size_t nb_AQp, const mpz_t N, mpz_t fact_found){
+
+      /* This function uses the auxilary function 'gaussian_elimination'
+       * to find the S-sets. After the reduction procedure, the '1' of an
+       * history vector whose index is in the array lin_rel_indexes 
+       * indicate an S-Set. For each S-Set, the auxilary function
+       * 'find_A_Q' finds A and Q such that A^2 = Q^2 mod N. The
+       * pgcd(A-Q, N) is then computed, hoping to find a factor of N. */
+
+      /* return: 1 if a non trivial factor was fact_found.
+       *         0 otherwise.
+       * param Ans: The Ans computed by create_AQ_pairs or create_AQ_pairs_lp_var.
+       * params Qns: The Qns computed by create_AQ_pairs or create_AQ_pairs_lp_var.
+       * param exp_vects: The exponent vectors computed by create_AQ_pairs or ...  
+       * param hist_vects: The historys vectors computed by init_hist_vects.
+       * param nb_AQp: The number of A-Q pairs.
+       * param N: The integer to be factored
+       */
 
       size_t i; 
       size_t *lin_rel_indexes; 
@@ -162,17 +182,21 @@ void find_factor(const mpz_t *Ans, const mpz_t *Qns, mpz_t *exp_vects,
       mpz_inits(A, Q, R, X, temp, gcd, NULL);
 
       gauss_elimination(exp_vects, hist_vects, lin_rel_indexes, &nb_lin_rel, nb_AQp); 
+
       for (i = 0; i < nb_lin_rel; i++){
             find_A_Q(A, Ans, Q, Qns, hist_vects[lin_rel_indexes[i]], N, R, X, temp);
             mpz_sub(temp, A, Q);    // temp <-- A - Q
             mpz_gcd(gcd, temp, N);  // gcd <-- pgcd (A - Q, N)
             if (mpz_cmp_ui(gcd, 1) && mpz_cmp(gcd, N)){
-                  gmp_printf("factor : %Zd \n", gcd); // A CHANGER
+                  mpz_set(fact_found, gcd); 
+                  return 1; 
             }
       }
 
 
       free(lin_rel_indexes); lin_rel_indexes = NULL;
       mpz_clears(A, Q, R, X, temp, gcd, NULL); 
+
+      return 0;
 
 }

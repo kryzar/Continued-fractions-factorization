@@ -30,7 +30,7 @@ int is_qn_fact_lp_var(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows, const mpz_t Q
        * param Qn_odd_pows: An array to store the indexes of the prime 
        *                    factors of Qn that have an odd valuation. It
        *                    is already allocated and initialized (size s_fb).
-       * param nb_Qn_odd_pows: The number of indexes
+       * param nb_Qn_odd_pows: A pointer to the number of indexes
        *                      added to the array (we start from the 
        *                      beginning). 
        * param Qn: The Qn to be factored. 
@@ -73,7 +73,14 @@ int is_qn_fact_lp_var(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows, const mpz_t Q
 AQp_lp *create_AQp_lp(const mpz_t Qn, const mpz_t Anm1, const mpz_t lp, Data_exp_vect *D_exp_vect, size_t n){
 
       /* This function allocates the memory for a node and initializes 
-       * its member Qn, Anm1 and lp and exp_vect.*/
+       * its member Qn, Anm1 and lp and exp_vect. */
+
+      /* param Qn: The Qn of a pair (Anm1, Qn) with Qn almost completely factorisable.
+       * param Anm1: The Anm1 of a pair(Anm1, Qn) with Qn almost completely factorisable.
+       * paramp lp: The large prime of the Qn's factorization.
+       * param D_exp_vect: A pointer to the structure containing the data to compute the exponent_vector. 
+       * param n: The subscript of Qn needed to compute the exponent vector.
+       */
 
       AQp_lp *node; 
       
@@ -91,10 +98,10 @@ AQp_lp *create_AQp_lp(const mpz_t Qn, const mpz_t Anm1, const mpz_t lp, Data_exp
 void delete_AQp_lp_list(AQp_lp **list){
 
       /*  This function deletes the linked list. It deallocates its memory
-       *  and sets its head pointer to NULL.
-       *
-       *  param **list: a pointer to the head pointer of the list. 
-       */
+       *  and sets its head pointer to NULL. */
+       
+      // param **list: a pointer to the head pointer of the list. 
+       
 
       AQp_lp *current; 
       AQp_lp *node;     // Node to be deleted
@@ -118,9 +125,9 @@ AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
        * a parameter of a node of the sorted linked list 'list'. If it is, 
        * the AQp_lp with this large prime is used as the pivot of the Gaussian
        * elimination to eliminate the large prime and add a new A-Q pair to
-       * the Ans, Qns and exp_vect arrays. If not, a node is created.
-       * 
-       * return: The head pointer of the modified linked list.
+       * the Ans, Qns and exp_vect arrays. If not, a node is created. */
+       
+      /* return: The head pointer of the modified linked list.
        * param list: The head pointer of the linked list.
        * param Qn: The Qn of a pair (Anm1, Qn) with Qn almost completely factorisable.
        * param Anm1: The Anm1 of a pair (Anm1, Qn) with Qn almost completely factorisable.
@@ -138,6 +145,8 @@ AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
        * param gcd: An auxiliary variable already initialized used to see if we
        *            can find a non trivial factor of N if we have a new A-Q pair
        *            with Qn a square.
+       * param exp_vect: An auxiliary variable already initialized to perform one step 
+       *                 of the gaussian elimination.
        */
 
       AQp_lp *current; 
@@ -170,21 +179,22 @@ AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
 
                   }else{
                         /***********************************************************
-                         * There is in the list a AQp_lp whith the same lp. (do    *
+                         * There is in the list an AQp_lp whith the same lp. (do   *
                          * not add a node). Instead, use its data to eliminate     *
                          * the large prime before adding the resulting A-Q pair to *
                          * the Qns, Ans and exp_vects arrays.                      *
                          **********************************************************/ 
                         
                         // One step of the gaussian elimination 
-                        mpz_mul(Q, Qn, current  -> Qn);      // Solve the result in Q 
-                        mpz_mul(A, Anm1, current -> Anm1);  // Solve the result in A 
+                        mpz_mul(Q, Qn, current  -> Qn);     // Multiply the 2 Qi.  
+                        mpz_mod(Q, Q, N); 
+                        mpz_mul(A, Anm1, current -> Anm1);  // Multiply the 2 Ai.
                         mpz_mod(A, A, N);
 
-                        init_exp_vect(0, exp_vect, D_exp_vect, n); 
-                        mpz_xor(exp_vect, exp_vect, current -> exp_vect); // Solve the result in exp_vect
-                       
-                        if (0 == mpz_cmp_ui(exp_vect, 0)){ // If Q is a square, ie exp_vect == 0 
+                        init_exp_vect(0, exp_vect, D_exp_vect, n); // Xor the 2 exponent vectors.
+                        mpz_xor(exp_vect, exp_vect, current -> exp_vect); 
+
+                        if (0 == mpz_cmp_ui(exp_vect, 0)){ // If Q is a square, ie if exp_vect == 0 
                               mpz_sqrt(gcd, Q);        // gcd <-- gcd(A - sqrt(Q), N)
                               mpz_sub(gcd, A, gcd);  
                               mpz_gcd(gcd, gcd, N);    
@@ -193,11 +203,12 @@ AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
                                      gmp_printf("factor (found during the elimination of a large prime) : %Zd \n", gcd);   
                               }
                         }else{
-                              // The pair A-Q is a pair with Q completely factorisable with the
-                              // primes of the factor base
+                              // The pair A-Q is a pair such that all the primes 
+                              // that have an odd valuation in the factorization of Q
+                              // belong to the factor base 
                               mpz_init_set(Qns[*nb_AQp], Q); 
                               mpz_init_set(Ans[*nb_AQp], A);
-                              mpz_set(exp_vects[*nb_AQp], exp_vect); 
+                              mpz_init_set(exp_vects[*nb_AQp], exp_vect); 
                               (*nb_AQp) ++;
                         }
                         return list; 
@@ -212,17 +223,16 @@ AQp_lp *insert_or_eliminate_lp(AQp_lp *list, const mpz_t Qn, const mpz_t Anm1,
 
 }
 
-void create_AQ_pairs_lp_var(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
+int create_AQ_pairs_lp_var(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
                             mpz_t *exp_vects, const mpz_t *factor_base, 
-                            const size_t s_fb, AQp_lp **list){
+                            const size_t s_fb, AQp_lp **list, mpz_t fact_found){
       
       /* This function computes, by expanding sqrt(kN) into a continued
        * fraction, the A-Q pairs.
        * ie a pair (A_{n-1}, Qn) such that A_{n-1}^2 = (-1)^n * Qn mod N.
-       * It only stores a pair in the Ans and Qns arrays if Qn is completely
-       * factorisable with the primes of the factor base. In this case, it
-       * also adds the corresponding exponent vector associated to Qn in the
-       * exp_vects array.
+       * If Qn is completely factorisable with the primes of the factor base,
+       * it directly stores the A-Q pair in the Qns and Ans array and adds 
+       * the exponent vector associated to Qn in the exp_vects array.
        * If Qn is almost completely factorisable (see the large prime) variation,
        * the auxiliary function 'insert_or_eliminate' is called to see if its 
        * large prime lp has already been encountered. If that is the case, the 
@@ -232,20 +242,24 @@ void create_AQ_pairs_lp_var(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_A
        * the sorted linked list 'list'.
        */
 
-      /* :Param P: Set of parameters for the proble (see step_A.h)
-       * :Param Ans: Array of size P.nb_want_AQp (already allocated
+      /* return: 1 if a non trivial factor was found.
+       *         0 otherwise.
+       * Param P: Set of parameters for the problem (see step_A.h)
+       * Param Ans: Array of size P.nb_want_AQp (already allocated
        *             but not initialized) to store the An's.
-       * :Param Qns: Array of size P.nb_want_AQp (already allocated
+       * Param Qns: Array of size P.nb_want_AQp (already allocated
        *             but not initialized) to store the Qn's.
-       * :Param nb_AQp: Number of A-Q pairs found with Qn factorisable
-       *                with the primes of the factor base or almost
-       *                factorisable.
-       * :Param exp_vects: Array of size P.nb_want_AQp (already allocated
+       * Param nb_AQp: A pointer to the number of A-Q pairs found 
+       *                with Qn factorisable with the primes of the
+       *                factor base or almost factorisable.
+       * Param exp_vects: Array of size P.nb_want_AQp (already allocated
        *                   but not initialized) to store the exponent vectors.
-       * :Param factor_base: The factor base.
-       * :Param s_fb: The size of the factor_base array.
-       * :Param list: A linked list (NULL at the beginning). (see the 
+       * Param factor_base: The factor base.
+       * Param s_fb: The size of the factor_base array.
+       * Param list: A linked list (NULL at the beginning). (see the 
        *              description of the struc AQp_lp in lp_var.h)
+       * Param fact_found: A mpz_t already initialized to store, if 
+       *                   we can, a non trivial factor of N.
        */             
        
            
@@ -266,7 +280,7 @@ void create_AQ_pairs_lp_var(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_A
       D.reduced_fb_indexes = (size_t *)malloc(s_fb * sizeof(size_t));
       mpz_inits(pm_squared, lp, A, Q, gcd, exp_vect, NULL);
 
-      mpz_mul(pm_squared, factor_base[s_fb -1], factor_base[s_fb -1]); 
+      mpz_mul(pm_squared, factor_base[s_fb - 1], factor_base[s_fb - 1]); 
       D.nb_reduced_fb_indexes = 0;
 
       /****************************************************************************
@@ -342,8 +356,8 @@ void create_AQ_pairs_lp_var(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_A
                         mpz_sub(temp, Anm1, temp); // temp <-- Anm1 - sqrt(Qn)
                         mpz_gcd(temp, temp, P.N);  // temp <-- gcd(Anm1 - sqrt(Qn), N)
                         if (mpz_cmp_ui(temp, 1) && mpz_cmp(temp, P.N)){ // If we find a non trivial factor
-                               // A CHANGER : Que faire quand on trouve un facteur ? 
-                               gmp_printf("factor (found with n even and Qn a square) : %Zd \n", temp);   
+                              mpz_set(fact_found, temp); 
+                              return 1; 
                         }
                   }else{
                         // If the exponent vector associated to Qn is not zero
@@ -363,6 +377,8 @@ void create_AQ_pairs_lp_var(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_A
 	******************/
       free(D.Qn_odd_pows); D.Qn_odd_pows = NULL; 
       free(D.reduced_fb_indexes); D.reduced_fb_indexes = NULL; 
-      mpz_clears(pm_squared, lp, A, Q, gcd, exp_vect, Anm1, An, Qnm1, Qn, rnm1, rn, qn, Gn, g, temp, AQtemp, NULL); 
+      mpz_clears(pm_squared, lp, A, Q, gcd, exp_vect, Anm1, An, Qnm1, Qn, rnm1, rn, qn, Gn, g, temp, AQtemp, NULL);
+
+      return 0; 
  
 }
