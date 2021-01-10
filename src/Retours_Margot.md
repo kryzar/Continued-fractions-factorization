@@ -13,6 +13,11 @@
   faire for (size_t i = 0, …).
 - Pour les accolades après parenthèses, ) { est mieux que ){. Idem, } else {
   est mieux que }else{ (même si je crois que la convention C est pas d'accord).
+- Les cadres faits avec des /* */ sont faits pour des titres, non des longues
+  explications. Dans ce cas, tu fais un cadre de tire et tu commentes
+  l'explication dessous.
+- Pas de guillemets autour des noms de variables !
+- Sois plus concise sur les commentaires inline.
 
 # main.c
 1. Créer une fonction find_factor qui contient les allocations ; les appels aux
@@ -43,3 +48,12 @@
 1. Choisis entre déclarer la struct et le typedef séparément ou en même temps
    et modifie Data_exp_vect et Params en conséquence.
 2. Renomme Data_exp_vect en exp_vect_data.
+
+# step_B.c
+1. Peut-être un mot sur ce que fait mp_bitcnt_t.
+2. Remplace is_qn_factorisable par is_Qn_factorisable.
+3. Dans is_qn_factorisable, pourquoi tu passes Q_temp en paramètre ? De ce que
+   je comprends c'est le Qn divisé à chaque fois par ses diviseurs premiers (et
+   leurs puissances). Cette variable n'a donc pas lieu d'exister en dehors du
+   scope de la fonction. Si elle fait bien ça, vire la des paramètres. Je
+   propose aussi de la renommé Qn_divided.
