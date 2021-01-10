@@ -9,6 +9,10 @@
   différentes au sein d'une fonction (sauf les grosses fonctions), tu
   compliques l'architecture.
 - Noms des macros en majuscules.
+- Dans une boucle for t'es pas censée déclarer l'incrément en dehors. Faut
+  faire for (size_t i = 0, …).
+- Pour les accolades après parenthèses, ) { est mieux que ){. Idem, } else {
+  est mieux que }else{ (même si je crois que la convention C est pas d'accord).
 
 # main.c
 1. Créer une fonction find_factor qui contient les allocations ; les appels aux
@@ -31,3 +35,6 @@
 1. Documenter Params. Pourquoi on la créée, à quoi sert-elle ? La description
    de ses composantes ne suffit pas. C'est comme si tu analysais l'architecture
    d'une maison en ne parlant que de ses murs individuels.
+
+# step_A.c
+1. Documenter init_mpz_array et free_mpz_array ? Pas sûr que ça vaille le coup.
