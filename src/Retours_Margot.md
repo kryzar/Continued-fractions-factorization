@@ -38,3 +38,8 @@
 
 # step_A.c
 1. Documenter init_mpz_array et free_mpz_array ? Pas sûr que ça vaille le coup.
+
+# step_B.h
+1. Choisis entre déclarer la struct et le typedef séparément ou en même temps
+   et modifie Data_exp_vect et Params en conséquence.
+2. Renomme Data_exp_vect en exp_vect_data.
