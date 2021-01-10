@@ -1,6 +1,4 @@
-/*
-	step_B.c
-*/
+/* step_B.c */
 
 #include <gmp.h>
 #include "step_A.h"

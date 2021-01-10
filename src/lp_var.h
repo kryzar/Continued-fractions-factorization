@@ -1,6 +1,4 @@
-/*
-	lp_var.h
-*/
+/* lp_var.h */
 
 #ifndef LP_VAR_H
 #define LP_VAR_H

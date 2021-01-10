@@ -1,11 +1,11 @@
 /* main.c */
 
 #include <stdio.h>
+#include <time.h>
 #include "step_A.h"
 #include "step_B.h"
 #include "step_C.h"
 #include "lp_var.h"
-#include <time.h>
 
 int main(int argc, char **argv) {
 

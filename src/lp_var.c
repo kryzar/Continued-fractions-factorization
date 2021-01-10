@@ -1,6 +1,4 @@
-/*
-	lp_var.c
-*/
+/* lp_var.c */
 
 #include "lp_var.h"
 #include "step_B.h"

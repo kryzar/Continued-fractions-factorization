@@ -1,6 +1,4 @@
-/*
-	step_B.h
-*/
+/* step_B.h */
 
 #ifndef STEP_B_H
 #define STEP_B_H
