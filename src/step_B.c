@@ -73,37 +73,30 @@ void init_hist_vects(mpz_t *hist_vects, const size_t nb_AQp) {
 	}
 }
 
-void init_exp_vect(const int init, mpz_t exp_vect, Data_exp_vect *D, const size_t n) {
+void init_exp_vect(const int init, mpz_t exp_vect, Data_exp_vect *D,
+				   const size_t n) {
+	/*
+	This function initializes exp_vect if init = 1 and computes its
+	value with the data stored in the struct Data_exp_vect and the
+	subscript n.
 
-	// J'ai introduit le paramètre init parce que j'étais bloquée pour la
-	// large prime variation lorsque je voulais faire le xor des exponent
-	// vector de deux Qn avec le même lp. Ca donne quelque chose de bizarre
-	// mais j'ai pas d'autre idée 
-
-	/* This function initializes exp_vect if init = 1  and computes its value with
-	the data stored in the struct Data_exp_vect and the subscript n.
-	 *
-	param init: 1 if exp_vect needs to be initialized.
-	            0 otherwise.
-	param exp_vect: The exponent vector to compute. It is not 
-	                 initialized.
-	param D: A pointer to the structure containing the data 
-	         to compute the exponent vector. (see step_B.h).
-	 *
-	         P_exp -> reduced_fb_indexes is an array already
-	         allocated which is the same size as the factor
-	         base. It won't be completely filled.
+	param init: 1 if exp_vect needs to be initialized, 0 otherwise.
+	param exp_vect: The exponent vector to compute (not initialized).
+	param D: A pointer to the structure containing the data required
+	         to compute the exponent vector (see step_B.h).
+	         P_exp -> reduced_fb_indexes is an array (already
+	         allocated) of same size as the factor base. It won't be
+			 completely filled.
 	param n: The subscript n which is important for the "parity bit".
-	 *
-	 */
+	*/
 
 	size_t i; 
 	size_t Qn_odd_pow; 
 	size_t bit_index; 
 
-	if(init) {
+	if (init) {
 		mpz_init(exp_vect); 
-	}else{
+	} else {
 		mpz_set_ui(exp_vect, 0); 
 	}
 		
@@ -115,19 +108,19 @@ void init_exp_vect(const int init, mpz_t exp_vect, Data_exp_vect *D, const size_
 
 	for (i = 0; i < D -> nb_Qn_odd_pows; i++) {
 		Qn_odd_pow = D -> Qn_odd_pows[i]; 
-		/************************************************
-		 * Check if Qn_odd_pow is in reduced_fb_indexes *
-		 * **********************************************/
+		 
+		// Check if Qn_odd_pow is in reduced_fb_indexes
 		bit_index = 0; 
-		while (bit_index < D -> nb_reduced_fb_indexes && Qn_odd_pow != D -> reduced_fb_indexes[bit_index]) {
+		while (bit_index < D -> nb_reduced_fb_indexes
+			   && Qn_odd_pow != D -> reduced_fb_indexes[bit_index]) {
 			bit_index ++; 
 		}
-		/*********************************************************************
-		 * Set the bit of the exponent vector to 1 in the column (bit_index) *
-		 * where Qn_odd_pow has been found or add a column and put a 1 in it *
-		 * *******************************************************************/
+
+		// Set the bit of the exponent vector to 1 in the column
+		// (bit_index) where Qn_odd_pow has been found or add a column
+		// and put a 1 in it
 		mpz_setbit(exp_vect, bit_index + 1); 
-		// If Qn_odd_pow isn't in the reduced_fb_indexes array, we add it.
+		// If Qn_odd_pow isn't in the reduced_fb_indexes array, add it
 		if (bit_index == D -> nb_reduced_fb_indexes) {
 			D -> reduced_fb_indexes[D -> nb_reduced_fb_indexes] = Qn_odd_pow; 
 			(D -> nb_reduced_fb_indexes) ++; 

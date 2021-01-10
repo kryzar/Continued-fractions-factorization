@@ -13,7 +13,7 @@ typedef struct Data_exp_vect{
 	vector of a given Qn, except the subscript n.
 	*/
 
-	size_t *reduced_fb_indexes;   /* The elements of this array indicate
+	size_t* reduced_fb_indexes;   /* The elements of this array indicate
 									 the index of the primes of the
 									 factor base that have an odd
 									 valuation in at least one of the
@@ -23,7 +23,7 @@ typedef struct Data_exp_vect{
 									 prime variation is used). */ 
 	size_t nb_reduced_fb_indexes; /* The number of indexes added to the 
                                      reduced_fb_indexes array. */
-	size_t *Qn_odd_pows;          /* Store the indexes of the prime
+	size_t* Qn_odd_pows;          /* Store the indexes of the prime
 									 factors of Qn that have an odd
 									 valuation. */
 	size_t nb_Qn_odd_pows;        /* The number of such prime factors of
