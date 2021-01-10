@@ -7,12 +7,15 @@
 #include <stdlib.h>
 
 struct Params {
-	mpz_t	 N;			// Integer to factor
-	unsigned k;	            // Multiplier k used in sqrt(kN)
-	size_t n_lim;		// An upper limit on the subscript n of the cont. frac. expansion of sqrt(kN)
-	size_t nb_want_AQp;     // Number of wanted A-Q pairs (A_{n-1}, Qn) with
-                              // Qn factorisable with the primes of the factor base
-};
+	// Integer to factor
+	mpz_t	 N;
+	// Multiplier k used in sqrt(kN)
+	unsigned k;
+	// Upper limit on n for the cont. frac. expansion of sqrt(kN)
+	size_t   n_lim;
+	// Number of wanted A-Q pairs where Qn is factored in factor_base
+	size_t	 nb_want_AQp;}
+;
 
 typedef struct Params Params;
 

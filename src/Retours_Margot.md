@@ -8,6 +8,7 @@
 - Vois les choses comme ça : une fonction = une tâche. Si tu fais deux choses
   différentes au sein d'une fonction (sauf les grosses fonctions), tu
   compliques l'architecture.
+- Noms des macros en majuscules.
 
 # main.c
 1. Créer une fonction find_factor qui contient les allocations ; les appels aux
@@ -20,5 +21,13 @@
    affiche tout, comme dans la deuxième section "Testing" de ton main. Tu peux
    éventuellement rajouter un booléen printing dans la fonction find_factor qui
    permet d'appeler ou non print_results.
-2. Mettre les tests dans des fonctions et fichiers dédiés.
-3. Commenter la fonction main.
+3. Mettre les tests dans des fonctions et fichiers dédiés.
+4. Commenter la fonction main.
+
+# step_A.h
+1. Ou bien tu écris ta macro en majuscules, ou bien tu la remplaces par une
+   fonction inline, qui est sûrement mieux. Voir
+   https://www.geeksforgeeks.org/inline-function-in-c/.
+1. Documenter Params. Pourquoi on la créée, à quoi sert-elle ? La description
+   de ses composantes ne suffit pas. C'est comme si tu analysais l'architecture
+   d'une maison en ne parlant que de ses murs individuels.
