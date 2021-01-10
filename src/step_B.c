@@ -56,20 +56,18 @@ int is_qn_factorisable(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows,
 }
 
 void init_hist_vects(mpz_t *hist_vects, const size_t nb_AQp) {
-
-	/* This function initializes the hist_vects array and computes
-	the history vectors. 
+	/*
+	This function initializes the hist_vects array and computes the history
+	vectors. 
 
 	param hist_vects: The array of history vectors. Is is already 
-	                   allocated (size P.nb_want_AQp) but isn't 
-	                   initialized.
+	                  allocated (size P.nb_want_AQp) but isn't 
+	                  initialized.
 	param nb_AQp: The number of AQ pairs found with Qn completely
 	              factorisable with the primes of the factor base.
-	 */
+	*/
 
-	size_t i; 
-
-	for (i = 0; i < nb_AQp; i++) {
+	for (size_t i = 0; i < nb_AQp; i++) {
 		mpz_init(hist_vects[i]); 
 		mpz_setbit(hist_vects[i], i); 
 	}

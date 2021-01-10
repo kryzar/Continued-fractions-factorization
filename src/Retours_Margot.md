@@ -18,6 +18,8 @@
   l'explication dessous.
 - Pas de guillemets autour des noms de variables !
 - Sois plus concise sur les commentaires inline.
+- Dans les signatures de fonctions, vaut mieux dire "Create …" que "This
+  functions create …".
 
 # main.c
 1. Créer une fonction find_factor qui contient les allocations ; les appels aux
@@ -57,3 +59,5 @@
    leurs puissances). Cette variable n'a donc pas lieu d'exister en dehors du
    scope de la fonction. Si elle fait bien ça, vire la des paramètres. Je
    propose aussi de la renommé Qn_divided.
+4. La documentation de init_hist_vects n'est pas précise : 'computes' ça veut
+   dire quoi, en quoi nb_AQp sera nécessaire ?
