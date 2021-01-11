@@ -86,6 +86,8 @@
    premiers blocs de la boucle while. Pour alléger la notation tu peux créer
    une struct (avec typedef of course) pour toutes ces variables.
 3. Rajoute un bref paragraphe dans la signature sur ce que fait la boucle.
+4. Quand tu return 1, en fait je crois que les libérations de mémoire après
+   n'ont pas lieu.
 
 # step_C.h
 1. Renommer find_A_Q en calculate_A_Q ?
@@ -95,6 +97,11 @@
    numérotation de msb_indexes à 1 est technique (retour de mpz_sizeinbase).
 2. Voir si tu peux virer le paramètre X de la fonction find_A_Q des paramètres
    et juste avoir cette variable dans la définition de la fonction.
+3. Dans find_factor il y a un "or …" à compléter.
+4. Renommer find_factor en find_N_factor ? (oui je sais que c'est moi qui avait
+   proposé find_factor)
+5. Dans find_factor, quand tu return 1, en fait je crois que les libérations de
+   mémoire après n'ont pas lieu.
 
 # Misc
 - Pourquoi ne pas remplacer tous les "subscript" par "indexe" ?
