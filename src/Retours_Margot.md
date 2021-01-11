@@ -87,5 +87,12 @@
    une struct (avec typedef of course) pour toutes ces variables.
 3. Rajoute un bref paragraphe dans la signature sur ce que fait la boucle.
 
+# step_C.h
+1. Renommer find_A_Q en calculate_A_Q ?
+
+# step_C.c
+1. Rajouter en commentaire que la raison pour laquelle on commence la
+   numérotation de msb_indexes à 1 est technique (retour de mpz_sizeinbase).
+
 # Misc
 - Pourquoi ne pas remplacer tous les "subscript" par "indexe" ?
