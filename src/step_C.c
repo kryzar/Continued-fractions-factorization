@@ -93,54 +93,56 @@ void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_inde
 void find_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns,
 			  mpz_t hist_vect, const mpz_t N, mpz_t R, mpz_t X,
 			  mpz_t Q_temp) {
-
 	/*
-	This function finds the A and the Q of the S-congruence A^2 = Q^2 mod N.
+	Find the A and the Q of the S-congruence A^2 = Q^2 mod N and put
+	the results in A and Q.
 	 
-	 * param A: Is already initialized. It is used to store the value of A.
-	 * param Ans: An array which contains the A_n's.
-	 * param Q: Is already initialized. It is used to store the value of Q.
-	 * param Qns: An array which contains the Q_n's. 
-	 * param hist_vect: An history vector which is associated to an S-Set.
-	 *			(at the end, the vector is zero).
-	 * param N: The integer to be factored.
-	 * param R: An auxiliary variable already initialized for the computation of Q. 
-	 * param X: An auxiliary variable already initialized for the computation of Q.
-	 * param Q_temp: An auxiliary variable already initialized for the computation of Q. 
-	 */
+	param A: Already initialized, used to store the value of A.
+	param Ans: An array which contains the A_n's.
+	param Q: Already initialized, used to store the value of Q.
+	param Qns: An array which contains the Q_n's. 
+	param hist_vect: An history vector which is associated to an S-Set.
+					 (at the end, the vector is zero).
+	param N: The integer to be factored.
+	param R: An auxiliary variable already initialized for the
+			 computation of Q. 
+	param X: An auxiliary variable already initialized for the
+			 computation of Q.
+	param Q_temp: An auxiliary variable already initialized for the
+				  computation of Q. 
+	*/
 
-	 /* In the comments, let Q1, Q2, ... be the Q_i of the S-Set 
-	  *  and A1, A2, ... be the A_i of the S-Set */
+	// In the comments, let Q1, Q2, ... be the Q_i of the S-Set and
+	// A1, A2, ... be the A_i of the S-Set.
 
 	mp_bitcnt_t i;
 
-	mpz_set_ui(Q, 1); // Q <-- 1
-
+	mpz_set_ui(Q, 1);			 // Q <- 1
 	i = mpz_scan1(hist_vect, 0);
 	mpz_clrbit(hist_vect, i);
+	mpz_set(A, Ans[i]);			 // A <- A1
+	mpz_set(R, Qns[i]);			 // R <- Q1
 
-	mpz_set(A, Ans[i]); // A <-- A1
-	mpz_set(R, Qns[i]); // R <-- Q1
-
-	while  ( 0 != mpz_cmp_ui(hist_vect, 0) ) {
+	while  (0 != mpz_cmp_ui(hist_vect, 0)) {
 		i = mpz_scan1(hist_vect, i+1);
 		mpz_clrbit(hist_vect, i);
 
-		mpz_mul(A, A, Ans[i]); // A <-- A * Ai 
+		mpz_mul(A, A, Ans[i]); // A <- A * Ai 
 		mpz_mod(A, A, N);
   
-		mpz_set(Q_temp, Qns[i]); // X <-- pgcd(R, Q_i)
+		mpz_set(Q_temp, Qns[i]); // X <- pgcd(R, Q_i)
 		mpz_gcd(X, R, Q_temp);
 
-		mpz_mul(Q, Q, X); // Q <-- QX mod N 
+		mpz_mul(Q, Q, X); // Q <- QX mod N 
 		mpz_mod(Q, Q, N); 
  
-		mpz_divexact(Q_temp, Q_temp, X); // R <-- R / X * Q_temp / X
+		mpz_divexact(Q_temp, Q_temp, X); // R <- R / X * Q_temp / X
 		mpz_divexact(R, R, X); 
 		mpz_mul(R, R, Q_temp);
 	}
-	mpz_sqrt(X, R); // X <-- sqrt(R)
-	mpz_mul(Q, Q, X); // Q <-- QX mod N 
+
+	mpz_sqrt(X, R); // X <- sqrt(R)
+	mpz_mul(Q, Q, X); // Q <- QX mod N 
 	mpz_mod(Q, Q, N); 
 }
 
@@ -181,8 +183,8 @@ int find_factor(const mpz_t *Ans, const mpz_t *Qns, mpz_t *exp_vects,
 
 	for (i = 0; i < nb_lin_rel; i++) {
 		find_A_Q(A, Ans, Q, Qns, hist_vects[lin_rel_indexes[i]], N, R, X, temp);
-		mpz_sub(temp, A, Q);    // temp <-- A - Q
-		mpz_gcd(gcd, temp, N);  // gcd <-- pgcd (A - Q, N)
+		mpz_sub(temp, A, Q);    // temp <- A - Q
+		mpz_gcd(gcd, temp, N);  // gcd <- pgcd (A - Q, N)
 		if (mpz_cmp_ui(gcd, 1) && mpz_cmp(gcd, N)) {
 			mpz_set(fact_found, gcd); 
 			return 1; 

@@ -93,6 +93,12 @@
 # step_C.c
 1. Rajouter en commentaire que la raison pour laquelle on commence la
    numérotation de msb_indexes à 1 est technique (retour de mpz_sizeinbase).
+2. Voir si tu peux virer le paramètre X de la fonction find_A_Q des paramètres
+   et juste avoir cette variable dans la définition de la fonction.
 
 # Misc
 - Pourquoi ne pas remplacer tous les "subscript" par "indexe" ?
+- Quand tu fais des conditions du genre 0 == variable ou 1 != autre_variable,
+  je trouve pas terrible de pas mettre la variable avant la constante. Mettre
+  la variable avant la constante permet de voir d'un coup d‘œil sur quoi porte
+  le test.
