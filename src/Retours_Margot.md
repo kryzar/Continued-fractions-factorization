@@ -63,17 +63,29 @@
    propose aussi de la renommé Qn_divided.
 4. La documentation de init_hist_vects n'est pas précise : 'computes' ça veut
    dire quoi, en quoi nb_AQp sera nécessaire ?
-5. La documentation de init_exp_vect est pas archi claire je trouve. Tu
+## Fonction init_exp_vect
+1. La documentation de init_exp_vect est pas archi claire je trouve. Tu
    pourrais mettre plus de détails sur ce qu'elle fait et comment elle le fait.
    Autre problème dans la signature, tu dis 'voir step_B.h' mais quand tu vas
    voir step_B.h tout ce que ça te dit c'est que ça sert à faire ce que tu
    veux. Au final t'es pas plus avancé sur pourquoi ça existe, pourquoi c'est
    utile.
-6. Dans init_exp_vect le nom de variable D n'est pas terrible, change le non ?
-7. Pour le premier if de init_exp_vect tu as des commentaires avant et un
+2. Dans init_exp_vect le nom de variable D n'est pas terrible, change le non ?
+3. Pour le premier if de init_exp_vect tu as des commentaires avant et un
    commentaire en inline dans le if. Regroupe les et keep it short.
-8. Dans init_exp_vect, si je comprends bien tu ajoutes des valeurs à
+4. Dans init_exp_vect, si je comprends bien tu ajoutes des valeurs à
    D.reduced_fb_indexes, au sens où tu mets des valeurs à la case
    nb_reduced_fb_indexes. Il faudrait préciser quelque part qu'au départ la
    taille du tableau reduced_fb_indexes est énorme. Là on peut croire que c'est
    un truc genre liste chaînée.
+## Fonction create_AQ_pairs
+1. Dans la signature, expliquer pourquoi on peut des fois trouver un facteur
+   non trivial de Qn.
+2. Tu peux pas mettre la partie expension de la fonction dans une fonction
+   dédiée, quitte à lui redonner plein d'arguments ? Je parle des quatre
+   premiers blocs de la boucle while. Pour alléger la notation tu peux créer
+   une struct (avec typedef of course) pour toutes ces variables.
+3. Rajoute un bref paragraphe dans la signature sur ce que fait la boucle.
+
+# Misc
+- Pourquoi ne pas remplacer tous les "subscript" par "indexe" ?
