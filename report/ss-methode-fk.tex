@@ -1,11 +1,11 @@
 \subsection{Méthodes de factorisation de Fermat-Kraitchik et utilisation des
 fractions continues}
 
-Dans toute section, $N$ désigne un entier naturel composé impair.
+Dans toute cette section, $N$ désigne un entier naturel composé impair.
 
 \subsubsection{Méthodes de Fermat et Kraitchik}
 
-La méthode de factorisation de Fermat par du constat suivant.
+La méthode de factorisation de Fermat part du constat suivant.
 
 \begin{lemme}
 	Factoriser $N$ est équivalent à l'exprimer comme différence de deux carrés
@@ -19,15 +19,15 @@ La méthode de factorisation de Fermat par du constat suivant.
 \end{proof}
 
 La méthode de Fermat cherche donc à exploiter cette propriété en exprimant $N$
-comme la différence de deux carrés et en déduire une factorisation. Celle-ci se
+comme la différence de deux carrés pour en déduire une factorisation. Celle-ci se
 montre particulièrement efficace lorsque $N$ est le produit de deux entiers
 proches l'un de l'autre. Notons $N=ab$ une factorisation de $N$,
 $r=\frac{a+b}{2}$ et $s=\frac{a-b}{2}$. On a \[N = r^2 - s^2\] et que l'entier
 $r$ est donc plus grand que $\sqrt{N}$ tout en lui étant proche. Il existe donc
 un entier positif $u$ \emph{pas trop grand} tel que \[\ent{\sqrt{N}} + u = r\]
-et donc tel que $(\ent{\sqrt{N}} + u)^2 - n$ soit un carré. Trouver un tel
+et donc tel que $(\ent{\sqrt{N}} + u)^2 - N$ soit un carré. Trouver un tel
 entier $u$ donne alors la factorisation de $N$. Comme les facteurs de $N$ sont
-proches l'un de l'autre, on le trouve par essais successis. \\
+proches l'un de l'autre, on le trouve par essais successifs. \\
 
 La méthode de Fermat n'est cependant pas du tout efficace lorsque les facteurs
 de $N$ ne sont pas proches. D'après \NTS{MB}, la méthode est alors encore plus
@@ -41,7 +41,7 @@ de deux carrés ~; trouver une différence de deux carrés qui soit un multiple 
 $N$ \emph{suffit}.
 
 \begin{lemme}
-	Conaître deux entiers $u, v \in \Z$ tels que $u^2 \equiv v^2 \equiv
+	Connaître deux entiers $u, v \in \Z$ tels que $u^2 \equiv v^2 
 	\pmod{N}$ et $u\not\equiv \pm v\pmod{N}$ fournit une factorisation de $N$.
 \end{lemme}
 
@@ -54,25 +54,134 @@ $N$ \emph{suffit}.
 
 \begin{remarque}
 	Dans l'algorithme, nous nous contenterons de chercher des $u, v$ tels que
-	$n$ divise la différence de leurs carrés, sans vérifier s'ils vérifient $u
+	$N$ divise la différence de leurs carrés, sans vérifier s'ils vérifient $u
 	\not\equiv \pm v\pmod{N}$. Comme le polynôme $X^2 - v^2 \in \Z/N\Z$ a
-	exactement quatre racines, il y a \og{} une chance sur deux \fg pour que
+	exactement quatre racines, il y a \og{} une chance sur deux \fg  pour que
 	$u$ et $v$ nous fournissentun facteur non trivial de $N$. \\
-	\NTS{Margot tu confirmes qu'on vérifie pas si $u\equiv \pm v$ ?}
 \end{remarque}
 
-Comment trouver de tels couples $(u, v)$ ? Kraitchik a originellement utilisé
-le polynôme $K := X^2 - N \in \Z[X]$. Trouver une famille d'entiers $x_1,
-\cdots, x_k$ telle que $K(x_1)\cdots K(x_r)$ soit un carré fournit un tel
-couple $(u, v)$. Il faut poser $u = x_1\cdots x_r$ et $v = K(x_1)\cdots K(x_r)$
-: \[v^2 \equiv (x_1^2 - N)\cdots (x_k^2 - N) \equiv x_1^2 \cdots x_k^2 \equiv
-u^2\pmod{N}.\] Cette méthode souffre toutefois d'un problème d'efficacité,
-puisqu'il est nécessaire de calculer un grand nombre de $K(x_i)$. La croissance
-de la fonction associée au polynôme $K$ étant quadratique, le coût des calculs
-devient prohibitif. Nous allons maintenant voir que les fractions continues
-sont une solution efficace à ce problème. \\
+Comment trouver de tels couples $(u, v)$ ? Kraitchik a eu l'idée de ne chercher
+dans un premier temps que des congruences de la forme : \[u_i^2 \equiv v_i 
+\pmod{N}\] Il a remarqué qu'il suffisait d'exhiber une famille $v_1, \cdots,
+v_r$ telle que $\prod_{i=1}^r v_i$ soit un carré pour savoir comment obtenir 
+une congruence de carrés par multiplication de congruences. \\
+
+Il originellement utilisé le polynôme $K := X^2 - N \in \Z[X]$ qui fournit la
+congruence $u_i^2 \equiv K(u_i) \pmod{N}$. Si on sait que  $K(u_1)\cdots K(u_r)$ 
+est un carré, en posant $u = u_1\cdots u_r$ et $v = \sqrt{ K(u_1)\cdots K(u_r)}$ 
+on a bien :
+\[v^2 \equiv K(u_1)\cdots K(u_r) \equiv u_1^2 \cdots u_k^2 \equiv u^2\pmod{N}\]
+
+Cette méthode souffre toutefois d'un problème d'efficacité, puisqu'il est nécessaire 
+de calculer un grand nombre de $K(x_i)$. La croissance de la fonction associée 
+au polynôme $K$ étant quadratique, le coût des calculs devient prohibitif.\\
+
+\NTS{Je suis pas vraiment d'accord que le problème vient de là, pour moi le problème
+vient de la nécessité de trouver des $K(u_i)$B-friables, comme on a pas de borne c'est
+moins bien que les fractions continues, mais pas du fait de calculer un
+carré meme si c'est grand on sait le faire. Crible quadratique utilise le même 
+polynome mais ajoute un crible bien pensé à la place des divisions successives. 
+J'enleverais la remarque et garderais suelement celle qui vient après. }
+
+Il reste à savoir comment trouver cette famille $v_1 \cdots v_r$.\\
+
+\subsubsection{Recherche de congruences de carrés}
+
+Une méthode qui répond à cette question sans passer par un algorithme de recherche
+exhaustive a été proposée par Kraitchik lui-même. \\ 
+
+\NTS{Morrison et Brillart, dans leur article exposant la méthode de factorisation
+avec les fractions continues, ont répondu à cette question. (garder la bonne
+version, Pomerancedit M et B)}
+
+Celle-ci nécessite de travailler avec des congruences de la forme 
+\[u_i^2 \equiv Q_i \pmod{N}\] avec $\lvert Q_i \rvert$ suffisamment petit pour 
+en connaître une factorisation. (La notation $Q_i$ fera échos à celle utilisée 
+pour décrire la méthode de factorisation avec les fractions continues). \\
+
+On commence par se fixer $B$ une base de factorisation, c'est à dire un 
+ensemble non vide fini de nombres premiers.
+
+\begin{definition}
+	Un entier $Q\in \N\setminus \{0, 1\}$ est dit \emph{$B$-friable} si tous
+	les facteurs premiers de $Q$ sont dans $B$.
+\end{definition}
+
+L'idée principale de Kraitchik \NTS{ou M et B} est que connaître suffisamment
+d'entiers $Q_i \in \Z$ avec $ \lvert Q_i \rvert$ $B$-friables 
+\emph{entièrement factorisés} permet de trouver la famille recherchée.
+
+\begin{proposition}
+	Soit $F$ une famille d'entiers tels que leur valeur absolue est $B$-friables.
+    Si \[\# F \geqslant \# B + 2\] alors on peut extraire une sous-famille de
+    $F$ dont le produit des éléments est un carré.
+\end{proposition}
+
+\begin{proof}
+	Posons $F = \{Q_1, \dots, Q_k\}$ (de sorte que $k = \# F)$ et $B = (p_1,
+	\dots, p_m)$ (de sorte que $\# B = m$). Les éléments $Q_j, 1\leqslant j
+    \leqslant k$ s'écrivent alors, comme $\lvert Q_j \rvert$ est $B$-friable,
+    \[Q_j = (-1)^{v_0}\prod_{i=1}^m p_i^{v_{p_i}(Q_j)}.\]
+	Fixons $j, j'\in [\![1, k]\!]$. Puisque les éléments de $B$ sont fixés et
+	en nombre fini l'élément $Q_j$ peut être vu comme le vecteur
+    \[v(Q_j) := (v_{p_m}(Q_j), \dots, v_{p_1}(Q_j), v_0 )\] L'entier $Q_j$ est
+    un carré \ssi les composantes de son vecteur $v(Q_j)$ sont paires, i.e. la
+	réduction du vecteur $v(Q_j)$ modulo $2$ est nulle. Par propriété des
+	valuations, le vecteur associé au produit $Q_j\cdot Q_{j'}$ est le vecteur
+	somme $v(Q_j) + v(Q_{j'})$. Autrement dit, le produit d'une sous-famille
+	$\{Q_{j_1}, \dots, Q_{j_s}\}$ de $F$ est un carré \ssi les vecteurs
+	$v(Q_{j_1}), \dots, v(Q_{j_s})$ somment à $0$ modulo $2$. Soit $V$ le
+    $\mathbb{F}_2$-espace vectoriel $\mathbb{F}_2^{m+1}$, qui est de dimension
+    $m+1$. Comme $k\geqslant m+2$, la famille $\{v(Q_1), \dots, v(Q_k)\}$ est 
+    liée dans $V$ et il existe de fait des éléments $l_1,\dots, l_k\in 
+    \mathbb{F}_2$ tels que \[\sum_{j=1}^k l_j v(Q_j) = 0.\] L'élément 
+    $\prod_{j=1}^k Q_j^{l_j}$ est alors un carré.
+\end{proof}
+
+\begin{definition}
+    Soient $B = \{p_1,\dots, p_m \}$ une base de factorisation et $Q$ un 
+    entier avec $\lvert Q \rvert$  $B$-friable. Si $Q = (-1)^{v_0} 
+    \prod_{i=1}^m p_i^{v_{p_i}(Q)}$, on appellera vecteur exposant associé
+    à l'entier $Q$ le vecteur \[v(Q) := (v_{p_m}(Q), \dots, v_{p_1}(Q), v_0 )
+    \in \mathbb{F}_2^{m+1} \] 
+\end{definition}
+
+\begin{remarque}
+    Cette définition sera réutilisée lors de la description de l'algorithme
+    de factorisation avec la méthode des fractions continues. L'ordre des
+    composantes du vecteur présentée ici vient du fait que le $v_0$ correspondra
+    au bit de poids faible et le $v_{p_m}(Q)$ au bit de poids fort du vecteur. \\ 
+\end{remarque}
+
+Notons $B = \{p_1, \dots, p_m\}$ une base de factorisation. Etant données
+des congruences $u_i^2 \equiv Q_i \pmod{N}$, la preuve de la proposition 
+fournit un procédé d'algèbre linéaire pour extraire une familles $Q_1,
+\cdots, Q_r$ telle que $\prod_{i=1}^r Q_i$ soit un carré. Tout d'abord,
+il faut trouver des $Q_i$ tels que $ \lvert Q_i \rvert$ est $B$-friable
+(ce que nous ferons par divisions successives) et retenir leur vecteur 
+exposant associé. \NTS{est-ce que la description de la matrice ça va ?}. 
+Disons qu'on a pu en trouver $k$, notés $Q_1, \cdots, Q_k$.
+Soit ensuite $M$ la matrice $k\times(m+1)$ dont les lignes correspondent
+aux vecteurs exposants de $Q_{1}, \cdots, Q_{k}$. Soient $l_{1}, \dots,
+l_{k}$ les éléments de $\mathbb{F}_2$ donnés par la proposition et tels que
+$\prod_{j=1}^k Q_{j}^{l_j} $ soit un carré. Le vecteur $(l_1, \dots,
+l_{k})$ est un élément du noyau de la matrice transposée de $M$. Un tel
+élément est facilement produit avec des algorithmes usuels d'algèbres
+linéaires. Nous verrons plus tard une version adaptée du pivot
+de Gau\ss{} qui nous permet d'en produire.
 
 \subsubsection{Utilisation des fractions continues}
+
+Pour appliquer la méthode ci-dessus, il faut arriver à générer des $Q_i$ 
+avec $\lvert  Q_i \rvert$ $B$-friable pour une base de factorisation donnée,
+supposée \og{} pas très grande \fg. Il faut donc chercher à avoir des
+$\lvert Q_i \rvert$ \og{} petits \fg. L'introduction des fractions continues
+est motivée par le constat suivant : si $u_i^2 = Q_i + kNb^2$ avec $\lvert 
+Q_i \rvert$ petit, alors $\left(\frac{u_i}{b}\right)^2 - kN = \frac{Q_i}{b^2}$
+est petit en valeur absolue et $\frac{u_i}{b}$ est une bonne approximation de 
+$\sqrt{kN}$.
+
+\NTS{mettre référence}
 
 Redonnons quelques notations de la sous-section \NTS{réf} sur les fractions
 continues. Nous notons $x := \sqrt{N}$, puis conformément à \NTS{réf} $x_0 :=
@@ -84,21 +193,21 @@ une fraction réduite $\frac{A_n}{B_n}$ où $A_n, B_n\in \Z$.  En posant
 $\hat{x}_n := \ent{x_n}$ pour tout $n\in \N$, on a l'égalité \NTS{réf} \[x =
 [\hat{x}_1, \dots, \hat{x}_{n-1}, x_n].\] Cet élément $x_n$ est un irrationel
 quadratique et s'écrit de fait \NTS{réf} \[x_n = \frac{P_n + x}{Q_n},\quad P_n,
-Q_n\in \Z,\] de sorte que
-\begin{equation}
-	A_{n-1}^2 \equiv (-1)^n Q_n \pmod{N}.
-\end{equation}
+Q_n\in \Z,\]. 
+
+L'algorithme de factorisation repose sur l'égalité suivante : \[ A_{n-1}^2 = 
+(-1)^n Q_n + kN B_{n-1}^2 \]
+
+On a donc : \[ A_{n-1}^2 \equiv (-1)^n Q_n \pmod{N} \] \\
+
+
+Donnons à présent quelques définitions dont nous nous servirons pour décrire 
+l'algorithme des fractions continues. 
 
 \begin{definition}
 	Pour tout $n\in \N^*$, on appelle \emph{$n$-ième paire $(A, Q)$} le couple
 	$(A_{n-1}, Q_n)$.
 \end{definition}
-
-D'après l'identité \NTS{réf}, si l'on parvient à trouver une famille $n_1,
-\dots, n_k$ d'indices tels que le produit $Q:=\prod_{i=1}^k (-1)^{n_i} Q_{n_i}$
-soit un carré (dans $\Z$ et non uniquement dans $\Z/N\Z$) et $A := \prod_{i=1}^k
-A_{n_i} \not\equiv \pm\sqrt{Q}$, nous aurons factorisé $N$ en vertu du lemme
-\NTS{réf}.
 
 \begin{definition}
 	Un ensemble de paires $(A, Q)$ indexé par $n_1, \dots, n_k$ est dit
@@ -106,81 +215,55 @@ A_{n_i} \not\equiv \pm\sqrt{Q}$, nous aurons factorisé $N$ en vertu du lemme
 	(dans $\Z$ et non uniquement dans $\Z/N\Z$).
 \end{definition}
 
+\begin{remarque}
+    Par abus de langage, nous parlerons à présent du vecteur exposant 
+    associé à $Q_n$ pour désigner le vecteur exposant associé à 
+    $(-1)^n Q_n = (-1)^{v_0} \prod_{i=1}^m p_i^{v_{p_i}(Q)}$,
+    c'est-à-dire $(v_{p_m}(Q_n),\dots, v_{p_1}(Q_n), v_0 ) \in \mathbb{F}_2^{m+1}$
+\end{remarque}
+
+D'après la section précédente, étant donnée une base de factorisation $B$,
+la méthode consiste à : 
+
+\begin{itemize}
+    \item Calculer des couples $(A,Q)$ par développement en fractions continues 
+        de $\sqrt(kN)$ où k est un petit coefficient multiplicateur (voir plus loin)
+    \item Sélectionner les $Q_n$ $B$-friables et leur associer un vecteur exposant
+    \item Trouver un ensemble valide de paires $(A, Q)$ par pivot de Gauss 
+          sur la matrice dont les lignes sont formées de ces vecteurs exposants
+\end{itemize}
+
+Nous aurons donc déterminé une famille $n_1,\dots, n_k$ d'indices tels que le 
+produit $Q:=\prod_{i=1}^k (-1)^{n_i} Q_{n_i}$ soit un carré (dans $\Z$ et non 
+uniquement dans $\Z/N\Z$). \\
+Posons $A := \prod_{i=1}^k A_{n_i}$. Si $A\not\equiv \pm  \sqrt{Q}\pmod{N}$, 
+nous aurons factorisé $N$ en vertu du lemme
+\NTS{réf}.\\
+
 Le principal avantage de l'utilisation des fractions continues plutôt que le
 polynôme de Kraitchik réside dans leur croissance. L'inégalité \NTS{réf} assure
 que les éléments $Q_n, n\in \N$ seront plus petits (en valeur absolu) que les
 $K(x'), x'\in \Z$ (dont la croissance lorsque $x'$ s'éloigne de $\sqrt{N}$ est
 approximativement linéaire de pente $2\sqrt{N}$). Les paires $(A, Q)$ seront
-donc plus faciles à manier. Enfin, il est facile de générer le développement en
-fraction continue de $x$ et les paires $(A, Q)$ grace à un algorithme itératif
-dû à Gau\ss et exposé dans \NTS{réf}. Nous allons à présent nous appliquer à
-déterminer des paires $(A, Q)$ valides.
+donc plus faciles à manier et les $Q_n$ auront plus de chance d'être $B$-friables.
+Enfin, il est facile de générer le développement en fraction continue de $x$ et 
+les paires $(A, Q)$ grace à un algorithme itératif dû à Gau\ss et exposé dans 
+\NTS{réf}. \\
 
-\subsubsection{Recherche de congruences de carrés}
+\NTS{Pour moi c'est plus ça l'avantage : } \\
 
-La méthode présentée ici est celle de Kraitchik lui même et permet de
-\emph{générer} des paires $(A, Q)$ valides sans passer par un algorithme de
-recherche exhaustive. On commence par se fixier $B$ une base de factorisation,
-c'est à dire un ensemble non vide fini de nombres premiers.
+Le principal avantage qu'offre l'utilisation des fractions continues par 
+rapport au polynome de Kraitchik réside dans la croissance des termes $Q_n,
+n\in \N$. On sait par \NTS{réf} que les $Q_n$ seront inférieurs à 
+$2 \sqrt{kN}$. Les $K(x)$ donnés par le polynôme de Kratichik ont eux une croissance
+lorsque $x$ s'éloigne de $\sqrt{N}$ approximativement linéaire de pente
+$2 \sqrt{N}$. Les $Q_n$ auront donc plus de chance d'être  $B$-friables que les
+$K(x)$ de Kraitchik. Or, l'étape la plus coûteuse de l'algorithme est celle de la
+recherche des termes $B$-friables par divisions successives. Enfin, notons qu'il
+est facile de générer le développement en fraction continue de $x$ et les paires
+$(A, Q)$ grace à un algorithme itératif dû à Gau\ss et exposé dans \NTS{réf}. \\
 
-\begin{definition}
-	Un entier $m\in \N\setminus \{0, 1\}$ est dit \emph{$B$-friable} si tous
-	les facteurs premiers de $m$ sont dans $B$.
-\end{definition}
-
-L'idée principale de Kraitchik est que connaître suffisamment d'entiers $Q_n,
-n\in \N$ $B$-friables \emph{entièrement factorisés} permet de construire un
-ensemble valide de paires $(A, Q)$.
-
-\begin{proposition}
-	Soit $F$ une famille d'entiers $B$-friables. Si \[\# F \geqslant \# B +
-	1\] alors on peut extraire une sous-famille de $F$ dont le produit des
-	éléments est un carré.
-\end{proposition}
-
-\begin{proof}
-	Posons $F = \{m_1, \dots, m_k\}$ (de sorte que $k = \# F)$ et $B = (p_1,
-	\dots, p_r)$ (de sorte que $\# B = r$). Les éléments $m_j, 1\leqslant j
-	\leqslant k$ s'écrivent alors \[m_j = \prod_{i=1}^r p_r^{v_{p_i}(m_j)}.\]
-	Fixons $j, j'\in [\![1, k]\!]$. Puisque les éléments de $B$ sont fixés et
-	en nombre fini, l'élément $B$-friable $m_j$ peut-être vu comme le vecteur
-	\[v(m_j) := (v_{p_1}(m_j), \dots, v_{p_r}(m_j)).\] L'entier $m_j$ est un
-	carré \ssi les composantes de son vecteur $v(m_j)$ sont paires, i.e. la
-	réduction du vecteur $v(m_j)$ modulo $2$ est nulle. Par propriété des
-	valuations, le vecteur associé au produit $m_j\cdot m_{j'}$ est le vecteur
-	somme $v(m_j) + v(m_{j'})$. Autrement dit, le produit d'une sous-famille
-	$\{m_{j_1}, \dots, m_{j_s}\}$ de $F$ est un carré \ssi les vecteurs
-	$v(m_{j_1}), \dots, v(m_{j_s})$ somment à $0$ modulo $2$. Soit $V$ le
-	$\mathbb{F}_2$-espace vectoriel de $\mathbb{F}_2^r$, qui est de
-	$\mathbb{F}_2$ dimension $r$. Comme $k\geqslant r+1$, la famille $\{v(m_1),
-	\dots, v(m_k)\}$ est liée dans $V$ et il existe de fait des éléments $l_1,
-	\dots, l_k\in \mathbb{F}_2$ tels que \[\sum_{j=1}^r l_j v(m_j) = 0.\]
-	L'élément $\prod_{j=1}^k m_j^{l_j}$ est alors un carré.
-\end{proof}
-
-\begin{corollaire}
-	Il suffit de connaître $\#B + 2$ paires $(A, Q)$ pour en extraire une
-	sous-famille de $Q_n$ dont les paires correspondantes soient valides.
-\end{corollaire}
-
-\begin{proof}
-	Pour appliquer la proposition, il faut ajouter à la base $B$ l'élément $-1$
-	qui n'est pas premier. En effet, nous ne cherchons pas à trouver des
-	éléments $n_1, \dots, n_s$ pour lesquels $\prod_{i=1}^s Q_{n_i}$ est un
-	carré mais $\prod_{i=1}^s (-1)^{n_i}Q_{n_i}$ l'est. On voit alors $B' :=
-	B\cup \{-1\}$ comme une base de factorisation et on obtient le résultat en
-	appliquant la proposition.
-\end{proof}
-
-Notons $B = \{p_1, \dots, p_r\}$. La preuve de la proposition fournit un
-procédé d'algèbre linéaire pour extraire des paires $(A, Q)$ valides d'une
-famille $F = Q_{n_1}, \dots, Q_{n_k}$ connue.  Tout d'abord, lesdits $Q_n$
-doivent être factorisés (ce que nous ferons par divisions successives) et
-$B$-friables. Soit en suite $M$ la matrice \[ M = \left(v_{p_i}(Q_{n_j})
-\pmod{2}\right)_{1\leq i \leq r, 1\leq j \leq k}.\] Soient $l_{n_1}, \dots,
-l_{n_k}$ les éléments de $\mathbb{F}_2$ donnés par la proposition et tels que
-$\prod_{j=1}^k (-1)^{n_j} Q_{n_j}$ soit un carré. Le vecteur $(l_{n_1}, \dots,
-l_{n_k})$ est un élément du noyau de la matrice transposée de $M$. Un tel
-élément est facilement produit avec des algorithmes usuels d'algèbres
-linéaires. Nous verrons dans la prochaine section une version adaptée du pivot
-de Gau\ss{} qui nous permet d'en produire.
+\NTS{A rajouter je pense dans cette partie : critère pour sélectionner la base
+de factorisation, le problème de la périodicité d'où introduction de k, l'idée
+à la base de la large prime variation + dans une autre sous-section des trucs sur 
+la complexité}

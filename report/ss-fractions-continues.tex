@@ -1,12 +1,12 @@
-\subsection{Fraction continues}
+\subsection{Fractions continues}
 \subsubsection{Intuition}
 
 Intuitivement, une fraction continue est une expression — finie ou infinie — de
 la forme suivante\footnote{Notez que nous ne nous autorisons que des $1$ aux
 numérateurs.} : \[a_0 + \cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{a_3 +
 \dots}}}\] telle que $a_0\in \Z$ et $a_i \in \N^*$ pour tout $i\in \N^*$.
-Toujours intuitivement, nous voulons affûbler cette fraciton continue d'une
-valeur. Si la fraction continue est finie, cette une bonne vieille fraciton,
+Toujours intuitivement, nous voulons affûbler cette fraction continue d'une
+valeur. Si la fraction continue est finie, c'est une bonne vieille fraction,
 c'est à dire un élément du corps $\Q$~; si la fraction continue est infinie, on
 calcule d'abord $a_0$, puis $a_0 + \frac{1}{a_1}$, puis $a_0 + \frac{1}{a_1
 +\frac{1}{a_2}}$, et on continue une infinité de fois. La limite de la suite
@@ -42,7 +42,7 @@ notations :
 	La méthode de construction d'une fraction continue \emph{finie} pour un
 	rationnel est la même : il faut simplement s'arrêter lorsque l'on tombe sur
 	un $\hat{x}_n$ vérifiant $\hat{x}_n = \ent{\hat{x}_n}$. Cet algorithme
-	termine (\NTS{ref}) et s'exécute plus simplement en utilisant… l'algorithme
+	termine (\NTS{ref}) et s'exécute plus simplement en utilisant l'algorithme
 	d'Euclide.
 \end{remarque}
 
@@ -63,7 +63,7 @@ descriptive et non prescriptive.} une fraction continue ainsi :
 	continue infinie canoniquement associée à $x$ par la méthode exposée dans
 	le premier paragraphe. Autrement dit, $\hat{x}$ est la fraction continue
 	donnée par la suite infinie (voir \ref{notations}) $(\hat{x}_i)_{i\in
-	\N})$.
+	\N}$.
 \end{notation}
 
 Il est naturel d'associer à une fraction continue (finie ou infinie) une suite
@@ -74,7 +74,7 @@ indeterminées.
 
 \begin{definition}[Réduites formelles]
 	Soit $(X_i)_{i\in \N}$ une suite (infinie) d'indeterminées sur le corps
-	$\Q$. On définit \[[X_0] = X_0]\] puis par récurrence \[[X_1, \dots,
+	$\Q$. On définit \[[X_0] = X_0\] puis par récurrence \[[X_0, \dots,
 	X_n] = X_0 + \frac{1}{[X_1, \dots, X_n]}.\] Ces éléments sont dans
 	$\Q((X_i)_{i\in \N})$.
 \end{definition}
@@ -106,7 +106,8 @@ Remarquons que les réduites de toute fraction continue sont des éléments
 rationnels, ce même si la fraction continue est égale à $\hat{x}$ pour un
 certain irrationel $x$. De fait, $x$ n'est égal à aucune des réduites de
 $\hat{x}$. Mais en reprenant les notations \ref{notations}, on a toutefois
-\begin{equation}\ref{egalite-reduite}
+\NTS{pourquoi ça fait ça ? avec le 1.1.3 ?}
+\begin{equation} \ref{egalite-reduite}
 	x = [\hat{x}_1, \dots, \hat{x}_{n-1}, x_n], \quad \forall x\in \N.
 \end{equation}
 Cette égalité sera cruciale dans notre algorithme de factorisation. \\
@@ -211,9 +212,9 @@ l'irrationel quadratique considéré est une racine carrée.
 	a_2, \dots, a_2, a_1, 2a_0}].\]
 \end{theoreme}
 
-Ces phrénomènes de périodicité devront être pris en compte dans les paramètres
+Ces phénomènes de périodicité devront être pris en compte dans les paramètres
 d'entrée de l'algorithme de factorisation, voir \NTS{réf}. En plus de la suite
-des réduites, nous aurons besoins d'une autre suite importante.
+des réduites, nous aurons besoin d'une autre suite importante.
 
 \begin{lemme}
 	Soit $x$ un irrationel quadratique. Alors l'élément $\frac{1}{x - \ent{x}}$
@@ -223,7 +224,7 @@ des réduites, nous aurons besoins d'une autre suite importante.
 Fixons $N$ l'entier à factoriser et $k\in \N*$ tel que $\sqrt{kN}$ est un
 irrationel quadratique. Posons alors $x := \sqrt{kN}$. D'après l'identité
 \label{egalite-reduite} et en reprenant les notations \label{notations}, nous
-pouvons écrire donner un développement partiel (jusqu'à un rang donné $n\in
+pouvons donner un développement partiel (jusqu'à un rang donné $n\in
 \N$) de $x$ en fraction continue \[x = [\hat{x}_1, \dots, \hat{x}_{n-1},
 x_n].\] D'après le lemme précédent, $x_n$ est lui aussi un irrationel
 quadratique, i.e. il est solution d'une équation quadratique. On peut
