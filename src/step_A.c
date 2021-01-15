@@ -51,3 +51,14 @@ void init_factor_base(mpz_t *factor_base, size_t s_fb, const mpz_t N,
 
 	mpz_clears(kN, prime, NULL); 
 }
+
+void init_results(Results *R){
+    mpz_init(R-> fact_found); 
+    R-> found  = 0; 
+    R-> nb_AQp = 0; 
+    R-> n_last = 0; 
+} 
+
+void clear_Params_Results(Params *P, Results *R){
+    mpz_clears(P-> N, R-> fact_found, NULL); 
+}

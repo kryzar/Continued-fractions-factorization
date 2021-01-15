@@ -40,8 +40,7 @@ void init_hist_vects(mpz_t *hist_vects, const size_t nb_AQp);
 void init_exp_vect(const int init, mpz_t exp_vect, exp_vect_data *D,
 				   const size_t n); 
 
-int create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
-					mpz_t *exp_vects, const mpz_t *factor_base,
-					const size_t s_fb, mpz_t fact_found);
+void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns,
+					mpz_t *exp_vects, const mpz_t *factor_base);
 
 #endif

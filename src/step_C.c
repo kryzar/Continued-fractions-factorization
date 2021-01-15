@@ -146,9 +146,8 @@ void calculate_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns,
 	mpz_mod(Q, Q, N); 
 }
 
-int find_factor(const mpz_t *Ans, const mpz_t *Qns, mpz_t *exp_vects, 
-	            mpz_t *hist_vects, size_t nb_AQp, const mpz_t N,
-			    mpz_t fact_found) {
+void find_factor(Results *Res, const mpz_t *Ans, const mpz_t *Qns, 
+                 mpz_t *exp_vects, mpz_t *hist_vects, const mpz_t N) {
 	/*
 	This function uses the auxilary function gaussian_elimination to
 	find the S-sets from A-Q pairs previously calculated. After the
@@ -157,14 +156,13 @@ int find_factor(const mpz_t *Ans, const mpz_t *Qns, mpz_t *exp_vects,
 	pairs in a S-Set. For each S-Set, the auxilary function calculate_A_Q
 	finds A and Q such that A^2 = Q^2 mod N.  The pgcd(A-Q, N) is then
 	computed, hoping to find a factor of N. If a factor is found, put it
-	in fact_found and return 1, 0 otherwise.
+	in R->fact_found and set R->found to 1.
 
-	return: 1 if a non trivial factor was fact_found  0 otherwise.
+    params Res: Pointer to the structure used to store the results.
 	param Ans: The Ans computed by create_AQ_pairs or create_AQ_pairs_lp_var.
 	params Qns: The Qns computed by create_AQ_pairs or create_AQ_pairs_lp_var.
 	param exp_vects: The exponent vectors computed by create_AQ_pairs or ...  
 	param hist_vects: The historys vectors computed by init_hist_vects.
-	param nb_AQp: The number of A-Q pairs.
 	param N: The integer to be factored
 	*/
 
@@ -177,11 +175,11 @@ int find_factor(const mpz_t *Ans, const mpz_t *Qns, mpz_t *exp_vects,
 	mpz_t  temp; 
 	mpz_t  gcd; 
 
-	lin_rel_indexes = (size_t *)malloc(nb_AQp * sizeof(size_t)); 
+	lin_rel_indexes = (size_t *)malloc(Res->nb_AQp * sizeof(size_t)); 
 	mpz_inits(A, Q, R, X, temp, gcd, NULL);
 
 	gauss_elimination(exp_vects, hist_vects, lin_rel_indexes, &nb_lin_rel,
-					  nb_AQp); 
+					  Res->nb_AQp); 
 
 	for (size_t i = 0; i < nb_lin_rel; i++) {
 		calculate_A_Q(A, Ans, Q, Qns, hist_vects[lin_rel_indexes[i]], N, R,
@@ -190,8 +188,9 @@ int find_factor(const mpz_t *Ans, const mpz_t *Qns, mpz_t *exp_vects,
 		mpz_gcd(gcd, temp, N);  // gcd <- pgcd (A - Q, N)
 
 		if (mpz_cmp_ui(gcd, 1) && mpz_cmp(gcd, N)) {
-			mpz_set(fact_found, gcd); 
-			return 1; 
+			mpz_set(Res->fact_found, gcd);
+            Res->found = 1;
+            return; 
 		} 
 	}
 
@@ -199,5 +198,4 @@ int find_factor(const mpz_t *Ans, const mpz_t *Qns, mpz_t *exp_vects,
 	free(lin_rel_indexes); lin_rel_indexes = NULL;
 	mpz_clears(A, Q, R, X, temp, gcd, NULL); 
 
-	return 0;
 }

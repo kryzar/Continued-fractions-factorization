@@ -39,15 +39,16 @@ AQp_lp *create_AQp_lp(const mpz_t Qn, const mpz_t Anm1, const mpz_t lp,
 void delete_AQp_lp_list(AQp_lp **list);
 
 
-int insert_or_elim_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1,
+void insert_or_elim_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1,
                               const mpz_t lp, exp_vect_data *D, size_t n,
                               mpz_t *Qns, mpz_t *Ans, mpz_t *exp_vects, 
                               size_t *nb_AQp, const mpz_t N, mpz_t A, mpz_t Q,
-                              mpz_t gcd, mpz_t exp_vect, mpz_t fact_found); 
+                              mpz_t gcd, mpz_t exp_vect, Results *R);
 
-int create_AQ_pairs_lp_var(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
+
+void create_AQ_pairs_lp_var(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns, 
                             mpz_t *exp_vects, const mpz_t *factor_base, 
-                            const size_t s_fb, AQp_lp **list, mpz_t fact_found); 
+                            AQp_lp **list);  
 
 
 #endif 
