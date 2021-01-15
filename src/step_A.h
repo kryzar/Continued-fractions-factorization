@@ -1,6 +1,4 @@
-/*
-	step_A.h
-*/
+/* step_A.h */
 
 #ifndef STEP_A
 #define STEP_A
@@ -8,17 +6,16 @@
 #include <gmp.h>
 #include <stdlib.h>
 
-struct Params {
-	mpz_t	 N;			// Integer to factor
-	unsigned k;	            // Multiplier k used in sqrt(kN)
-	size_t n_lim;		// An upper limit on the subscript n of the cont. frac. expansion of sqrt(kN)
-	size_t nb_want_AQp;     // Number of wanted A-Q pairs (A_{n-1}, Qn) with
-                              // Qn factorisable with the primes of the factor base
-};
+typedef struct Params {
+	mpz_t	 N;			  /* Integer to factor. */
+	unsigned k;			  /* Multiplier k used in sqrt(kN). */
+	size_t   n_lim;		  /* Upper limit of the index n in the cont.
+							 frac. expansion of sqrt(kN). */
+	size_t	 nb_want_AQp; /* Number of wanted A-Q pairs where Qn is
+							 completely factored over factor_base. */
+} Params;
 
-typedef struct Params Params;
-
-#define malloc_mpz_array(s_array) (mpz_t *)malloc((s_array)*sizeof(mpz_t))
+#define MALLOC_MPZ_ARRAY(s_array) (mpz_t *)malloc((s_array)*sizeof(mpz_t))
 
 void init_mpz_array(mpz_t *array, size_t s_array);
 void free_mpz_array(mpz_t *array, size_t s_array);
