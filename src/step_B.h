@@ -7,7 +7,7 @@
 #include "step_A.h"
 
 
-typedef struct Data_exp_vect{
+typedef struct exp_vect_data{
 	/*
 	This structure gathers all the data needed to compute the exponent
 	vector of a given Qn, except the subscript n.
@@ -29,15 +29,15 @@ typedef struct Data_exp_vect{
 	size_t nb_Qn_odd_pows;        /* The number of such prime factors of
 									 Qn. */
      
-} Data_exp_vect;
+} exp_vect_data;
  
-int is_qn_factorisable(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows,
+int is_Qn_factorisable(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows,
 					   const mpz_t Qn, mpz_t Q_temp, const mpz_t *factor_base,
 					   const size_t s_fb);
 
 void init_hist_vects(mpz_t *hist_vects, const size_t nb_AQp);
 
-void init_exp_vect(const int init, mpz_t exp_vect, Data_exp_vect *D,
+void init_exp_vect(const int init, mpz_t exp_vect, exp_vect_data *D,
 				   const size_t n); 
 
 int create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,

@@ -40,13 +40,12 @@ int main(int argc, char **argv) {
 	/**************
 	* Allocations *
 	**************/
-*************************/
 
-	Ans = malloc_mpz_array(P.nb_want_AQp); 
-	Qns = malloc_mpz_array(P.nb_want_AQp);
-	exp_vects = malloc_mpz_array(P.nb_want_AQp); 
-	hist_vects = malloc_mpz_array(P.nb_want_AQp);
-	factor_base = malloc_mpz_array(s_fb);
+	Ans = MALLOC_MPZ_ARRAY(P.nb_want_AQp); 
+	Qns = MALLOC_MPZ_ARRAY(P.nb_want_AQp);
+	exp_vects = MALLOC_MPZ_ARRAY(P.nb_want_AQp); 
+	hist_vects = MALLOC_MPZ_ARRAY(P.nb_want_AQp);
+	factor_base = MALLOC_MPZ_ARRAY(s_fb);
 	mpz_init(fact_found); 
 
 	/************************
@@ -57,7 +56,7 @@ int main(int argc, char **argv) {
 	found = create_AQ_pairs_lp_var(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, 
                                    s_fb, &list_AQp_lp, fact_found);                            // for the large prime variation
 
-	//found = create_AQ_pairs(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, s_fb, fact_found); // without the large prime variation 
+	// found = create_AQ_pairs(P, Ans, Qns, &nb_AQp, exp_vects, factor_base, s_fb, fact_found); // without the large prime variation 
 	
 	if (! found){
 		init_hist_vects(hist_vects, nb_AQp);

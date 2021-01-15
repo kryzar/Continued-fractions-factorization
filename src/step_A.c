@@ -27,8 +27,8 @@ void init_factor_base(mpz_t *factor_base, size_t s_fb, const mpz_t N,
 	param factor_base: An array of size 's_fb' already allocated but
 					   not initialized.
 	param s_fb: The size of the factor base wanted.
-	param N: The integer to be factored
-	param k: The muliplier k used in the expansion of sqrt(kN)
+	param N: The integer to be factored.
+	param k: The multiplier k used in the expansion of sqrt(kN).
 	*/
 
 	mpz_t  kN;

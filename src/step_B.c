@@ -5,15 +5,15 @@
 #include "step_B.h"
 
 
-int is_qn_factorisable(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows,
-					   const mpz_t Qn, mpz_t Q_temp, const mpz_t *factor_base,
+int is_Qn_factorisable(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows,
+					   const mpz_t Qn, mpz_t Qn_divided, const mpz_t *factor_base,
 					   const size_t s_fb) {
 	/*
 	Test (with trial division) if Qn completely factors over the factor
 	base factor_base. During this process, when a prime factor of Qn is
 	found and if this factor has an odd power in the factorization, its
 	index in the factor base array is stored in Qn_odd_pows. For each
-	call of the function is_qn_factorisable, the array Qn_odd_pows is
+	call of the function is_Qn_factorisable, the array Qn_odd_pows is
 	filled (with dummy values) from the beginning. If Qn is
 	factorisable, the dummy values are replaced in Qn_odd_pows by real
 	values and this data is then used to create its exponent vector. The
@@ -27,20 +27,20 @@ int is_qn_factorisable(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows,
 	                      added to the array (we start from the 
 	                      beginning). 
 	param Qn: The Qn to be factored. 
-	param Q_temp: An auxiliary variable. 
+	param Qn_divided: An auxiliary variable. 
 	param factor_base: The factor base. 
 	param s_fb: The size of the factor base.
 	*/
 
 	mp_bitcnt_t valuation; // Qn valuation for a prime of factor_base
 
-	mpz_set(Q_temp, Qn); // We are going to divide Q_temp by the
-                         // primes of the factor base
+	mpz_set(Qn_divided, Qn); // We are going to divide Qn_divided by the
+                             // primes of the factor base
 	*nb_Qn_odd_pows = 0; // To start from the beginning of the array
      
 	size_t i = 0;
-	while (i < s_fb &&  mpz_cmp_ui(Q_temp, 1) ) {
-		valuation = mpz_remove(Q_temp, Q_temp, factor_base[i]); 
+	while (i < s_fb &&  mpz_cmp_ui(Qn_divided, 1) ) {
+		valuation = mpz_remove(Qn_divided, Qn_divided, factor_base[i]); 
 		if (1 == (valuation & 0x1) ) {
 			Qn_odd_pows[*nb_Qn_odd_pows] = i; 
 			(*nb_Qn_odd_pows) ++;  
@@ -48,8 +48,8 @@ int is_qn_factorisable(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows,
 		i ++; 
 	}
 
-	if ( 0 == mpz_cmp_ui(Q_temp, 1) ) { 
-		// If Q_tem has been completely simplified.
+	if ( 0 == mpz_cmp_ui(Qn_divided, 1) ) { 
+		// If Q_divided has been completely simplified.
 		return 1; 
 	} 
 	return 0; 
@@ -57,8 +57,11 @@ int is_qn_factorisable(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows,
 
 void init_hist_vects(mpz_t *hist_vects, const size_t nb_AQp) {
 	/*
-	This function initializes the hist_vects array and computes the history
-	vectors. 
+	Prepare the hist_vects array for the gaussian elimination :it puts
+    nb_AQp history vectors in the array (all the vectors needed). 
+    The initial value (set here) of a history vector v is 00..010...0
+    where the 1 is in the column i (numbered from right to left from 0)
+    such that hist_vect[i] = v. 
 
 	param hist_vects: The array of history vectors. Is is already 
 	                  allocated (size P.nb_want_AQp) but isn't 
@@ -73,11 +76,11 @@ void init_hist_vects(mpz_t *hist_vects, const size_t nb_AQp) {
 	}
 }
 
-void init_exp_vect(const int init, mpz_t exp_vect, Data_exp_vect *D,
+void init_exp_vect(const int init, mpz_t exp_vect, exp_vect_data *D,
 				   const size_t n) {
 	/*
 	This function initializes exp_vect if init = 1 and computes its
-	value with the data stored in the struct Data_exp_vect and the
+	value with the data stored in the struct exp_vect_data and the
 	subscript n.
 
 	param init: 1 if exp_vect needs to be initialized, 0 otherwise.
@@ -135,9 +138,10 @@ int create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
 	This function computes the A-Q pairs, by expanding sqrt(kN) into a
 	continued fraction, and stores them in Ans and Qns. It only stores a
 	pair if Qn is completely factorisable with the primes of the factor
-	base. In this case, it also computes Qn's expponent vector and adds
-	it to exp_vects. The number of A-Q pairs found is set in nb_AQp.
-	Return 1 is a non trivial factor of N was found, 0 otherwise.
+	base. In this case, it also computes Qn's exponent vector and adds
+	it to exp_vects. The number of A-Q pairs found is set in nb_AQp. If
+    a Qn is a square, it may be possible to find a factor of N.
+    Return 1 is a non trivial factor of N was found, 0 otherwise.
 
 	return: 1 if a non trival factor of Qn was found, 0 otherwise.
 	param P: Set of parameters for the problem (see step_A.h).
@@ -160,7 +164,7 @@ int create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
 	***************/
 	
 	// For the auxilary functions
-	struct Data_exp_vect D; 
+	struct exp_vect_data D; 
 	D.Qn_odd_pows			= (size_t *)malloc(s_fb * sizeof(size_t)); 
 	D.reduced_fb_indexes	= (size_t *)malloc(s_fb * sizeof(size_t));
 	D.nb_reduced_fb_indexes = 0;
@@ -222,7 +226,7 @@ int create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
 		n++;
 
 		// Is Qn factorisable?
-		if (is_qn_factorisable(D.Qn_odd_pows, &(D.nb_Qn_odd_pows), Qn, temp,
+		if (is_Qn_factorisable(D.Qn_odd_pows, &(D.nb_Qn_odd_pows), Qn, temp,
 							   factor_base, s_fb)) {
 			if (!(n & 0x1) && (0 == D.nb_Qn_odd_pows)) {
 				// If Qn is a square with n even: Anm1^2 = sqrt(Qn)^2 mod N.
@@ -231,7 +235,12 @@ int create_AQ_pairs(const Params P, mpz_t *Ans, mpz_t *Qns, size_t *nb_AQp,
 				mpz_gcd(temp, temp, P.N);  // temp <- gcd(Anm1 - sqrt(Qn), N)
 				// We may find a non trivial factor of N
 				if (mpz_cmp_ui(temp, 1) && mpz_cmp(temp, P.N)) {
-					mpz_set(fact_found, temp); 
+					mpz_set(fact_found, temp);
+
+                    free(D.Qn_odd_pows); D.Qn_odd_pows = NULL; 
+                    free(D.reduced_fb_indexes); D.reduced_fb_indexes = NULL; 
+                    mpz_clears(Anm1, An, Qnm1, Qn, rnm1, rn, qn, Gn, g, temp, AQtemp, NULL);
+
 					return 1; 
 				}
 			} else {

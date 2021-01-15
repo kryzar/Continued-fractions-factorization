@@ -90,7 +90,7 @@ void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_inde
 }
 
 
-void find_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns,
+void calculate_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns,
 			  mpz_t hist_vect, const mpz_t N, mpz_t R, mpz_t X,
 			  mpz_t Q_temp) {
 	/*
@@ -154,7 +154,7 @@ int find_factor(const mpz_t *Ans, const mpz_t *Qns, mpz_t *exp_vects,
 	find the S-sets from A-Q pairs previously calculated. After the
 	reduction procedure, the 1's (plural) of a history vector whose
 	index is in the array lin_rel_indexes indicate the indexes of A-Q
-	pairs in a S-Set. For each S-Set, the auxilary function find_A_Q
+	pairs in a S-Set. For each S-Set, the auxilary function calculate_A_Q
 	finds A and Q such that A^2 = Q^2 mod N.  The pgcd(A-Q, N) is then
 	computed, hoping to find a factor of N. If a factor is found, put it
 	in fact_found and return 1, 0 otherwise.
@@ -184,8 +184,8 @@ int find_factor(const mpz_t *Ans, const mpz_t *Qns, mpz_t *exp_vects,
 					  nb_AQp); 
 
 	for (size_t i = 0; i < nb_lin_rel; i++) {
-		find_A_Q(A, Ans, Q, Qns, hist_vects[lin_rel_indexes[i]], N, R, X,
-				 temp);
+		calculate_A_Q(A, Ans, Q, Qns, hist_vects[lin_rel_indexes[i]], N, R,
+                X, temp);
 		mpz_sub(temp, A, Q);    // temp <- A - Q
 		mpz_gcd(gcd, temp, N);  // gcd <- pgcd (A - Q, N)
 

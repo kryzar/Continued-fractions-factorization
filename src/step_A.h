@@ -6,18 +6,16 @@
 #include <gmp.h>
 #include <stdlib.h>
 
-struct Params {
+typedef struct Params {
 	mpz_t	 N;			  /* Integer to factor. */
 	unsigned k;			  /* Multiplier k used in sqrt(kN). */
 	size_t   n_lim;		  /* Upper limit of the index n in the cont.
 							 frac. expansion of sqrt(kN). */
 	size_t	 nb_want_AQp; /* Number of wanted A-Q pairs where Qn is
-							 completely facotred over factor_base. */
-};
+							 completely factored over factor_base. */
+} Params;
 
-typedef struct Params Params;
-
-#define malloc_mpz_array(s_array) (mpz_t *)malloc((s_array)*sizeof(mpz_t))
+#define MALLOC_MPZ_ARRAY(s_array) (mpz_t *)malloc((s_array)*sizeof(mpz_t))
 
 void init_mpz_array(mpz_t *array, size_t s_array);
 void free_mpz_array(mpz_t *array, size_t s_array);
