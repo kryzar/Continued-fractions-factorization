@@ -11,11 +11,11 @@ void print_results(const Params *P, const Results *R){
     }else{
         printf("Without the large prime variation \n"); 
     }
-	gmp_printf("N: %Zd \n",		  P -> N); 
-	printf("k: %u \n",			  P -> k); 
-	printf("n_lim: %lu \n",		  P -> n_lim); 
-	printf("s_fb : %lu \n",		  P -> s_fb); 
-	printf("nb_want_AQp: %lu \n", P -> nb_want_AQp);
+    gmp_printf("N: %Zd \n",		  P -> N); 
+    printf("k: %u \n",			  P -> k); 
+    printf("n_lim: %lu \n",		  P -> n_lim); 
+    printf("s_fb : %lu \n",		  P -> s_fb); 
+    printf("nb_want_AQp: %lu \n", P -> nb_want_AQp);
 
 
     // Print the results
@@ -25,7 +25,7 @@ void print_results(const Params *P, const Results *R){
         printf("No factor found \n"); 
     }
 
-	printf("nb_AQp: %lu \n", R -> nb_AQp);
+    printf("nb_AQp: %lu \n", R -> nb_AQp);
     printf("last_n: %lu \n", R -> n_last); 
 
 } 
@@ -39,16 +39,16 @@ void contfract_factor(const Params *P, Results *R){
     mpz_t *hist_vects; 	
     AQp_lp* list_AQp_lp = NULL; // For the large prime variation 
 
-	/**************
+    /**************
 	* Allocations *
 	**************/
     factor_base = MALLOC_MPZ_ARRAY(P -> s_fb);
-	Ans = MALLOC_MPZ_ARRAY(P -> nb_want_AQp); 
-	Qns = MALLOC_MPZ_ARRAY(P -> nb_want_AQp);
-	exp_vects = MALLOC_MPZ_ARRAY(P -> nb_want_AQp); 
-	hist_vects = MALLOC_MPZ_ARRAY(P -> nb_want_AQp);
-		
-	/************************
+    Ans = MALLOC_MPZ_ARRAY(P -> nb_want_AQp); 
+    Qns = MALLOC_MPZ_ARRAY(P -> nb_want_AQp);
+    exp_vects = MALLOC_MPZ_ARRAY(P -> nb_want_AQp); 
+    hist_vects = MALLOC_MPZ_ARRAY(P -> nb_want_AQp);
+
+    /************************
 	*  Looking for a factor *
 	*************************/
 
@@ -68,17 +68,16 @@ void contfract_factor(const Params *P, Results *R){
         find_factor(R, Ans, Qns, exp_vects, hist_vects, P->N);
     }
 
-	/*******
+    /*******
 	* Free *
 	*******/
     free_mpz_array(Ans, R -> nb_AQp); 
-	free_mpz_array(Qns, R -> nb_AQp); 
-	free_mpz_array(exp_vects, R -> nb_AQp); 
-	free_mpz_array(hist_vects, R -> nb_AQp); 
-	free_mpz_array(factor_base, P -> s_fb);
+    free_mpz_array(Qns, R -> nb_AQp); 
+    free_mpz_array(exp_vects, R -> nb_AQp); 
+    free_mpz_array(hist_vects, R -> nb_AQp); 
+    free_mpz_array(factor_base, P -> s_fb);
     if (P -> lp_var){
         // For the large prime variation 
         delete_AQp_lp_list(&list_AQp_lp); 
     }
-
 }
