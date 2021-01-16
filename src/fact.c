@@ -49,16 +49,9 @@ void contfract_factor(const Params *P, Results *R){
     *  Looking for a factor *
     *************************/
 
-    // Initialize the factor base
     init_factor_base(factor_base, P -> s_fb, P -> N, P -> k);
-
-    // Create the A-Q pairs
-    if (P -> lp_var) {
-        create_AQ_pairs_lp_var(P, R, Ans, Qns, exp_vects, factor_base, &list_AQp_lp); 
-    }else{
-        create_AQ_pairs(P, R, Ans, Qns, exp_vects, factor_base); 
-    }
-
+    create_AQ_pairs(P, R, Ans, Qns, exp_vects, factor_base, &list_AQp_lp); 
+   
     // Try to find a factor
     if (! R->found){
         init_hist_vects(hist_vects, R->nb_AQp);
@@ -74,8 +67,5 @@ void contfract_factor(const Params *P, Results *R){
     free_mpz_array(exp_vects, R -> nb_AQp); 
     free_mpz_array(hist_vects, R -> nb_AQp); 
     free_mpz_array(factor_base, P -> s_fb);
-    if (P -> lp_var){
-        // For the large prime variation 
-        delete_AQp_lp_list(&list_AQp_lp); 
-    }
+    delete_AQp_lp_list(&list_AQp_lp); 
 }

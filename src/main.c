@@ -5,7 +5,6 @@
 #include "step_A.h"
 #include "step_B.h"
 #include "step_C.h"
-#include "lp_var.h"
 #include "fact.h"
 
 int main(int argc, char **argv) {
@@ -26,6 +25,7 @@ int main(int argc, char **argv) {
     P.lp_var = 1; 
     P.nb_want_AQp = 650; 
     P.s_fb = 700;
+    
 
     init_results(&R); 
     contfract_factor(&P, &R); 
