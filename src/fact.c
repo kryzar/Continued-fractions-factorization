@@ -37,11 +37,12 @@ void contfract_factor(const Params *P, Results *R){
     mpz_t *Qns; 
     mpz_t *exp_vects; 
     mpz_t *hist_vects; 	
-    AQp_lp* list_AQp_lp = NULL; // For the large prime variation 
+    AQp_lp* list_AQp_lp = NULL; // For the large prime variation
 
     /**************
-	* Allocations *
-	**************/
+    * Allocations *
+    **************/
+
     factor_base = MALLOC_MPZ_ARRAY(P -> s_fb);
     Ans = MALLOC_MPZ_ARRAY(P -> nb_want_AQp); 
     Qns = MALLOC_MPZ_ARRAY(P -> nb_want_AQp);
@@ -49,8 +50,8 @@ void contfract_factor(const Params *P, Results *R){
     hist_vects = MALLOC_MPZ_ARRAY(P -> nb_want_AQp);
 
     /************************
-	*  Looking for a factor *
-	*************************/
+    *  Looking for a factor *
+    *************************/
 
     // Initialize the factor base
     init_factor_base(factor_base, P -> s_fb, P -> N, P -> k);
@@ -69,8 +70,9 @@ void contfract_factor(const Params *P, Results *R){
     }
 
     /*******
-	* Free *
-	*******/
+    * Free *
+    *******/
+
     free_mpz_array(Ans, R -> nb_AQp); 
     free_mpz_array(Qns, R -> nb_AQp); 
     free_mpz_array(exp_vects, R -> nb_AQp); 

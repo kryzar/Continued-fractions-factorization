@@ -87,7 +87,7 @@ void init_exp_vect(const int init, mpz_t exp_vect, exp_vect_data *D,
 	param exp_vect: The exponent vector to compute (not initialized).
 	param D: A pointer to the structure containing the data required
 	         to compute the exponent vector (see step_B.h).
-	         P_exp -> reduced_fb_indexes is an array (already
+	         P_exp-> reduced_fb_indexes is an array (already
 	         allocated) of same size as the factor base. It won't be
 			 completely filled.
 	param n: The subscript n which is important for the "parity bit".
@@ -109,13 +109,13 @@ void init_exp_vect(const int init, mpz_t exp_vect, exp_vect_data *D,
 		mpz_setbit(exp_vect, 0); // Set the least significant bit to 1
 	}
 
-	for (i = 0; i < D -> nb_Qn_odd_pows; i++) {
-		Qn_odd_pow = D -> Qn_odd_pows[i]; 
+	for (i = 0; i < D-> nb_Qn_odd_pows; i++) {
+		Qn_odd_pow = D-> Qn_odd_pows[i]; 
 		 
 		// Check if Qn_odd_pow is in reduced_fb_indexes
 		bit_index = 0; 
-		while (bit_index < D -> nb_reduced_fb_indexes
-			   && Qn_odd_pow != D -> reduced_fb_indexes[bit_index]) {
+		while (bit_index < D-> nb_reduced_fb_indexes
+			   && Qn_odd_pow != D-> reduced_fb_indexes[bit_index]) {
 			bit_index ++; 
 		}
 
@@ -124,9 +124,9 @@ void init_exp_vect(const int init, mpz_t exp_vect, exp_vect_data *D,
 		// and put a 1 in it
 		mpz_setbit(exp_vect, bit_index + 1); 
 		// If Qn_odd_pow isn't in the reduced_fb_indexes array, add it
-		if (bit_index == D -> nb_reduced_fb_indexes) {
-			D -> reduced_fb_indexes[D -> nb_reduced_fb_indexes] = Qn_odd_pow; 
-			(D -> nb_reduced_fb_indexes) ++; 
+		if (bit_index == D-> nb_reduced_fb_indexes) {
+			D-> reduced_fb_indexes[D-> nb_reduced_fb_indexes] = Qn_odd_pow; 
+			(D-> nb_reduced_fb_indexes) ++; 
 		}
 	}
 } 
@@ -138,20 +138,20 @@ void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns,
 	continued fraction, and stores them in Ans and Qns. It only stores a
 	pair if Qn is completely factorisable with the primes of the factor
 	base. In this case, it also computes Qn's exponent vector and adds
-	it to exp_vects. The number of A-Q pairs found is set in R -> nb_AQp. 
+	it to exp_vects. The number of A-Q pairs found is set in R-> nb_AQp.
     If a Qn is a square, it may be possible to find a factor of N. If 
-    so, the factor is set in R -> fact_found and R -> found is set to 1.   
-    
-	param P: Pointer to the set of parameters for the problem (see step_A.h).
+    so, the factor is set in R-> fact_found and R-> found is set to 1.
+
+    param P: Pointer to the set of parameters for the problem (see step_A.h).
     param R: Pointer to the structure used to store the result (see step_A.h).
              (the structure isn't already initialized)
-	param Ans: Array of size P.->nb_want_AQp (already allocated but not
+	param Ans: Array of size P-> nb_want_AQp (already allocated but not
 			   initialized) to store the An's.
-	param Qns: Array of size P->nb_want_AQp (already allocated but not 
+	param Qns: Array of size P-> nb_want_AQp (already allocated but not 
 			   initialized) to store the Qn's.
-	param exp_vects: Array of size P->nb_want_AQp (already allocated but
+	param exp_vects: Array of size P-> nb_want_AQp (already allocated but
 					 not initialized) to store the exponent vectors.
-	param factor_base: The factor base of size P->s_fb.
+	param factor_base: The factor base of size P-> s_fb.
 	*/
 
 	/***************
@@ -160,10 +160,10 @@ void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns,
 
 	// For the auxilary functions
 	struct exp_vect_data D; 
-	D.Qn_odd_pows			= (size_t *)malloc(P->s_fb * sizeof(size_t)); 
-	D.reduced_fb_indexes	= (size_t *)malloc(P->s_fb * sizeof(size_t));
+	D.Qn_odd_pows			= (size_t *)malloc(P-> s_fb * sizeof(size_t)); 
+	D.reduced_fb_indexes	= (size_t *)malloc(P-> s_fb * sizeof(size_t));
 	D.nb_reduced_fb_indexes = 0;
-	
+
     // For the continued fraction expansion
 	mpz_t  AQtemp; // To store temporarily an An or Qn value
 	mpz_t  An; 
@@ -175,30 +175,30 @@ void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns,
 	mpz_t  qn; 
 	mpz_t  rn; 
 	mpz_t  rnm1;   // r_{n-1}
-	mpz_t  temp; 
-    size_t n;	   // The subscript n in Qn 
+	mpz_t  temp;
+    size_t n;	   // The subscript n in Qn
     size_t nb_AQp; // Number of found A-Q pairs found with Qn factorisable
                    // over the factor base. 
-    
+   
     mpz_inits(An, Qnm1, rnm1, rn, qn, Gn, g, temp, AQtemp, NULL); 
 	mpz_init_set_ui(Anm1, 1); // A_{-1} <-- 1
 	mpz_init_set_ui(Qn, 1);	  // Q0 <-- 1
 
-	mpz_mul_ui(Qnm1, P->N, P->k); // Q_{-1} <-- kN
+	mpz_mul_ui(Qnm1, P-> N, P-> k); // Q_{-1} <-- kN
 	mpz_sqrt(g, Qnm1);          // g = [sqrt(k*N)] 
 	mpz_set(An, g);             // A0 <-- g = [sqrt(k*N)]
 	mpz_set(rnm1, g);           // r_{-1} <-- g
 	mpz_set(qn, g);             // q0 <-- g
     
-	n	    = 0;   
+	n	    = 0;
     nb_AQp  = 0;
 	
-    while (n < P->n_lim && nb_AQp < P->nb_want_AQp) {
+    while (n < P-> n_lim && nb_AQp < P-> nb_want_AQp) {
     
 	    /************
-		* Expansion *
-		************/
-	    
+        * Expansion *
+        ************/
+
         // Q_n = Q_{n-2} + q_{n-1} (r_{n-1} - r_{n-2})
 		mpz_set(AQtemp, Qn); 
 		mpz_sub(temp, rn, rnm1); 
@@ -218,23 +218,23 @@ void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns,
 		mpz_set(AQtemp, An);
 		mpz_mul(An, qn, An); 
 		mpz_add(An, An, Anm1);
-		mpz_mod(An, An, P->N);
+		mpz_mod(An, An, P-> N);
 		mpz_set(Anm1, AQtemp); 
 
 		n ++;
 	
 		// Is Qn factorisable?
 		if (is_Qn_factorisable(D.Qn_odd_pows, &(D.nb_Qn_odd_pows), Qn, temp,
-							   factor_base, P->s_fb)) {
+							   factor_base, P-> s_fb)) {
 			if (!(n & 0x1) && (0 == D.nb_Qn_odd_pows)) {
 				// If Qn is a square with n even: Anm1^2 = sqrt(Qn)^2 mod N.
 				mpz_sqrt(temp, Qn);		   // temp <- sqrt(Qn)
-				mpz_sub(temp, Anm1, temp); // temp <- Anm1 - sqrt(Qn)
-				mpz_gcd(temp, temp, P->N);  // temp <- gcd(Anm1 - sqrt(Qn), N)
+				mpz_sub(temp, Anm1, temp);  // temp <- Anm1 - sqrt(Qn)
+				mpz_gcd(temp, temp, P-> N); // temp <- gcd(Anm1 - sqrt(Qn), N)
 				// We may find a non trivial factor of N
-				if (mpz_cmp_ui(temp, 1) && mpz_cmp(temp, P->N)) {
-					mpz_set(R->fact_found, temp);
-                    R->found = 1; 
+				if (mpz_cmp_ui(temp, 1) && mpz_cmp(temp, P-> N)) {
+					mpz_set(R-> fact_found, temp);
+                    R-> found = 1; 
 
                     free(D.Qn_odd_pows); D.Qn_odd_pows = NULL; 
                     free(D.reduced_fb_indexes); D.reduced_fb_indexes = NULL; 
@@ -252,8 +252,8 @@ void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns,
 		}
 	}
 
-    R->n_last = n; 
-    R->nb_AQp = nb_AQp; 
+    R-> n_last = n;
+    R-> nb_AQp = nb_AQp; 
 
 	/*******
 	* Free *

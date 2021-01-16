@@ -156,7 +156,7 @@ void find_factor(Results *Res, const mpz_t *Ans, const mpz_t *Qns,
 	pairs in a S-Set. For each S-Set, the auxilary function calculate_A_Q
 	finds A and Q such that A^2 = Q^2 mod N.  The pgcd(A-Q, N) is then
 	computed, hoping to find a factor of N. If a factor is found, put it
-	in R->fact_found and set R->found to 1.
+	in R-> fact_found and set R-> found to 1.
 
     params Res: Pointer to the structure used to store the results.
 	param Ans: The Ans computed by create_AQ_pairs or create_AQ_pairs_lp_var.
@@ -175,11 +175,11 @@ void find_factor(Results *Res, const mpz_t *Ans, const mpz_t *Qns,
 	mpz_t  temp; 
 	mpz_t  gcd; 
 
-	lin_rel_indexes = (size_t *)malloc(Res->nb_AQp * sizeof(size_t)); 
+	lin_rel_indexes = (size_t *)malloc(Res-> nb_AQp * sizeof(size_t)); 
 	mpz_inits(A, Q, R, X, temp, gcd, NULL);
 
 	gauss_elimination(exp_vects, hist_vects, lin_rel_indexes, &nb_lin_rel,
-					  Res->nb_AQp); 
+					  Res-> nb_AQp); 
 
 	for (size_t i = 0; i < nb_lin_rel; i++) {
 		calculate_A_Q(A, Ans, Q, Qns, hist_vects[lin_rel_indexes[i]], N, R,
@@ -188,8 +188,8 @@ void find_factor(Results *Res, const mpz_t *Ans, const mpz_t *Qns,
 		mpz_gcd(gcd, temp, N);  // gcd <- pgcd (A - Q, N)
 
 		if (mpz_cmp_ui(gcd, 1) && mpz_cmp(gcd, N)) {
-			mpz_set(Res->fact_found, gcd);
-            Res->found = 1;
+			mpz_set(Res-> fact_found, gcd);
+            Res-> found = 1;
             return; 
 		} 
 	}
