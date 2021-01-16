@@ -148,54 +148,53 @@ void calculate_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns,
 
 void find_factor(Results *Res, const mpz_t *Ans, const mpz_t *Qns, 
                  mpz_t *exp_vects, mpz_t *hist_vects, const mpz_t N) {
-	/*
-	This function uses the auxilary function gaussian_elimination to
-	find the S-sets from A-Q pairs previously calculated. After the
-	reduction procedure, the 1's (plural) of a history vector whose
-	index is in the array lin_rel_indexes indicate the indexes of A-Q
-	pairs in a S-Set. For each S-Set, the auxilary function calculate_A_Q
-	finds A and Q such that A^2 = Q^2 mod N.  The pgcd(A-Q, N) is then
-	computed, hoping to find a factor of N. If a factor is found, put it
-	in R-> fact_found and set R-> found to 1.
+    /*
+    This function uses the auxilary function gaussian_elimination to
+    find the S-sets from A-Q pairs previously calculated. After the
+    reduction procedure, the 1's (plural) of a history vector whose
+    index is in the array lin_rel_indexes indicate the indexes of A-Q
+    pairs in a S-Set. For each S-Set, the auxilary function calculate_A_Q
+    finds A and Q such that A^2 = Q^2 mod N.  The pgcd(A-Q, N) is then
+    computed, hoping to find a factor of N. If a factor is found, put it
+    in R-> fact_found and set R-> found to 1.
 
     params Res: Pointer to the structure used to store the results.
-	param Ans: The Ans computed by create_AQ_pairs or create_AQ_pairs_lp_var.
-	params Qns: The Qns computed by create_AQ_pairs or create_AQ_pairs_lp_var.
-	param exp_vects: The exponent vectors computed by create_AQ_pairs or ...  
-	param hist_vects: The historys vectors computed by init_hist_vects.
-	param N: The integer to be factored
-	*/
+    param Ans: The Ans computed by create_AQ_pairs or create_AQ_pairs_lp_var.
+    params Qns: The Qns computed by create_AQ_pairs or create_AQ_pairs_lp_var.
+    param exp_vects: The exponent vectors computed by create_AQ_pairs or ...  
+    param hist_vects: The historys vectors computed by init_hist_vects.
+    param N: The integer to be factored
+    */
 
-	size_t *lin_rel_indexes; 
-	size_t nb_lin_rel;
-	mpz_t  A; 
-	mpz_t  Q; 
-	mpz_t  R; 
-	mpz_t  X; 
-	mpz_t  temp; 
-	mpz_t  gcd; 
+    size_t *lin_rel_indexes; 
+    size_t nb_lin_rel;
+    mpz_t  A; 
+    mpz_t  Q; 
+    mpz_t  R; 
+    mpz_t  X; 
+    mpz_t  temp; 
+    mpz_t  gcd;
 
-	lin_rel_indexes = (size_t *)malloc(Res-> nb_AQp * sizeof(size_t)); 
-	mpz_inits(A, Q, R, X, temp, gcd, NULL);
+    lin_rel_indexes = (size_t *)malloc(Res-> nb_AQp * sizeof(size_t)); 
+    mpz_inits(A, Q, R, X, temp, gcd, NULL);
 
-	gauss_elimination(exp_vects, hist_vects, lin_rel_indexes, &nb_lin_rel,
-					  Res-> nb_AQp); 
+    gauss_elimination(exp_vects, hist_vects, lin_rel_indexes, &nb_lin_rel,
+					  Res-> nb_AQp);
 
-	for (size_t i = 0; i < nb_lin_rel; i++) {
-		calculate_A_Q(A, Ans, Q, Qns, hist_vects[lin_rel_indexes[i]], N, R,
-                X, temp);
-		mpz_sub(temp, A, Q);    // temp <- A - Q
-		mpz_gcd(gcd, temp, N);  // gcd <- pgcd (A - Q, N)
+    for (size_t i = 0; i < nb_lin_rel; i++) {
+        calculate_A_Q(A, Ans, Q, Qns, hist_vects[lin_rel_indexes[i]], N, R,
+                      X, temp);
+        mpz_sub(temp, A, Q);    // temp <- A - Q
+        mpz_gcd(gcd, temp, N);  // gcd <- pgcd (A - Q, N)
 
-		if (mpz_cmp_ui(gcd, 1) && mpz_cmp(gcd, N)) {
-			mpz_set(Res-> fact_found, gcd);
+        if (mpz_cmp_ui(gcd, 1) && mpz_cmp(gcd, N)) {
+            mpz_set(Res-> fact_found, gcd);
             Res-> found = 1;
-            return; 
-		} 
-	}
+            return;
+        }
+    }
 
-
-	free(lin_rel_indexes); lin_rel_indexes = NULL;
-	mpz_clears(A, Q, R, X, temp, gcd, NULL); 
+    free(lin_rel_indexes); lin_rel_indexes = NULL;
+    mpz_clears(A, Q, R, X, temp, gcd, NULL);
 
 }

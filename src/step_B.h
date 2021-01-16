@@ -6,7 +6,6 @@
 #include <gmp.h>
 #include "step_A.h"
 
-
 typedef struct exp_vect_data{
 	/*
 	This structure gathers all the data needed to compute the exponent

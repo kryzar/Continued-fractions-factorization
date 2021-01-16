@@ -2,7 +2,6 @@
 
 #include "step_A.h"
 
-
 void init_mpz_array(mpz_t *array, size_t s_array) {
     for (size_t i = 0; i < s_array; i++) {
         mpz_init(array[i]);

@@ -10,7 +10,7 @@
 
 int main(int argc, char **argv) {
 
-	Params P;
+    Params P;
     Results R;
 
     mpz_init_set_str(P.N, "340282366920938463463374607431768211457", 10);

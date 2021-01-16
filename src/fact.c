@@ -16,17 +16,14 @@ void print_results(const Params *P, const Results *R){
     printf("s_fb : %lu \n",		  P -> s_fb); 
     printf("nb_want_AQp: %lu \n", P -> nb_want_AQp);
 
-
     // Print the results
     if (R -> found) {
        gmp_printf("Factor found: %Zd \n", R -> fact_found); 
     }else{
         printf("No factor found \n"); 
     }
-
     printf("nb_AQp: %lu \n", R -> nb_AQp);
     printf("last_n: %lu \n", R -> n_last); 
-
 } 
 
 void contfract_factor(const Params *P, Results *R){
