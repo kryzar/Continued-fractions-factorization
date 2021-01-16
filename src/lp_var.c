@@ -1,7 +1,6 @@
 /* lp_var.c */
 
 #include "lp_var.h"
-#include "step_B.h"
 
 int is_Qn_fact_lp_var(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows, const mpz_t Qn,
                       mpz_t lp, const mpz_t *factor_base, const size_t s_fb, 
@@ -230,31 +229,31 @@ void insert_or_elim_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1,
     }
 
 
-    void create_AQ_pairs_lp_var(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns, 
+void create_AQ_pairs_lp_var(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns, 
                                 mpz_t *exp_vects, const mpz_t *factor_base,
                                 AQp_lp **list) {
-        /*
-        This function computes the A-Q pairs, by expanding sqrt(kN) into a
-        continued fraction and stores them in Ans and Qns. If Qn is completely
-        factorisable with the primes of the factor base, it directly stores
-        the A-Q pair in the Qns and Ans array and adds the exponent vector
-        associated to Qn in the exp_vects array. If Qn is almost completely
-        factorisable (see the large prime) variation, the auxiliary function
-        insert_or_elim_lp is called to see if its large prime lp has already
-        been encountered. If that is the case, the large prime is present in
-        list and can be eliminated, performing one step of the gaussian
-        elimination and the resulting A-Q pair is added in the Ans, Qns and 
-        exp_vects array. If not, a struct AQp_lp is added to the sorted linked
-        list list.
-        If a Qn is a square, it may be possible to find a factor of N. In 
-        this case, the factor is set in R-> factor and R-> found is set to 1. 
+    /*
+     This function computes the A-Q pairs, by expanding sqrt(kN) into a
+     continued fraction and stores them in Ans and Qns. If Qn is completely
+     factorisable with the primes of the factor base, it directly stores
+     the A-Q pair in the Qns and Ans array and adds the exponent vector
+     associated to Qn in the exp_vects array. If Qn is almost completely
+     factorisable (see the large prime) variation, the auxiliary function
+     insert_or_elim_lp is called to see if its large prime lp has already
+     been encountered. If that is the case, the large prime is present in
+     list and can be eliminated, performing one step of the gaussian
+     elimination and the resulting A-Q pair is added in the Ans, Qns and 
+     exp_vects array. If not, a struct AQp_lp is added to the sorted linked
+     list list.
+     If a Qn is a square, it may be possible to find a factor of N. In 
+     this case, the factor is set in R-> factor and R-> found is set to 1. 
 
-        param P: Pointer to the set of parameters for the problem (see step_A.h)
-        param R: Pointer to the structure used to store the result (see step_A.h).
-                 (the structure isn't already initialized)
-        param Ans: Array of size P-> nb_want_AQp (already allocated but not 
-                   initialized) to store the An's.
-        param Qns: Array of size P-> nb_want_AQp (already allocated but not
+     param P: Pointer to the set of parameters for the problem (see step_A.h)
+     param R: Pointer to the structure used to store the result (see step_A.h).
+              (the structure isn't already initialized)
+    param Ans: Array of size P-> nb_want_AQp (already allocated but not 
+               initialized) to store the An's.
+    param Qns: Array of size P-> nb_want_AQp (already allocated but not
                initialized) to store the Qn's.
     param exp_vects: Array of size P-> nb_want_AQp (already allocated
                      but not initialized) to store the exponent vectors.
@@ -371,32 +370,31 @@ void insert_or_elim_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1,
                 mpz_init_set(Qns[nb_AQp], Qn);   // Store Qn
                 init_exp_vect(1, exp_vects[nb_AQp], &D, n); 
                     nb_AQp++; 
-                }
-
-            }else if (-1 == r){ 
-                // If Qn is almost completely factorisable
-                insert_or_elim_lp(list, Qn, Anm1, lp, &D, n, Qns, Ans, exp_vects,
-                                    &nb_AQp, P-> N, A, Q, gcd, exp_vect, R);
-                if (R-> found){
-                    free(D.Qn_odd_pows); D.Qn_odd_pows = NULL; 
-                    free(D.reduced_fb_indexes); D.reduced_fb_indexes = NULL; 
-                    mpz_clears(pm_squared, lp, A, Q, gcd, exp_vect, Anm1, An, Qnm1, Qn, rnm1,
-                               rn, qn, Gn, g, temp, AQtemp, NULL); 
-                    return; 
-                }
+            }
+        }else if (-1 == r){ 
+            // If Qn is almost completely factorisable
+            insert_or_elim_lp(list, Qn, Anm1, lp, &D, n, Qns, Ans, exp_vects,
+                              &nb_AQp, P-> N, A, Q, gcd, exp_vect, R);
+            if (R-> found){
+                free(D.Qn_odd_pows); D.Qn_odd_pows = NULL; 
+                free(D.reduced_fb_indexes); D.reduced_fb_indexes = NULL;
+                mpz_clears(pm_squared, lp, A, Q, gcd, exp_vect, Anm1, An, Qnm1, Qn, rnm1,
+                           rn, qn, Gn, g, temp, AQtemp, NULL);
+                return;
             }
         }
-        
-        R-> n_last = n; 
-        R-> nb_AQp = nb_AQp; 
+    }
 
-        /*******
-        * Free *
-        *******/
+    R-> n_last = n;
+    R-> nb_AQp = nb_AQp;
 
-        free(D.Qn_odd_pows); D.Qn_odd_pows = NULL; 
-        free(D.reduced_fb_indexes); D.reduced_fb_indexes = NULL; 
-        mpz_clears(pm_squared, lp, A, Q, gcd, exp_vect, Anm1, An, Qnm1, Qn, rnm1, rn,
-                   qn, Gn, g, temp, AQtemp, NULL);    
-    } 
+    /*******
+    * Free *
+    *******/
+
+    free(D.Qn_odd_pows); D.Qn_odd_pows = NULL;
+    free(D.reduced_fb_indexes); D.reduced_fb_indexes = NULL;
+    mpz_clears(pm_squared, lp, A, Q, gcd, exp_vect, Anm1, An, Qnm1, Qn, rnm1, rn,
+               qn, Gn, g, temp, AQtemp, NULL);
+} 
 

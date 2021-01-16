@@ -1,7 +1,6 @@
 /* fact.c */
 
 #include "fact.h"
-#include "lp_var.h"
 
 void print_results(const Params *P, const Results *R){
 
