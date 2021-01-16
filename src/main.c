@@ -1,6 +1,5 @@
 /* main.c */
 
-#include <stdio.h>
 #include <time.h>
 #include "step_A.h"
 #include "step_B.h"

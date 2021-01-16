@@ -8,11 +8,11 @@
 
 typedef struct Params { 
      
-    int      lp_var;      /* Boolean to indicate if the large prime 
+    int      lp_var;      /* Boolean to indicate if the large prime
                              variation is used */
-    mpz_t    N;			  /* Integer to factor */
-    unsigned k;			  /* Multiplier k used in sqrt(kN) */
-    size_t   n_lim;		  /* Upper limit of the index n in the cont.
+    mpz_t    N;           /* Integer to factor */
+    unsigned k;           /* Multiplier k used in sqrt(kN) */
+    size_t   n_lim;       /* Upper limit of the index n in the cont.
                              frac. expansion of sqrt(kN) */
     size_t   s_fb ;       /* The size of the factor base */
     size_t   nb_want_AQp; /* Number of wanted A-Q pairs where Qn is
