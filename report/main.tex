@@ -3,19 +3,28 @@
 \documentclass[a4paper, 12pt, oneside]{article}
 \usepackage[french]{babel}
 \usepackage{mathtools}
+\usepackage[backend=biber, style=alphabetic]{biblatex}
 \usepackage{pkg}
+
+\addbibresource{bi.bib}
 
 \DeclarePairedDelimiter\ent{\lfloor}{\rfloor}
 \newcommand{\en}[1]{(en: \textit{#1})}
 
+\title{Factorisation par fractions continues}
+\date{Février 2021}
+\author{Margot Funk, Antoine Hugounet}
+
 \begin{document}
+\maketitle
+
+\tableofcontents
 
 \section{Théorie}
 \input{ss-fractions-continues}
 \input{ss-methode-fk}
 
 \addcontentsline{toc}{section}{Bibliographie}
-\bibliographystyle{alpha-fr}
-\bibliography{bi}
+\printbibliography
 
 \end{document}
