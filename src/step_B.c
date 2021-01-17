@@ -19,11 +19,10 @@ int is_Qn_factorisable(const Params *P, size_t *Qn_odd_pows,
     used to create its exponent vector. The number of odd powers is set in 
     nb_Qn_odd_pows.
 
-    return: 1 is Qn is factor_base-smooth, -1 the large prime variation
+    return: 1 if Qn is factor_base-smooth, -1 if the large prime variation
             is used and Qn is almost factor_base-smooth, 0 otherwise.
     param P: Set of parameters from the problem used to know the size of
-             the factor_base and if the large prime variation should be
-             used.
+             factor_base and if the large prime variation should be used.
     param Qn_odd_pows: An array to store the indexes of the prime 
                        factors of Qn that have an odd valuation. It
                        is already allocated and initialized (size s_fb).
@@ -37,12 +36,11 @@ int is_Qn_factorisable(const Params *P, size_t *Qn_odd_pows,
                       the large prime of Qn's the factorization.
     param factor_base: The factor base.
     param pm_squared: The value pm^2 where pm is the largest prime of 
-                      factor_base (only used used with large prime 
+                      factor_base (only used with the large prime 
                       variation)
-
     */
     
-    mp_bitcnt_t valuation; // Qn valuation for a prime of factor_base
+    mp_bitcnt_t valuation;   // Qn valuation for a prime of factor_base
     mpz_set(Qn_divided, Qn); // We are going to divide Qn_divided by the
                              // primes of the factor base
     *nb_Qn_odd_pows = 0; // To start from the beginning of the array
@@ -70,7 +68,7 @@ int is_Qn_factorisable(const Params *P, size_t *Qn_odd_pows,
     return 0; 
 } 
 
-void init_hist_vects(mpz_t *hist_vects, const size_t nb_AQp) {
+void init_hist_vects(mpz_t *hist_vects, size_t nb_AQp) {
     /*
     Prepare the hist_vects array for the gaussian elimination: put
     nb_AQp history vectors in the array (all the vectors needed).
@@ -99,14 +97,14 @@ void init_exp_vect(int init, mpz_t exp_vect, const size_t *Qn_odd_pows,
     Initialize exp_vect if init == 1 and compute its value with the
     data stored in the array Qn_odd_odd_pows and the index n. If n
     is odd, set the parity bit of exp_vect to 1. The indexes stored
-    in Qn_off_pows indicate the bits to set to 1.
+    in Qn_odd_pows indicate the bits to set to 1.
 
     param init: 1 if exp_vect needs to be initialized, 0 otherwise.
     param exp_vect: The exponent vector to compute.
     param Qn_odd_pows: Array which stores the indexes of the prime 
                        factors of Qn that have an odd valuation.
     param nb_Qn_odd_pows: The number of such prime factors of Qn.
-    param n: The subscript n which is important for the "parity bit".
+    param n: The index n which is important for the "parity bit".
     */
 
     if (init) {
@@ -167,7 +165,7 @@ void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns,
     size_t  nb_Qn_odd_pows;     
     mpz_t   pm_squared; // To store the square of the largest prime of 
                         // factor_base.
-    mpz_t   Qn_divided; // Used to simplify Qn with he primes of factor_base.
+    mpz_t   Qn_divided; // Used to simplify Qn with the primes of factor_base.
                         // If Qn is almost factor_base-smooth it will store 
                         // its large prime.
     
@@ -176,9 +174,9 @@ void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns,
 
     mpz_mul(pm_squared, factor_base[P-> s_fb - 1], factor_base[P-> s_fb - 1]);
 
-    /**************************************
-     * Declarations for insert_or_elim_lp *
-     *************************************/
+    /*************************************
+    * Declarations for insert_or_elim_lp *
+    *************************************/
 
     mpz_t  A;          
     mpz_t  Q;          

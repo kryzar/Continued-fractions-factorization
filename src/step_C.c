@@ -1,11 +1,9 @@
 /* step_C.c */
 
-#include <gmp.h>
-#include "step_A.h"
 #include "step_C.h"
 
 void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_indexes,
-	                 size_t *nb_lin_rel, const size_t nb_AQp) {
+	                 size_t *nb_lin_rel, size_t nb_AQp) {
     /*
     Perform the gaussian elimination to determine if the exponents 
     vectors in exp_vects are linearly dependent. If so, the array 
@@ -103,7 +101,7 @@ void calculate_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns,
     param hist_vect: An history vector which is associated to an S-Set.
                     (at the end, the vector is zero).
     param N: The integer to be factored.
-   	*/
+    */
 
     // In the comments, let Q1, Q2, ... be the Q_i of the S-Set and
     // A1, A2, ... be the A_i of the S-Set.
@@ -128,7 +126,7 @@ void calculate_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns,
         mpz_mul(A, A, Ans[i]); // A <- A * Ai
         mpz_mod(A, A, N);
 
-		mpz_set(Q_temp, Qns[i]); // X <- pgcd(R, Q_i)
+        mpz_set(Q_temp, Qns[i]); // X <- pgcd(R, Q_i)
         mpz_gcd(X, R, Q_temp);
 
         mpz_mul(Q, Q, X); // Q <- QX mod N
@@ -158,9 +156,9 @@ void find_factor(Results *Res, const mpz_t *Ans, const mpz_t *Qns,
     to find a factor of N. If a factor is found, put it in R-> fact_found
     and set R-> found to 1.
 
-    params Res: Pointer to the structure used to store the results.
+    param Res: Pointer to the structure used to store the results.
     param Ans: The Ans computed by create_AQ_pairs 
-    params Qns: The Qns computed by create_AQ_pairs
+    param Qns: The Qns computed by create_AQ_pairs
     param exp_vects: The exponent vectors computed by create_AQ_pairs
     param hist_vects: The historys vectors computed by init_hist_vects.
     param N: The integer to be factored
@@ -176,7 +174,7 @@ void find_factor(Results *Res, const mpz_t *Ans, const mpz_t *Qns,
     mpz_inits(A, Q, gcd, NULL);
 
     gauss_elimination(exp_vects, hist_vects, lin_rel_indexes, &nb_lin_rel,
-					  Res-> nb_AQp);
+                      Res-> nb_AQp);
 
     for (size_t i = 0; i < nb_lin_rel; i++) {
         calculate_A_Q(A, Ans, Q, Qns, hist_vects[lin_rel_indexes[i]], N);
@@ -194,5 +192,4 @@ void find_factor(Results *Res, const mpz_t *Ans, const mpz_t *Qns,
 
     free(lin_rel_indexes); lin_rel_indexes = NULL;
     mpz_clears(A, Q, gcd, NULL);
-
 }

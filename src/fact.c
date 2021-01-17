@@ -1,7 +1,6 @@
 /* fact.c */
 
 #include "fact.h"
-#include <gmp.h>
 
 void print_results(const Params *P, const Results *R){
     /*
@@ -26,7 +25,7 @@ void print_results(const Params *P, const Results *R){
 
     // Print the results
     if (R-> found) {
-       gmp_printf("\n Factor found: %Zd \n", R-> fact_found); 
+       gmp_printf("\nFactor found: %Zd \n", R-> fact_found); 
     }else{
         printf("No factor found \n"); 
     }

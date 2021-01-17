@@ -81,7 +81,7 @@ void insert_or_elim_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1,
     param gcd: An auxiliary variable already initialized used to see if
                we can find a factor of N if we have a new A-Q pair with
                Qn a square.
-    param R: A pointer to the structure used to store, if we can,a non
+    param R: A pointer to the structure used to store, if we can, a non
              trivial factor of N.    
     */
 

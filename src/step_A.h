@@ -28,8 +28,8 @@ typedef struct Params {
 
 typedef struct Results {
     /*
-    Store the factor found if it exits and some  data to analyse the 
-    methode performance. 
+    Store the factor found if it exits and some data to analyse the 
+    method performance. 
     */
     int    found;         /* A boolean to indicate if a factor was found. */ 
     mpz_t  fact_found;    /* The factor found (if it exists). */
