@@ -5,50 +5,36 @@
 
 #include <gmp.h>
 #include "step_A.h"
-#include "step_B.h"
-
 
 typedef struct AQp_lp{
     /*
     The goal of this structure is to create a linked list whose
     nodes store the data of an A-Q pairs (Anm1, Qn), where Qn 
-    is almost completely factorisable with the primes of the factor
-    base. The remaining cofactor is called lp (for large prime). 
+    is almost factor_base-smooth. The only prime factor of Qn
+    which is not in the factor_base is called lp (for large prime). 
     This linked list has two properties. It is stored according
     to the member lp. Only one AQp_lp exists for a given value of
-    lp. That AQp_lp pair is used as the pivot of the Gaussian 
-    elimination to eliminate the large prime lp if another pair
-    with the same large prime cofactor is encounterded. 
+    lp. That AQp_lp pair is used, if another pair with the same
+    large prime cofactor is encountered, as the pivot of the 
+    Gaussian elimination to eliminate the large prime lp. 
      */
-    mpz_t Qn; 
-    mpz_t Anm1; 
-    mpz_t lp;               // The large prime.  
-    mpz_t exp_vect;         // The exponent vector associated to Qn
-                            // (the large prime lp is missing).
-    struct AQp_lp *next;    // The next node of the linked list. 
+    mpz_t Qn;            /* The Qn almost factor_base-smooth */
+    mpz_t Anm1;          /* The Anm1 of the A-Q pair */
+    mpz_t lp;            /* The large prime factor of Qn */ 
+    mpz_t exp_vect;      /* The exponent vector associated to Qn
+                            (without taking into account lp) */
+    struct AQp_lp *next; /* The next node of the linked list. */ 
 }AQp_lp; 
 
 
-int is_Qn_fact_lp_var(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows, const mpz_t Qn,
-                      mpz_t lp, const mpz_t *factor_base, const size_t s_fb,
-                      const mpz_t pm_squared);
-
 AQp_lp *create_AQp_lp(const mpz_t Qn, const mpz_t Anm1, const mpz_t lp, 
-                      exp_vect_data *D, size_t n); 
+                      const mpz_t exp_vect); 
+
+void insert_or_elim_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1, 
+                       const mpz_t lp, mpz_t exp_vect, mpz_t *Qns,
+                       mpz_t *Ans, mpz_t *exp_vects, size_t *nb_AQp,
+                       const mpz_t N, mpz_t A, mpz_t Q, mpz_t gcd, Results *R); 
 
 void delete_AQp_lp_list(AQp_lp **list);
 
-
-void insert_or_elim_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1,
-                              const mpz_t lp, exp_vect_data *D, size_t n,
-                              mpz_t *Qns, mpz_t *Ans, mpz_t *exp_vects, 
-                              size_t *nb_AQp, const mpz_t N, mpz_t A, mpz_t Q,
-                              mpz_t gcd, mpz_t exp_vect, Results *R);
-
-
-void create_AQ_pairs_lp_var(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns, 
-                            mpz_t *exp_vects, const mpz_t *factor_base, 
-                            AQp_lp **list);  
-
-
-#endif 
+#endif

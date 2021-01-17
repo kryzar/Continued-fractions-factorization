@@ -5,41 +5,20 @@
 
 #include <gmp.h>
 #include "step_A.h"
+#include "lp_var.h"
 
-typedef struct exp_vect_data{
-	/*
-	This structure gathers all the data needed to compute the exponent
-	vector of a given Qn, except the subscript n.
-	*/
-
-	size_t* reduced_fb_indexes;   /* The elements of this array indicate
-									 the index of the primes of the
-									 factor base that have an odd
-									 valuation in at least one of the
-									 Qn's factorization (with Qn
-									 completely factored or almost
-									 completely factored if the large
-									 prime variation is used). */ 
-	size_t nb_reduced_fb_indexes; /* The number of indexes added to the 
-                                     reduced_fb_indexes array. */
-	size_t* Qn_odd_pows;          /* Store the indexes of the prime
-									 factors of Qn that have an odd
-									 valuation. */
-	size_t nb_Qn_odd_pows;        /* The number of such prime factors of
-									 Qn. */
-     
-} exp_vect_data;
  
-int is_Qn_factorisable(size_t *Qn_odd_pows, size_t *nb_Qn_odd_pows,
-					   const mpz_t Qn, mpz_t Q_temp, const mpz_t *factor_base,
-					   const size_t s_fb);
+int is_Qn_factorisable(const Params *P, size_t *Qn_odd_pows, 
+                       size_t *nb_Qn_odd_pows, const mpz_t Qn, mpz_t Qn_divided,
+                       const mpz_t *factor_base, const mpz_t pm_squared); 
 
 void init_hist_vects(mpz_t *hist_vects, const size_t nb_AQp);
 
-void init_exp_vect(const int init, mpz_t exp_vect, exp_vect_data *D,
-				   const size_t n); 
+void init_exp_vect(int init, mpz_t exp_vect, const size_t *Qn_odd_pows, 
+                   size_t nb_Qn_odd_pows, size_t n); 
 
-void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns,
-					mpz_t *exp_vects, const mpz_t *factor_base);
+void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns, 
+                     mpz_t *exp_vects, const mpz_t *factor_base, 
+                     AQp_lp **list);
 
 #endif

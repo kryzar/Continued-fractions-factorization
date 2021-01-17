@@ -7,13 +7,13 @@
 void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_indexes,
 	                 size_t *nb_lin_rel, const size_t nb_AQp) {
     /*
-    This function performs the gaussian elimination to determine if the
-    exponents vectors in exp_vects are linearly dependent. If so, the
-    array 'lin_rel_indexes' stores the indexes of the lines of the
-    matrix where a linear relation was found. The history vectors in
-    hist_vects allow to keep track of the lines which were xored (they
-    form the right side matrix when performing the gaussian elimination
-    by hand).
+    Perform the gaussian elimination to determine if the exponents 
+    vectors in exp_vects are linearly dependent. If so, the array 
+    'lin_rel_indexes' stores the indexes of the lines of the matrix
+    where a linear relation was found. The history vectors in hist_vects
+    allow to keep track of the lines which were xored (they form the 
+    right side matrix when performing the gaussian elimination by hand).
+
     param exp_vects: An array which contains the exponent vectors.
                      Each exponent vector represents a line of the
                      matrix. Calculations are performed directly on
@@ -24,18 +24,19 @@ void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_inde
                       vectors.
     param lin_rel_indexes: An nb_AQp-size array already allocated that
                            will contain the indexes of the history
-                           vectors associated to an S-set.
-    param nb_lin_rel: Pointer to the number of found linear relations.
+                           vectors associated to an acceptable A-Q pairs
+                           set.
+    param nb_lin_rel: Pointer to the number of linear relations found.
     param nb_AQp: The size of the exp_vects, hist_vects and 
                   lin_rel_indexes arrays.
     */
 
-    size_t msb_indexes[nb_AQp]; // msb_indexes[i] is the index
-                                // (numbered from 1) of the most
+    size_t msb_indexes[nb_AQp]; // msb_indexes[i] is the index (numbered
+                                // from 1 because of the return of the 
+                                // mpz_sizeinbase function) of the most
                                 // significant bit of exp_vects[i]. If
-                                // exp_vects[i] is 0, then
-                                // msb_indexes[i] = 0.
-    size_t j; // Index (numbered from 1) of the leftmost column.
+                                // exp_vects[i] is 0, msb_indexes[i] = 0.
+    size_t j; // Index (numbered from 1) of the column being processed.
     size_t pivot; // It will contain the smallest i such that the most
                   // significant bit of exp_vects[i] is in the jth column.
 
@@ -90,8 +91,7 @@ void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_inde
 
 
 void calculate_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns,
-                   mpz_t hist_vect, const mpz_t N, mpz_t R, mpz_t X,
-                   mpz_t Q_temp) {
+                   mpz_t hist_vect, const mpz_t N) {
     /*
     Find the A and the Q of the S-congruence A^2 = Q^2 mod N and put
     the results in A and Q.
@@ -103,19 +103,18 @@ void calculate_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns,
     param hist_vect: An history vector which is associated to an S-Set.
                     (at the end, the vector is zero).
     param N: The integer to be factored.
-    param R: An auxiliary variable already initialized for the
-             computation of Q.
-    param X: An auxiliary variable already initialized for the
-             computation of Q.
-    param Q_temp: An auxiliary variable already initialized for the
-                  computation of Q. 
-	*/
+   	*/
 
     // In the comments, let Q1, Q2, ... be the Q_i of the S-Set and
-    // // A1, A2, ... be the A_i of the S-Set.
+    // A1, A2, ... be the A_i of the S-Set.
     
     mp_bitcnt_t i;
+    mpz_t R; 
+    mpz_t X; 
+    mpz_t Q_temp;
 
+    mpz_inits(R, X, Q_temp, NULL); 
+     
     mpz_set_ui(Q, 1);			 // Q <- 1
     i = mpz_scan1(hist_vect, 0);
     mpz_clrbit(hist_vect, i);
@@ -135,7 +134,7 @@ void calculate_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns,
         mpz_mul(Q, Q, X); // Q <- QX mod N
         mpz_mod(Q, Q, N);
 
-        mpz_divexact(Q_temp, Q_temp, X); // R <- R / X * Q_temp / X
+        mpz_divexact(Q_temp, Q_temp, X); // R <- R / X * Q_i / X
         mpz_divexact(R, R, X);
         mpz_mul(R, R, Q_temp);
     }
@@ -143,24 +142,26 @@ void calculate_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns,
     mpz_sqrt(X, R); // X <- sqrt(R)
     mpz_mul(Q, Q, X); // Q <- QX mod N 
     mpz_mod(Q, Q, N); 
+
+    mpz_clears(R, X, Q_temp, NULL); 
 }
 
 void find_factor(Results *Res, const mpz_t *Ans, const mpz_t *Qns, 
                  mpz_t *exp_vects, mpz_t *hist_vects, const mpz_t N) {
     /*
-    This function uses the auxilary function gaussian_elimination to
-    find the S-sets from A-Q pairs previously calculated. After the
-    reduction procedure, the 1's (plural) of a history vector whose
-    index is in the array lin_rel_indexes indicate the indexes of A-Q
-    pairs in a S-Set. For each S-Set, the auxilary function calculate_A_Q
-    finds A and Q such that A^2 = Q^2 mod N.  The pgcd(A-Q, N) is then
-    computed, hoping to find a factor of N. If a factor is found, put it
-    in R-> fact_found and set R-> found to 1.
+    Find the S-Sets from the A-Q pairs previously calculated using the
+    auxiliary function gaussian_elimination. After the reduction procedure,
+    the 1's (plural) of a history vector whose index is in the array 
+    lin_rel_indexes indicate the indexes of A-Q pairs in a S-Set.
+    For each S-Set, find A and Q such that A^2 = Q^2 mod N using the
+    auxiliary function calculate_A_Q. Compute the pgcd(A-Q, N) hoping
+    to find a factor of N. If a factor is found, put it in R-> fact_found
+    and set R-> found to 1.
 
     params Res: Pointer to the structure used to store the results.
-    param Ans: The Ans computed by create_AQ_pairs or create_AQ_pairs_lp_var.
-    params Qns: The Qns computed by create_AQ_pairs or create_AQ_pairs_lp_var.
-    param exp_vects: The exponent vectors computed by create_AQ_pairs or ...  
+    param Ans: The Ans computed by create_AQ_pairs 
+    params Qns: The Qns computed by create_AQ_pairs
+    param exp_vects: The exponent vectors computed by create_AQ_pairs
     param hist_vects: The historys vectors computed by init_hist_vects.
     param N: The integer to be factored
     */
@@ -168,32 +169,30 @@ void find_factor(Results *Res, const mpz_t *Ans, const mpz_t *Qns,
     size_t *lin_rel_indexes; 
     size_t nb_lin_rel;
     mpz_t  A; 
-    mpz_t  Q; 
-    mpz_t  R; 
-    mpz_t  X; 
-    mpz_t  temp; 
+    mpz_t  Q;   
     mpz_t  gcd;
 
     lin_rel_indexes = (size_t *)malloc(Res-> nb_AQp * sizeof(size_t)); 
-    mpz_inits(A, Q, R, X, temp, gcd, NULL);
+    mpz_inits(A, Q, gcd, NULL);
 
     gauss_elimination(exp_vects, hist_vects, lin_rel_indexes, &nb_lin_rel,
 					  Res-> nb_AQp);
 
     for (size_t i = 0; i < nb_lin_rel; i++) {
-        calculate_A_Q(A, Ans, Q, Qns, hist_vects[lin_rel_indexes[i]], N, R,
-                      X, temp);
-        mpz_sub(temp, A, Q);    // temp <- A - Q
-        mpz_gcd(gcd, temp, N);  // gcd <- pgcd (A - Q, N)
-
+        calculate_A_Q(A, Ans, Q, Qns, hist_vects[lin_rel_indexes[i]], N);
+        mpz_sub(gcd, A, Q);    // gcd <- pgcd(A - Q, N)
+        mpz_gcd(gcd, gcd, N);  
         if (mpz_cmp_ui(gcd, 1) && mpz_cmp(gcd, N)) {
             mpz_set(Res-> fact_found, gcd);
             Res-> found = 1;
+
+            free(lin_rel_indexes); lin_rel_indexes = NULL;
+            mpz_clears(A, Q, gcd, NULL);
             return;
         }
     }
 
     free(lin_rel_indexes); lin_rel_indexes = NULL;
-    mpz_clears(A, Q, R, X, temp, gcd, NULL);
+    mpz_clears(A, Q, gcd, NULL);
 
 }
