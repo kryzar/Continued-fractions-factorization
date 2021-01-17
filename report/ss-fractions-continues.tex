@@ -2,86 +2,78 @@
 \subsubsection{Intuition}
 
 Intuitivement, une fraction continue est une expression — finie ou infinie — de
-la forme suivante\footnote{Notez que nous ne nous autorisons que des $1$ aux
-numérateurs.} : \[a_0 + \cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{a_3 +
-\dots}}}\] telle que $a_0\in \Z$ et $a_i \in \N^*$ pour tout $i\in \N^*$.
-Toujours intuitivement, nous voulons affûbler cette fraction continue d'une
-valeur. Si la fraction continue est finie, c'est une bonne vieille fraction,
-c'est à dire un élément du corps $\Q$~; si la fraction continue est infinie, on
-calcule d'abord $a_0$, puis $a_0 + \frac{1}{a_1}$, puis $a_0 + \frac{1}{a_1
-+\frac{1}{a_2}}$, et on continue une infinité de fois. La limite de la suite
-générée est la \og{} valeur \fg{} de la fraction continue. Nous ferons sens
-plus précis de l'intuition dans la prochaine sous-section. \\
+la forme suivante : \[a_0 + \cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{a_3 +
+\dots}}}\] telle que $a_0\in \Z$ et $a_i \in \N^*$ pour tout $i\in \N^*$.  Si
+la fraction continue est finie, elle est un rationnel; si la fraction continue
+est infinie, on lui associe une valeur en calculant $a_0$, puis $a_0 +
+\frac{1}{a_1}$, puis $a_0 + \frac{1}{a_1 +\frac{1}{a_2}}$, et continuant une
+infinité de fois. La limite de la suite générée est la \og{} valeur \fg{} de la
+fraction continue. Nous ferons sens plus précis de l'intuition dans la
+prochaine sous-section. \\
 
-Les fractions continues émanent de la volonté d'approcher des réels irrationels
-par des fractions d'entiers. Par exemple, la fraction $\frac{103 993}{33 102}$
-approche $\pi$ avec une précision meilleure que le milliardième.  Comment
-générer une telle fraction continue pour un réel irrationnel $x$ ?  On part de
-l'identité $x = x + \ent{x} - \ent{x}$ et l'on écrit \[x = \ent{x} +
-\cfrac{1}{\cfrac{1}{x - \ent{x}}}.\] On pose $x_0 = x$ et $x_1 = \frac{1}{x_0 -
-\ent{x_0}}$ (qui est bien défini par irrationalité de $x$) et l'on répète la
-première étape sur $x_1$ : \[x = \ent{x_0} + \cfrac{1}{x_1} = \ent{x_0} +
-\cfrac{1}{\ent{x_1} + \cfrac{1}{\cfrac{1}{x_1 - \ent{x_1}}}}.\] Comme le réel
-$x$ est irrationnel, on peut répéter ce procédé indéfiniment. Nous construisons
-alors la suite d'éléments \emph{irrationnels} de terme général \[x_n =
-\frac{1}{x_{n-1} - \ent{x_{n-1}}}, \quad \forall n \geq 1.\] On associe alors à
+Les fractions continues permettent d'approcher des réels irrationels par une
+suite de fractions d'entiers.  Par exemple, la fraction $\frac{103 993}{33
+102}$ approche $\pi$ avec une précision meilleure que le milliardième. Pour
+générer une telle fraction continue, on part de l'identité $x = x + \ent{x} -
+\ent{x}$ et l'on écrit \[x = \ent{x} + \cfrac{1}{\cfrac{1}{x - \ent{x}}}.\] On
+pose $x_0 = x$ et $x_1 = \frac{1}{x_0 - \ent{x_0}}$ (bien défini par
+irrationalité de $x$) et l'on répète la première étape sur $x_1$ : \[x =
+\ent{x_0} + \cfrac{1}{x_1} = \ent{x_0} + \cfrac{1}{\ent{x_1} +
+\cfrac{1}{\cfrac{1}{x_1 - \ent{x_1}}}}.\] Comme le réel $x$ est irrationnel, on
+peut répéter ce procédé indéfiniment. Nous construisons alors la suite
+d'éléments \emph{irrationnels} de terme général \[x_n = \frac{1}{x_{n-1} -
+\ent{x_{n-1}}}, \quad \forall n \geq 1.\] On associe alors à
 \emph{l'irrationnel} $x$ la fraction continue \emph{infinie}\footnote{Lorsque
 nous aurons correctement défini la notion de fraction continue, cette fraction
 continue canoniquement associée à $x$ sera notée $\hat{x}$.} \[\hat{x}_0 +
 \cfrac{1}{\hat{x}_1 + \cfrac{1}{\hat{x}_2 + \cfrac{1}{\hat{x}_3 + \dots}}},\]
-où l'on a posé \[\hat{x}_i = \ent{x_i}\] pour tout $i\in \N$. Fixons ces
-notations :
+où l'on a posé \[\hat{x}_i = \ent{x_i}\] pour tout $i\in \N$.
 
 \begin{notation}\label{notations}
-	Soit $x\in \R$ un élément irrationel. Notons $x_0 = x$ puis \[x_n :=
-	\frac{1}{x_{n-1} - \ent{x_n}}, \quad \forall n \geq 1.\] Par ailleurs,
-	notons \[\hat{x}_n := \ent{x_n}, \quad \forall n\in \N.\]
+	Soit $x\in \R$ un élément irrationel. Notons $x_0 = x$, \[x_n :=
+	\frac{1}{x_{n-1} - \ent{x_n}}, \quad \forall n \geq 1,\] puis \[\hat{x}_n
+	:= \ent{x_n}, \quad \forall n\in \N.\]
 \end{notation}
 
 \begin{remarque}
 	La méthode de construction d'une fraction continue \emph{finie} pour un
 	rationnel est la même : il faut simplement s'arrêter lorsque l'on tombe sur
 	un $\hat{x}_n$ vérifiant $\hat{x}_n = \ent{\hat{x}_n}$. Cet algorithme
-	termine (\NTS{ref}) et s'exécute plus simplement en utilisant l'algorithme
-	d'Euclide.
+	termine et s'exécute plus simplement en utilisant l'algorithme d'Euclide
+	(\cite{wikiu} ¶ \emph{Les deux fractions continues (finies) d'un rationnel}).
 \end{remarque}
 
-\subsubsection{Formalisation}
+\subsubsection{Définition, réduites}
 
 Formellement, on peut définir\footnote{La définition mathématique est
 descriptive et non prescriptive.} une fraction continue ainsi :
 
 \begin{definition}[Fraction continue]\label{def-fracont}
 	On appelle \emph{fraction continue} toute suite non vide (finie ou infinie)
-	$(a_i)_{i\in U} \in \N^\N$, $U\subset \N$, d'entiers qui vérifie \[a_i
+	$(a_i)_{i\in U} \in \Z^U$, $U\subset \N$, d'entiers qui vérifie \[a_i
 	\geq 1, \quad \forall i\in U\setminus\{0\}.\] Cette suite est alors notée
 	\[a_0 + \cfrac{1}{a_1 + \cfrac{1}{a_2 + \cfrac{1}{a_3 + \dots}}}.\]
 \end{definition}
 
 \begin{notation}
-	Soit $x\in \R$ un élément irrationel. On note $\hat{x}$ la fraction
-	continue infinie canoniquement associée à $x$ par la méthode exposée dans
-	le premier paragraphe. Autrement dit, $\hat{x}$ est la fraction continue
-	donnée par la suite infinie (voir \ref{notations}) $(\hat{x}_i)_{i\in
-	\N}$.
+	Soit $x\in \R$ un irrationel. On note $\hat{x}$ la fraction continue
+	infinie canoniquement associée à $x$ par la méthode exposée dans le premier
+	paragraphe.
 \end{notation}
 
-Il est naturel d'associer à une fraction continue (finie ou infinie) une suite
-(finie ou infinie) de fractions \og intermédiaires \fg{} appelées
-\emph{réduites}. Pour n'avoir aucun problème de division par zéro, nous nous
-plaçons temporairement dans un corps de fractions rationnelles en $\N$
-indeterminées.
+À toute fraction continue est associée une suite (finie ou infinie) de
+fractions \og intermédiaires \fg{} appelées
+\emph{réduites}\footnote{L'utilisation d'indéterminées formelles permet dans la
+définition d'éviter les divisions par zéro.}.
 
 \begin{definition}[Réduites formelles]
 	Soit $(X_i)_{i\in \N}$ une suite (infinie) d'indeterminées sur le corps
 	$\Q$. On définit \[[X_0] = X_0\] puis par récurrence \[[X_0, \dots,
-	X_n] = X_0 + \frac{1}{[X_1, \dots, X_n]}.\] Ces éléments sont dans
-	$\Q((X_i)_{i\in \N})$.
+	X_n] = X_0 + \frac{1}{[X_1, \dots, X_n]}.\]
 \end{definition}
 
 \begin{definition}[Réduites d'une fraction continue]
-	Distinguons les cas finis et infinis. Soit $f$ une fraction
-	continue.
+	Soit $f$ une fraction continue.
 	\begin{itemize}
 		\item Si $f$ est donnée par la suite finie $(a_0, \dots, a_n)$, pour
 		tout $k\in [\![0, n]\!]$ on appelle \emph{$k$-ième réduite de $f$}
@@ -95,40 +87,35 @@ indeterminées.
 \begin{exemple}
 	Soit $f$ la fraction continue infinie donnée par la suite $(1)_{i\in \N}$.
 	La première réduite est $[1] = 1$, la deuxième est \[[1, 1] = 1 +
-	\frac{1}{[1]} = 1 + \frac{1}{1},\] la troisième est \[[1, 1, 1] = 1 +
-	\frac{1}{[1, 1]} = 1 + \frac{1}{1 + \cfrac{1}{1}}.\] Plus généralement, la
-	$k$-ième réduite de $f$ est de la forme \[[1, 1, \dots, 1] = 1 +
-	\cfrac{1}{1 + \cfrac{1}{\dots \\ \cfrac{1}{1 +
-	\cfrac{1}{1}}}}.\]
+	\frac{1}{[1]} = 1 + \frac{1}{1}.\] Plus généralement, la $k$-ième réduite
+	de $f$ est de la forme \[[1, 1, \dots, 1] = 1 + \cfrac{1}{1 +
+	\cfrac{1}{\dots \\ \cfrac{1}{1 + \cfrac{1}{1}}}}.\]
 \end{exemple}
 
-Remarquons que les réduites de toute fraction continue sont des éléments
-rationnels, ce même si la fraction continue est égale à $\hat{x}$ pour un
-certain irrationel $x$. De fait, $x$ n'est égal à aucune des réduites de
-$\hat{x}$. Mais en reprenant les notations \ref{notations}, on a toutefois
-\NTS{pourquoi ça fait ça ? avec le 1.1.3 ?}
-\begin{equation} \ref{egalite-reduite}
+Les réduites de toute fraction continue sont des éléments rationnels, y compris
+celles de la forme $\hat{x}$ pour un certain irrationel $x$. De fait, $x$ n'est
+égal à aucune des réduites de $\hat{x}$. On a toutefois (voir notations
+\ref{notations}) :
+
+\begin{equation} \label{egalite-reduite}
 	x = [\hat{x}_1, \dots, \hat{x}_{n-1}, x_n], \quad \forall x\in \N.
 \end{equation}
-Cette égalité sera cruciale dans notre algorithme de factorisation. \\
+Cette égalité est cruciale dans notre algorithme de factorisation. \\
 
-Même si les fractions continues finie restent des suites (déf.
+Si formellement les fractions continues sont des suites (déf.
 \ref{def-fracont}), leur représentation graphique permet de les voir
-trivialement comme des éléments du corps $\Q$. En effet, en représentant \[a_0
-+ \cfrac{1}{a_1 + \cfrac{1}{a_2 + \dots}}\] la fraction continue finie $f$
-associée à la suite finie $(a_0, \dots, a_n)$, on peut la voir comme l'élément
-rationnel \[a_0 + \cfrac{1}{a_1 + \cfrac{1}{a_2 + \dots}}.\] Cet élément n'est
-autre que sa dernière réduite $[a_0, \dots, a_n]$ et on dit que $f$ est égale à
-l'élément rationnel $[a_0, \dots, a_n]$. Pour les fractions continues infinies,
-ce n'est pas aussi simple.
+trivialement comme des éléments du corps $\Q$. Si $f$ est une fraction continue
+finie de suite $(a_0, \dots, a_n)$, le rationnel \[a_0 + \cfrac{1}{a_1 +
+\cfrac{1}{a_2 + \dots}}\] est égal à la dernière réduite $[a_0, \dots, a_n]$.
+On dit que $f$ est égale au rationnel $[a_0, \dots, a_n]$. Pour les fractions
+continues infinies, ce n'est pas aussi simple.
 
 \begin{definition}
 	Soient $l$ un réel et $f$ une fraction continue donnée par la suite infinie
-	$(a_i)_{i\in \N}$. On dit que \emph{$f$ est égale à $l$}, que \emph{$f$
-	converge vers $l$}, ou encore que \emph{$f$ est le développement en
-	fraction continue de $l$} et l'on note $f = l$ si la suite des réduites de
-	$f$ converge vers $l$. Si une fraction continue infinie est égale à un
-	certain réel, on dit qu'elle converge.
+	$(a_i)_{i\in \N}$. On dit que \emph{$f$ converge vers $l$} ou que \emph{$f$
+	est le développement en fraction continue de $l$} et l'on note $f = l$ si
+	la suite des réduites de $f$ converge vers $l$. Si une fraction continue
+	infinie est égale à un certain réel, on dit qu'elle converge.
 \end{definition}
 
 \begin{exemple}[Nombre d'or]
@@ -136,53 +123,54 @@ ce n'est pas aussi simple.
 	positive du polynôme $X^2 - X - 1 \in \Z[X]$. On a $\varphi =\frac{1 +
 	\sqrt{5}}{2} \simeq 1, 618$. Comme $\varphi^2 = \varphi + 1$ et que
 	$\varphi \neq 0$, on a $\varphi = 1 + \frac{1}{\varphi} = 1 + \cfrac{1}{1 +
-	\cfrac{1}{\varphi}}$. En réalité, $\varphi$ est égal à une fraction
-	continue : \[\varphi = 1 + \cfrac{1}{1 + \cfrac{1}{1 + \cfrac{1}{1 +
-	\dots}}}.\]
+	\cfrac{1}{\varphi}}$. En réalité, $\varphi$ admet un développement en
+	fraction continue donné par \[\varphi = 1 + \cfrac{1}{1 + \cfrac{1}{1 +
+	\cfrac{1}{1 + \dots}}}.\]
 \end{exemple}
 
-Dans quelle mesure une fraction continue converge-t-elle ? Des raisonnements
-d'analyse élémentaire (\NTS{réf}) permettent de montrer que toute fraction
-continue infinie converge, et qu'elle converge vers un irrationnel !
+Des raisonnements d'analyse élémentaire (\cite{wikiu} ¶ \emph{Bijection entre
+irrationnels et fractions continues infinies}) permettent de montrer que toute
+fraction continue infinie converge, et qu'elle converge vers un irrationnel.
 
 \begin{theoreme}
-	La fonction canonique \[x \mapsto \cfrac{1}{\hat{x}_0 +
-	\cfrac{1}{\hat{x}_1 + \cfrac{1}{\hat{x}_2 + \dots}}}\] est une
-	\emph{bijection} entre l'ensemble des nombres réels irrationnels et des
-	fractions continues infinies.
+	L'application canonique \[x \mapsto \cfrac{1}{\hat{x}_0 +
+	\cfrac{1}{\hat{x}_1 + \cfrac{1}{\hat{x}_2 + \dots}}}\] établit une
+	\emph{bijection} entre l'ensemble des nombres réels irrationnels et
+	l'ensemble des fractions continues infinies.
 \end{theoreme}
 
-En particulier, un réel $x$ et une fraction continue $f$ sont égaux \ssi $f$
-est la fraction continue donnée par la suite $(\hat{x}_{i\in \N})$. Attention,
-les réels tout entier ne sont pas en bijection avec les fractions continues
-(finies ou infinies). En effet, un rationnel est égal (au sens donné dans les
-paragraphes précédents) à exactement deux fractions continues : si un rationnel
-est égal à $[a_0, \dots, a_n]$, il est aussi égal à $[a_0, \dots, a_n - 1, 1]$
-et n'est égal à aucune autre fraction continue (\NTS{ref}).
+En particulier, un réel une fraction continue converge vers un réel $x$ \ssi
+$f=\hat{x}$. Attention, les réels tout entier ne sont pas en bijection avec les
+fractions continues (finies ou infinies). En effet, un rationnel est égal à
+exactement deux fractions continues car $[a_0, \dots, a_n] = [a_0, \dots, a_n -
+1, 1]$ (\cite{wikiu} ¶ \emph{Les deux fractions continues (finies) d'un
+rationnel}).
 
 \subsubsection{Irrationels quadratiques}
+\label{ss-irrquad}
 
 L'adaptation de l'algorithme de Fermat-Kraitchik avec les fractions continues
-utilise crucialement le développement en fraction continue de $\sqrt{kN}$, où
-$N$ est le nombre à factoriser et $k\in \N*$ un entier arbitraire. Intéréssons
-nous aux fractions continues de ces nombres.
+que nous verrons plus tard utilise crucialement le développement en fraction
+continue de $\sqrt{kN}$, où $N$ est le nombre à factoriser et $k\in \N*$ un
+entier arbitraire. Intéréssons nous aux fractions continues des éléments de
+cette forme.
 
 \begin{definition}[Irrationel quadratique]
 	On appelle \emph{irrationel quadratique} tout nombre réel, algébrique sur
 	$\Q$, de degré $2$. Un irrationel quadratique est dit \emph{réduit} si son
-	conjugué est dans l'intervalle $]\!]-1, 0[\![$.
+	conjugué est dans l'intervalle $]-1, 0[$.
 \end{definition}
 
 Les fractions continues d'irrationnels quaratiques sont sujettes à des
 phénomènes de périodicité.
 
 \begin{definition}
-	Soit $f$ la fraction continue donnée par une suite $(a_i)_{i\in \N}$. On
-	dit que $f$ est \emph{périodique} si la suite l'est à partir d'un certain
-	rang.  Autrement dit, il existe un rang $n_0\in \N$ et une période $p\in
-	\N^*$ tels que \[a_{i} = a_{i+p}, \quad \forall i\geq n_0.\] On note alors
-	\[f = [a_0, \dots, a_{n_0 - 1}, \overline{a_{n_0}, \dots, a_{n_0 + p
-	-1}}].\] On dit enfin que $f$ est \emph{purement périodique} si $n_0 = 0$.
+	Soit $f = (a_i)_{i\in \N}$ une fraction continue. On dit que $f$ est
+	\emph{périodique} si la suite l'est à partir d'un certain rang. Il existe
+	alors un rang $n_0\in \N$ et une période $p\in \N^*$ tels que \[a_{i} =
+	a_{i+p}, \quad \forall i\geq n_0.\] On note alors \[f = [a_0, \dots, a_{n_0
+	- 1}, \overline{a_{n_0}, \dots, a_{n_0 + p -1}}].\] On dit que $f$ est
+	\emph{purement périodique} si $n_0 = 0$.
 \end{definition}
 
 \begin{exemple}
@@ -191,7 +179,8 @@ phénomènes de périodicité.
 	\overline{2, 1, 3, 1, 2, 8}].\]
 \end{exemple}
 
-Nous disposons des deux résultats fondamentaux suivants.
+Les résultats suivants sont fondamentaux (voir \cite{wikiu} ¶ \emph{Fraction
+continue d'un irrationnel quadratique} pour les preuves).
 
 \begin{theoreme}[Lagrange, 1770]
 	Un réel irrationel est un irrationel quadratique \ssi son développement en
@@ -202,9 +191,6 @@ Nous disposons des deux résultats fondamentaux suivants.
 	Un irrationnel quadratique est réduit \ssi son développement en fraction
 	continue est purement périodique.
 \end{theoreme}
-
-Un troisième résultat donne encore plus d'informations dans le cas où
-l'irrationel quadratique considéré est une racine carrée.
 
 \begin{theoreme}[Legendre, 1798]
 	Un réel irrationel est la racine carrée d'un entier $>1$ \ssi son
@@ -218,37 +204,36 @@ des réduites, nous aurons besoin d'une autre suite importante.
 
 \begin{lemme}
 	Soit $x$ un irrationel quadratique. Alors l'élément $\frac{1}{x - \ent{x}}$
-	est lui aussi un irrationel quadratique. \NTS{réf}
+	est lui aussi un irrationel quadratique.
 \end{lemme}
 
-Fixons $N$ l'entier à factoriser et $k\in \N*$ tel que $\sqrt{kN}$ est un
-irrationel quadratique. Posons alors $x := \sqrt{kN}$. D'après l'identité
-\label{egalite-reduite} et en reprenant les notations \label{notations}, nous
-pouvons donner un développement partiel (jusqu'à un rang donné $n\in
-\N$) de $x$ en fraction continue \[x = [\hat{x}_1, \dots, \hat{x}_{n-1},
-x_n].\] D'après le lemme précédent, $x_n$ est lui aussi un irrationel
-quadratique, i.e. il est solution d'une équation quadratique. On peut
-(\NTS{réf, dém. de 2.5.8}) de fait l'écrire de manière unique 
+Voir \cite{Lauritzen} prop. 2.5.2. Fixons $N$ l'entier à factoriser, $k\in \N*$
+tel que $\sqrt{kN}$ est un irrationel quadratique et $x :=
+\sqrt{kN}$. D'après l'identité \ref{egalite-reduite} et en
+reprenant les notations \ref{notations}, nous pouvons donner un développement
+partiel (jusqu'à un rang donné $n\in \N$) de $x$ en fraction continue \[x =
+[\hat{x}_1, \dots, \hat{x}_{n-1}, x_n].\] D'après le lemme précédent, $x_n$ est
+lui aussi un irrationel quadratique, i.e.  il est solution d'une équation
+quadratique. On peut (\cite{Lauritzen} dém. de 2.5.8) de fait l'écrire de
+manière unique 
 
 \begin{equation}
 	x_n = \frac{P_n + x}{Q_n}, \quad P_n, Q_n \in \Z.
 \end{equation}
 
-Ces notations $P_n$ et $Q_n$ seront réutilisées plus tard. La $n$-ième réduite
-de $x$ étant un nombre rationnel, on peut l'écrire sous la forme
-$\frac{A_n}{B_n}$, où $A_n, B_n$ sont entiers et la fraction est irréductible
-bien définie. Les entiers $A_n$, $B_n$, $Q_n$ et l'irrationel $x$ se
-rencontrent dans un grand nombre d'égalités numériques. Nous choisissons de
-n'exposer que les plus utiles à notre propos\footnote{Pour plus de contenu et
-de détails, la lectrice pourra se référer à \NTS{réf}.}. Pour tout $n\geqslant
-1$, on a \[A_{n-1}^2 - kN B_{n-1}^2 = (-1)^n Q_n\] et donc
+La $n$-ième réduite de $x$ étant un nombre rationnel, on peut l'écrire sous la
+forme $\frac{A_n}{B_n}$, où $A_n, B_n$ sont entiers et la fraction est
+irréductible bien définie. Pour tout $n\geqslant 1$, on a (\cite{Lauritzen} §
+2.7) \[A_{n-1}^2 - kN B_{n-1}^2 = (-1)^n Q_n\] et donc
 \begin{equation}
 	A_{n-1}^2 \equiv (-1)^n Q_n.
 \end{equation}
-On a également
-\begin{equation}
+On a également (\cite{Lauritzen} dém. de 2.5.8)
+\begin{equation}\label{inegalite}
 	\begin{cases}
 		P_n < \sqrt{kN} \\
 		Q_n < 2\sqrt{kN}.
 	\end{cases}
 \end{equation}
+
+Ces notations et identitées seront cruciales dans la suite.
