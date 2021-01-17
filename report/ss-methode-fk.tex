@@ -1,6 +1,6 @@
 \subsection{Factorisation par fractions continues}
 
-Dans toute ce paragraphe, $N$ désigne un entier naturel composé impair.
+Dans tout le reste de cette section, $N$ désigne un entier naturel composé impair.
 
 \subsubsection{Méthodes de Fermat et Kraitchik}
 
@@ -132,37 +132,25 @@ adaptation de la méthode du pivot de Gau\ss{} permettant d'exhiber un tel
 
 \subsubsection{Utilisation des fractions continues}
 
-Pour appliquer la méthode ci-dessus, il faut arriver à générer des $Q_i$ 
-avec $\lvert  Q_i \rvert$ $B$-friable pour une base de factorisation donnée,
-supposée \og{} pas très grande \fg. Il faut donc chercher à avoir des
-$\lvert Q_i \rvert$ \og{} petits \fg. L'introduction des fractions continues
-est motivée par le constat suivant : si $u_i^2 = Q_i + kNb^2$ avec $\lvert 
-Q_i \rvert$ petit, alors $\left(\frac{u_i}{b}\right)^2 - kN = \frac{Q_i}{b^2}$
-est petit en valeur absolue et $\frac{u_i}{b}$ est une bonne approximation de 
-$\sqrt{kN}$.
-
-\NTS{mettre référence}
-
-Redonnons quelques notations de la sous-section \NTS{réf} sur les fractions
-continues. Nous notons $x := \sqrt{N}$, puis conformément à \NTS{réf} $x_0 :=
-x$ et $x_n = \frac{1}{x_{n-1}- \ent{x_{n-1}}}$ pour tout $n\in \N^*$. Le
-développement en fraction continue de l'irrationel $x$ est donc \[x = \hat{x}_0
-+ \cfrac{1}{\hat{x}_1 + \cfrac{1}{\hat{x}_2 + \cfrac{1}{\hat{x}_3 + \dots}}}.\]
-Sa $n$-ième réduite est pour tout $n$ un rationnel et s'exprime de fait comme
-une fraction réduite $\frac{A_n}{B_n}$ où $A_n, B_n\in \Z$.  En posant
-$\hat{x}_n := \ent{x_n}$ pour tout $n\in \N$, on a l'égalité \NTS{réf} \[x =
-[\hat{x}_1, \dots, \hat{x}_{n-1}, x_n].\] Cet élément $x_n$ est un irrationel
-quadratique et s'écrit de fait \NTS{réf} \[x_n = \frac{P_n + x}{Q_n},\quad P_n,
-Q_n\in \Z,\]. 
-
-L'algorithme de factorisation repose sur l'égalité suivante : \[ A_{n-1}^2 = 
-(-1)^n Q_n + kN B_{n-1}^2 \]
-
-On a donc : \[ A_{n-1}^2 \equiv (-1)^n Q_n \pmod{N} \] \\
-
-
-Donnons à présent quelques définitions dont nous nous servirons pour décrire 
-l'algorithme des fractions continues. 
+L'introduction des fractions continues est motivée par le constat suivant. Si
+\[u_i^2 = Q_i + kNb^2, \quad u_i, Q_i, b\in \Z, k\in \N^*\] de telle sorte que
+$| Q_i |$ soit petit, alors \[\left(\frac{u_i}{b}\right)^2 - kN =
+\frac{Q_i}{b^2}\] est petit en valeur absolue et $\frac{u_i}{b}$ est une bonne
+approximation de $\sqrt{kN}$ \NTS{réf}. Fixons $k$ un entier naturel non nul,
+posons $x = \sqrt{kN}$ et reprenons les notations \ref{notations} et celles
+développées à la fin de la sous-section \ref{ss-irrquad}. En vertu de
+l'identité \[A_{n-1}^2 \equiv (-1)^n Q_n \pmod{N},\] nous appelons
+\emph{méthode de factorisation des fractions continues} la méthode de Kraitchik
+dans laquelle les entiers $u_i$ sont donnés par les $A_{i-1}$ et les $v_i$ par
+les $(-1)^i Q_i$. On sait que les $Q_n$ sont majorés (\ref{inegalite}) par $2
+\sqrt{kN}$ ~; l'inverse, les $x^2 - N\in \Z[X], x\in \N$ ont une croissance
+linéaire de pente $2\sqrt{N}$ lorsque $x$ s'éloigne de $\sqrt{N}$. À base de
+factorisation $B$ fixée, les $Q_n$ auront donc plus de chance d'être
+$B$-friables que les $K(x)$ de Kraitchik. Or, l'étape la plus coûteuse de
+l'algorithme est celle de la recherche des termes $B$-friables par divisions
+successives. Enfin, notons qu'il est facile de générer le développement en
+fraction continue de $x$ et les paires $(A, Q)$ grace à un algorithme itératif
+dû à Gau\ss{} et exposé dans \NTS{réf}. \\
 
 \begin{definition}
 	Pour tout $n\in \N^*$, on appelle \emph{$n$-ième paire $(A, Q)$} le couple
@@ -176,52 +164,15 @@ l'algorithme des fractions continues.
 \end{definition}
 
 \begin{remarque}
-    Par abus de langage, nous parlerons à présent du vecteur exposant 
-    associé à $Q_n$ pour désigner le vecteur exposant associé à 
-    $(-1)^n Q_n = (-1)^{v_0} \prod_{i=1}^m p_i^{v_{p_i}(Q)}$,
-    c'est-à-dire $(v_{p_m}(Q_n),\dots, v_{p_1}(Q_n), v_0 ) \in \mathbb{F}_2^{m+1}$
+	Par abus de langage, nous confonderons les $B$-vecteurs exposants
+	$v_B(Q_n)$ et $v_B((-1)^n Q_n)$.
 \end{remarque}
 
-D'après la section précédente, étant donnée une base de factorisation $B$,
-la méthode consiste à : 
-
-\begin{itemize}
-    \item Calculer des couples $(A,Q)$ par développement en fractions continues 
-        de $\sqrt(kN)$ où k est un petit coefficient multiplicateur (voir plus loin)
-    \item Sélectionner les $Q_n$ $B$-friables et leur associer un vecteur exposant
-    \item Trouver un ensemble valide de paires $(A, Q)$ par pivot de Gauss 
-          sur la matrice dont les lignes sont formées de ces vecteurs exposants
-\end{itemize}
-
-Nous aurons donc déterminé une famille $n_1,\dots, n_k$ d'indices tels que le 
-produit $Q:=\prod_{i=1}^k (-1)^{n_i} Q_{n_i}$ soit un carré (dans $\Z$ et non 
-uniquement dans $\Z/N\Z$). \\
-Posons $A := \prod_{i=1}^k A_{n_i}$. Si $A\not\equiv \pm  \sqrt{Q}\pmod{N}$, 
-nous aurons factorisé $N$ en vertu du lemme
-\NTS{réf}.\\
-
-Le principal avantage de l'utilisation des fractions continues plutôt que le
-polynôme de Kraitchik réside dans leur croissance. L'inégalité \NTS{réf} assure
-que les éléments $Q_n, n\in \N$ seront plus petits (en valeur absolu) que les
-$K(x'), x'\in \Z$ (dont la croissance lorsque $x'$ s'éloigne de $\sqrt{N}$ est
-approximativement linéaire de pente $2\sqrt{N}$). Les paires $(A, Q)$ seront
-donc plus faciles à manier et les $Q_n$ auront plus de chance d'être $B$-friables.
-Enfin, il est facile de générer le développement en fraction continue de $x$ et 
-les paires $(A, Q)$ grace à un algorithme itératif dû à Gau\ss et exposé dans 
-\NTS{réf}. \\
-
-\NTS{Pour moi c'est plus ça l'avantage : } \\
-
-Le principal avantage qu'offre l'utilisation des fractions continues par 
-rapport au polynome de Kraitchik réside dans la croissance des termes $Q_n,
-n\in \N$. On sait par \NTS{réf} que les $Q_n$ seront inférieurs à 
-$2 \sqrt{kN}$. Les $K(x)$ donnés par le polynôme de Kratichik ont eux une croissance
-lorsque $x$ s'éloigne de $\sqrt{N}$ approximativement linéaire de pente
-$2 \sqrt{N}$. Les $Q_n$ auront donc plus de chance d'être  $B$-friables que les
-$K(x)$ de Kraitchik. Or, l'étape la plus coûteuse de l'algorithme est celle de la
-recherche des termes $B$-friables par divisions successives. Enfin, notons qu'il
-est facile de générer le développement en fraction continue de $x$ et les paires
-$(A, Q)$ grace à un algorithme itératif dû à Gau\ss et exposé dans \NTS{réf}. \\
+\NTS{Je trouve que ça sert à rien de donner à moitié l'algo à cet endroit alors
+que le lecteur a très bien compris la méthode de Kraitchik et qu'on a donné nos
+arguments pour les fractions continues. M'est avis que le mieux est de faire ça
+en plus détaillé en tout début de la prochaine section. Si tu n'es pas d'accord
+on pourra remettre ce qu'il y avait avant.} \\
 
 \NTS{A rajouter je pense dans cette partie : critère pour sélectionner la base
 de factorisation, le problème de la périodicité d'où introduction de k, l'idée

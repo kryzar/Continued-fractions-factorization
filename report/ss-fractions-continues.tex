@@ -147,6 +147,7 @@ exactement deux fractions continues car $[a_0, \dots, a_n] = [a_0, \dots, a_n -
 rationnel}).
 
 \subsubsection{Irrationels quadratiques}
+\label{ss-irrquad}
 
 L'adaptation de l'algorithme de Fermat-Kraitchik avec les fractions continues
 que nous verrons plus tard utilise crucialement le développement en fraction
@@ -207,27 +208,28 @@ des réduites, nous aurons besoin d'une autre suite importante.
 \end{lemme}
 
 Voir \cite{Lauritzen} prop. 2.5.2. Fixons $N$ l'entier à factoriser, $k\in \N*$
-tel que $\sqrt{kN}$ est un irrationel quadratique et $x := \sqrt{kN}$. D'après
-l'identité \ref{egalite-reduite} et en reprenant les notations \ref{notations},
-nous pouvons donner un développement partiel (jusqu'à un rang donné $n\in \N$)
-de $x$ en fraction continue \[x = [\hat{x}_1, \dots, \hat{x}_{n-1}, x_n].\]
-D'après le lemme précédent, $x_n$ est lui aussi un irrationel quadratique, i.e.
-il est solution d'une équation quadratique. On peut (\cite{Lauritzen} dém. de
-2.5.8) de fait l'écrire de manière unique 
+tel que $\sqrt{kN}$ est un irrationel quadratique et $x :=
+\sqrt{kN}$. D'après l'identité \ref{egalite-reduite} et en
+reprenant les notations \ref{notations}, nous pouvons donner un développement
+partiel (jusqu'à un rang donné $n\in \N$) de $x$ en fraction continue \[x =
+[\hat{x}_1, \dots, \hat{x}_{n-1}, x_n].\] D'après le lemme précédent, $x_n$ est
+lui aussi un irrationel quadratique, i.e.  il est solution d'une équation
+quadratique. On peut (\cite{Lauritzen} dém. de 2.5.8) de fait l'écrire de
+manière unique 
 
 \begin{equation}
 	x_n = \frac{P_n + x}{Q_n}, \quad P_n, Q_n \in \Z.
 \end{equation}
 
- La $n$-ième réduite de $x$ étant un nombre rationnel, on peut l'écrire sous la
- forme $\frac{A_n}{B_n}$, où $A_n, B_n$ sont entiers et la fraction est
- irréductible bien définie. Pour tout $n\geqslant 1$, on a (\cite{Lauritzen} §
- 2.7) \[A_{n-1}^2 - kN B_{n-1}^2 = (-1)^n Q_n\] et donc
+La $n$-ième réduite de $x$ étant un nombre rationnel, on peut l'écrire sous la
+forme $\frac{A_n}{B_n}$, où $A_n, B_n$ sont entiers et la fraction est
+irréductible bien définie. Pour tout $n\geqslant 1$, on a (\cite{Lauritzen} §
+2.7) \[A_{n-1}^2 - kN B_{n-1}^2 = (-1)^n Q_n\] et donc
 \begin{equation}
 	A_{n-1}^2 \equiv (-1)^n Q_n.
 \end{equation}
 On a également (\cite{Lauritzen} dém. de 2.5.8)
-\begin{equation}
+\begin{equation}\label{inegalite}
 	\begin{cases}
 		P_n < \sqrt{kN} \\
 		Q_n < 2\sqrt{kN}.
