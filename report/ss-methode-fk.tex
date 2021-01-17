@@ -1,7 +1,6 @@
-\subsection{Méthodes de factorisation de Fermat-Kraitchik et utilisation des
-fractions continues}
+\subsection{Factorisation par fractions continues}
 
-Dans toute cette section, $N$ désigne un entier naturel composé impair.
+Dans toute ce paragraphe, $N$ désigne un entier naturel composé impair.
 
 \subsubsection{Méthodes de Fermat et Kraitchik}
 
@@ -13,36 +12,33 @@ La méthode de factorisation de Fermat part du constat suivant.
 \end{lemme}
 
 \begin{proof}
-	En effet, si $N = u^2 - v^2, u, v\in \Z$ alors $N = (u-v)(u + v)$.
-	Réciproquement si l'on a une factorisation $N = ab$, alors \[N =
-	\left(\frac{a+b}{2}\right)^2 - \left(\frac{a-b}{2}\right)^2.\]
+	Si $N = u^2 - v^2, u, v\in \Z$ alors $N = (u-v)(u + v)$. Réciproquement si
+	l'on a une factorisation $N = ab$, alors $N = \left(\frac{a+b}{2}\right)^2
+	- \left(\frac{a-b}{2}\right)^2$.
 \end{proof}
 
-La méthode de Fermat cherche donc à exploiter cette propriété en exprimant $N$
-comme la différence de deux carrés pour en déduire une factorisation. Celle-ci se
-montre particulièrement efficace lorsque $N$ est le produit de deux entiers
-proches l'un de l'autre. Notons $N=ab$ une factorisation de $N$,
-$r=\frac{a+b}{2}$ et $s=\frac{a-b}{2}$. On a \[N = r^2 - s^2\] et que l'entier
-$r$ est donc plus grand que $\sqrt{N}$ tout en lui étant proche. Il existe donc
-un entier positif $u$ \emph{pas trop grand} tel que \[\ent{\sqrt{N}} + u = r\]
-et donc tel que $(\ent{\sqrt{N}} + u)^2 - N$ soit un carré. Trouver un tel
-entier $u$ donne alors la factorisation de $N$. Comme les facteurs de $N$ sont
-proches l'un de l'autre, on le trouve par essais successifs. \\
+La méthode de Fermat exploite cette propriété et se montre particulièrement
+efficace lorsque $N$ est le produit de deux entiers proches l'un de l'autre.
+Notons $N=ab$ une factorisation de $N$, $r=\frac{a+b}{2}$, $s=\frac{a-b}{2}$ de
+sorte que \[N = r^2 - s^2.\] Par hypothèse, l'entier $r$ est donc plus grand
+que $\sqrt{N}$ tout en lui étant proche. Il existe donc un entier positif $u$
+\emph{pas trop grand} tel que \[\ent{\sqrt{N}} + u = r\] et donc tel que
+$(\ent{\sqrt{N}} + u)^2 - N$ soit un carré. Trouver un tel entier $u$ donne
+alors la factorisation de $N$. Comme les facteurs de $N$ sont proches l'un de
+l'autre, on le trouve par essais successifs. \\
 
-La méthode de Fermat n'est cependant pas du tout efficace lorsque les facteurs
-de $N$ ne sont pas proches. D'après \NTS{MB}, la méthode est alors encore plus
-coûteuse que la méthode des divisions successives. \\
-
-Dans les années 1920, Maurice Kraitchik a raffiné la méthode de Fermat pour
-améliorer son efficacité. Ses idées sont au cœur des algorithmes de
-factorisations les plus performants en 2020. Son idée essentielle est que pour
-factoriser $N$, il n'est pas \emph{nécessaire} de l'exprimer comme différence
-de deux carrés ~; trouver une différence de deux carrés qui soit un multiple de
-$N$ \emph{suffit}.
+La méthode de Fermat est cependant inefficace lorsque les facteurs de $N$ ne
+sont pas proches. D'après \cite{Tale} ¶ \emph{Fermat and Kraitchik}, la méthode
+est alors encore plus coûteuse que la méthode des divisions successives. Dans
+les années 1920, Maurice Kraitchik a amélioré l'efficacité de la méthode de
+Fermat. Son idée essentielle est que pour factoriser $N$, il \emph{suffit} de
+trouver une différence de deux carrés qui soit un multiple de $N$.
 
 \begin{lemme}
 	Connaître deux entiers $u, v \in \Z$ tels que $u^2 \equiv v^2 
 	\pmod{N}$ et $u\not\equiv \pm v\pmod{N}$ fournit une factorisation de $N$.
+	Plus spécifiquement, les entiers $\pgcd(u-v, N)$ et $\pgcd(u+v, N)$ sont
+	des facteurs non triviaux de $N$.
 \end{lemme}
 
 \begin{proof}
@@ -60,30 +56,18 @@ $N$ \emph{suffit}.
 	$u$ et $v$ nous fournissentun facteur non trivial de $N$. \\
 \end{remarque}
 
-Comment trouver de tels couples $(u, v)$ ? Kraitchik a eu l'idée de ne chercher
-dans un premier temps que des congruences de la forme : \[u_i^2 \equiv v_i 
-\pmod{N}\] Il a remarqué qu'il suffisait d'exhiber une famille $v_1, \cdots,
-v_r$ telle que $\prod_{i=1}^r v_i$ soit un carré pour savoir comment obtenir 
-une congruence de carrés par multiplication de congruences. \\
+Pour factoriser $N$, il s'agit donc de trouver de tels couples $(u, v)$.
+Kraitchik cherche pour cela des couples $(u_i, v_i)_{1\leq i \leq r}$ vérifiant
+\[u_i^2 \equiv v_i \pmod{N}\] et tels que l'entier $\prod_{i=1}^r v_i$ soit un
+carré (dans $\Z$). Posant $u = \prod_{i=1}^r u_i$ et $v = \sqrt{\prod_{i=1}^r
+v_i}$, il vient \[v^2\equiv u^2 \pmod{N}.\] En posant $K := X^2 - N \in \Z[X]$,
+alors $u_i^2 \equiv K(u_i) \pmod{N}$ pour tout $u_i\in \Z$.  Il a donc cherché
+des éléments $v_i$ de la forme $K(u_i)$ dont le produit est un carré. Cette
+méthode souffre toutefois d'un problème d'efficacité, puisqu'il est nécessaire
+de calculer un grand nombre de $K(x_i)$. La croissance de la fonction associée
+au polynôme $K$ étant quadratique, le coût des calculs devient prohibitif.
 
-Il originellement utilisé le polynôme $K := X^2 - N \in \Z[X]$ qui fournit la
-congruence $u_i^2 \equiv K(u_i) \pmod{N}$. Si on sait que  $K(u_1)\cdots K(u_r)$ 
-est un carré, en posant $u = u_1\cdots u_r$ et $v = \sqrt{ K(u_1)\cdots K(u_r)}$ 
-on a bien :
-\[v^2 \equiv K(u_1)\cdots K(u_r) \equiv u_1^2 \cdots u_k^2 \equiv u^2\pmod{N}\]
-
-Cette méthode souffre toutefois d'un problème d'efficacité, puisqu'il est nécessaire 
-de calculer un grand nombre de $K(x_i)$. La croissance de la fonction associée 
-au polynôme $K$ étant quadratique, le coût des calculs devient prohibitif.\\
-
-\NTS{Je suis pas vraiment d'accord que le problème vient de là, pour moi le problème
-vient de la nécessité de trouver des $K(u_i)$B-friables, comme on a pas de borne c'est
-moins bien que les fractions continues, mais pas du fait de calculer un
-carré meme si c'est grand on sait le faire. Crible quadratique utilise le même 
-polynome mais ajoute un crible bien pensé à la place des divisions successives. 
-J'enleverais la remarque et garderais suelement celle qui vient après. }
-
-Il reste à savoir comment trouver cette famille $v_1 \cdots v_r$.\\
+\NTS{régler la question de l'efficacité et du coût}
 
 \subsubsection{Recherche de congruences de carrés}
 
