@@ -119,7 +119,7 @@ void calculate_A_Q(mpz_t A, const mpz_t *Ans, mpz_t Q, const mpz_t *Qns,
     mpz_set(A, Ans[i]);			 // A <- A1
     mpz_set(R, Qns[i]);			 // R <- Q1
 
-    while  (0 != mpz_cmp_ui(hist_vect, 0)) {
+    while (0 != mpz_cmp_ui(hist_vect, 0)) {
         i = mpz_scan1(hist_vect, i+1);
         mpz_clrbit(hist_vect, i);
 

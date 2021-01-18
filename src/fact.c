@@ -2,7 +2,7 @@
 
 #include "fact.h"
 
-void print_results(const Params *P, const Results *R){
+void print_results(const Params *P, const Results *R) {
     /*
     Print the parameters used to search a factor of P-> N and the
     results.
@@ -14,7 +14,7 @@ void print_results(const Params *P, const Results *R){
     // Print the parameters
     if (P-> lp_var) {
         printf("With the large prime variation \n"); 
-    }else{
+    } else {
         printf("Without the large prime variation \n"); 
     }
     gmp_printf("N: %Zd \n",       P-> N); 
@@ -26,14 +26,14 @@ void print_results(const Params *P, const Results *R){
     // Print the results
     if (R-> found) {
        gmp_printf("\nFactor found: %Zd \n", R-> fact_found); 
-    }else{
+    } else {
         printf("No factor found \n"); 
     }
     printf("nb_AQp: %lu \n", R-> nb_AQp);
     printf("last_n: %lu \n", R-> n_last); 
 } 
 
-void contfract_factor(const Params *P, Results *R){
+void contfract_factor(const Params *P, Results *R) {
     /*
     Use the continued fraction method to search a non trivial factor
     of P-> N. Compute the factor base with the auxiliary function 
@@ -73,7 +73,7 @@ void contfract_factor(const Params *P, Results *R){
     create_AQ_pairs(P, R, Ans, Qns, exp_vects, factor_base, &list_AQp_lp); 
    
     // Try to find a factor
-    if (! R-> found){
+    if (! R-> found) {
         init_hist_vects(hist_vects, R-> nb_AQp);
         find_factor(R, Ans, Qns, exp_vects, hist_vects, P-> N);
     }
@@ -90,7 +90,7 @@ void contfract_factor(const Params *P, Results *R){
     delete_AQp_lp_list(&list_AQp_lp); 
 }
 
-size_t choose_s_fb(const mpz_t N){
+size_t choose_s_fb(const mpz_t N) {
     /*
     Choose the size of the factor base according to the parameters 
     of Morrison and Brillhart's paper.
@@ -100,34 +100,34 @@ size_t choose_s_fb(const mpz_t N){
     */
     size_t nb_digits = mpz_sizeinbase(N, 10); 
 
-    if (nb_digits <= 20){
+    if (nb_digits <= 20) {
         return 60; 
     }
-    if (nb_digits <= 23){
+    if (nb_digits <= 23) {
         return 150; 
     }
-    if (nb_digits <= 25){
+    if (nb_digits <= 25) {
         return 200; 
     }
-    if (nb_digits <= 28){
+    if (nb_digits <= 28) {
         return 300; 
     }
-    if (nb_digits <= 30){
+    if (nb_digits <= 30) {
         return 400; 
     }
-    if (nb_digits <= 32){
+    if (nb_digits <= 32) {
         return 450; 
     }
-    if (nb_digits <= 34){
+    if (nb_digits <= 34) {
         return 500; 
     }
-    if(nb_digits <= 36){
+    if(nb_digits <= 36) {
         return 550; 
     }
-    if(nb_digits <= 38){
+    if(nb_digits <= 38) {
         return 600; 
     }
-    if(nb_digits <= 40){
+    if(nb_digits <= 40) {
         return 650; 
     }
     return 750; 

@@ -3,7 +3,7 @@
 #include "lp_var.h"
 
 AQp_lp *create_AQp_lp(const mpz_t Qn, const mpz_t Anm1, const mpz_t lp, 
-                      const mpz_t exp_vect){
+                      const mpz_t exp_vect) {
     /*
     Allocate the memory for a node and initialize its member Qn, Anm1,
     lp and exp_vect.
@@ -39,7 +39,7 @@ void delete_AQp_lp_list(AQp_lp **list) {
     AQp_lp *node;     // Node to be deleted
 
     current = *list; 
-    while(current) {
+    while (current) {
         node = current; 
         current = current-> next; 
         mpz_clears(node-> Anm1, node-> Qn, node-> lp, node-> exp_vect, NULL);
@@ -51,7 +51,8 @@ void delete_AQp_lp_list(AQp_lp **list) {
 void insert_or_elim_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1, 
                        const mpz_t lp, mpz_t exp_vect, mpz_t *Qns,
                        mpz_t *Ans, mpz_t *exp_vects, size_t *nb_AQp,
-                       const mpz_t N, mpz_t A, mpz_t Q, mpz_t gcd, Results *R){
+                       const mpz_t N, mpz_t A, mpz_t Q, mpz_t gcd,
+                       Results *R) {
     /*
     Given a large prime lp, check if lp is already a parameter of a node
     of list (a sorted linked list). If it is, use the AQp_lp with this
@@ -94,7 +95,7 @@ void insert_or_elim_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1,
         // If the list is empty, create a node and make it the head of the list
         *list = create_AQp_lp(Qn, Anm1, lp, exp_vect);
         return; 
-    }else if (0 < mpz_cmp(current-> lp, lp) ) {
+    } else if (0 < mpz_cmp(current-> lp, lp) ) {
         // If the value of lp is smaller than the lp of the head node
         // Create a node and insert it at the start of the list
         node = create_AQp_lp(Qn, Anm1, lp, exp_vect);
@@ -103,7 +104,7 @@ void insert_or_elim_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1,
         return; 
     }
 
-    while(current-> next) {
+    while (current-> next) {
         if(0 < mpz_cmp(current-> next-> lp, lp)) {
             // We reach the position where the node may be inserted.
             if(mpz_cmp(current-> lp, lp)) {
@@ -113,7 +114,7 @@ void insert_or_elim_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1,
                 node-> next= current-> next;
                 current-> next = node;
                 return; 
-            }else{
+            } else {
                 // Do not add a nod. Use the Aqp_lp in the list which
                 // has the same lp as a pivot of the gaussian elim.
                 // Add the resulting A-Q pair to the Qns, Ans and 
@@ -135,7 +136,7 @@ void insert_or_elim_lp(AQp_lp **list, const mpz_t Qn, const mpz_t Anm1,
                         mpz_set(R-> fact_found, gcd); 
                         R-> found = 1;
                     }
-                }else{
+                } else {
                     // Add a new A-Q pair
                     mpz_init_set(Qns[*nb_AQp], Q); 
                     mpz_init_set(Ans[*nb_AQp], A);

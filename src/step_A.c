@@ -50,7 +50,7 @@ void init_factor_base(mpz_t *factor_base, size_t s_fb, const mpz_t N,
     mpz_clears(kN, prime, NULL);
 }
 
-void init_results(Results *R){
+void init_results(Results *R) {
     /*
     Initialize a structure Results.
 
@@ -63,6 +63,6 @@ void init_results(Results *R){
     R-> n_last = 0; 
 } 
 
-void clear_Params_Results(Params *P, Results *R){
+void clear_Params_Results(Params *P, Results *R) {
     mpz_clears(P-> N, R-> fact_found, NULL); 
 }

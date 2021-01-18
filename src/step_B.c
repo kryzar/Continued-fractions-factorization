@@ -60,7 +60,7 @@ int is_Qn_factorisable(const Params *P, size_t *Qn_odd_pows,
     if ( 0 == mpz_cmp_ui(Qn_divided, 1) ) {
         // If Qn_divided has been completely simplified
         return 1; 
-    }else if (P-> lp_var && 0 > mpz_cmp(Qn_divided, pm_squared) ) {
+    } else if (P-> lp_var && 0 > mpz_cmp(Qn_divided, pm_squared) ) {
         // If the large prime variation is used and if the remaining 
         // cofactor is less than pm^2 
         return -1; 
@@ -118,7 +118,7 @@ void init_exp_vect(int init, mpz_t exp_vect, const size_t *Qn_odd_pows,
         mpz_setbit(exp_vect, 0); // Set the least significant bit to 1
     }
 
-    for (size_t i = 0; i < nb_Qn_odd_pows; i++){
+    for (size_t i = 0; i < nb_Qn_odd_pows; i++) {
         // Set the other bits
         mpz_setbit(exp_vect, Qn_odd_pows[i] + 1); 
     }
@@ -176,7 +176,7 @@ void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns,
 
     /*************************************
     * Declarations for insert_or_elim_lp *
-    *************************************/
+    **************************************/
 
     mpz_t  A;          
     mpz_t  Q;          
@@ -269,7 +269,7 @@ void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns,
                                Qnm1, Qn, rnm1, rn, qn, Gn, g, temp, AQtemp, NULL); 
                     return; 
                 }
-            }else{
+            } else {
                 // If the exponent associated to Qn is not zero
                 // Add a A-Q pair
                 mpz_init_set(Ans[nb_AQp], Anm1); // Store A_{n-1}
@@ -278,7 +278,7 @@ void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns,
                               nb_Qn_odd_pows, n); 
                 nb_AQp++; 
             }
-        }else if (-1 == r){ 
+        } else if (-1 == r) { 
             // If Qn is almost B-smooth and the large prime variation is used
             init_exp_vect(0, exp_vect, Qn_odd_pows, nb_Qn_odd_pows, n); 
             insert_or_elim_lp(list, Qn, Anm1, Qn_divided, exp_vect, Qns, Ans,
