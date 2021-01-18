@@ -48,12 +48,12 @@ void contfract_factor(const Params *P, Results *R) {
              results.
     */
 
-    mpz_t *factor_base; 
-    mpz_t *Ans; 
-    mpz_t *Qns; 
-    mpz_t *exp_vects; 
-    mpz_t *hist_vects; 	
-    AQp_lp* list_AQp_lp = NULL; // For the large prime variation
+    mpz_t  *factor_base; 
+    mpz_t  *Ans; 
+    mpz_t  *Qns; 
+    mpz_t  *exp_vects; 
+    mpz_t  *hist_vects; 	
+    AQp_lp *list_AQp_lp = NULL; // For the large prime variation
 
     /**************
     * Allocations *

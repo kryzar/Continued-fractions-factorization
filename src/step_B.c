@@ -92,7 +92,7 @@ void init_hist_vects(mpz_t *hist_vects, size_t nb_AQp) {
 
 
 void init_exp_vect(int init, mpz_t exp_vect, const size_t *Qn_odd_pows, 
-                   size_t nb_Qn_odd_pows, size_t n){
+                   size_t nb_Qn_odd_pows, size_t n) {
     /*
     Initialize exp_vect if init == 1 and compute its value with the
     data stored in the array Qn_odd_odd_pows and the index n. If n
@@ -203,11 +203,11 @@ void create_AQ_pairs(const Params *P, Results *R, mpz_t *Ans, mpz_t *Qns,
     size_t nb_AQp; // Number of A-Q pairs such that Qn has all
                    // its prime factor with an odd valuation in
                    // factor_base.
-    int    r;      // To store the result of the is_Qn_factorisable
+    int    r;      // To store the result of is_Qn_factorisable
     
     mpz_inits(An, Qnm1, rnm1, rn, qn, Gn, g, temp, AQtemp, NULL);
-    mpz_init_set_ui(Anm1, 1); // A_{-1} <-- 1
-    mpz_init_set_ui(Qn, 1);	  // Q0 <-- 1
+    mpz_init_set_ui(Anm1, 1);       // A_{-1} <-- 1
+    mpz_init_set_ui(Qn, 1);         // Q0 <-- 1
 
     mpz_mul_ui(Qnm1, P-> N, P-> k); // Q_{-1} <-- kN
     mpz_sqrt(g, Qnm1);              // g = [sqrt(k*N)] 
