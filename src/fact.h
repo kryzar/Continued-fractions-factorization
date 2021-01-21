@@ -3,8 +3,10 @@
 #ifndef FACT_H
 #define FACT_H
 
-#include <gmp.h>
 #include <stdio.h>
+#include <gmp.h>
+#include <stdlib.h>
+#include <time.h> 
 #include "step_A.h"
 #include "step_B.h"
 #include "step_C.h"

@@ -47,6 +47,15 @@ int is_Qn_factorisable(const Params *P, size_t *Qn_odd_pows,
 
     size_t i = 0;
     while (i < P-> s_fb && mpz_cmp_ui(Qn_divided, 1) ) {
+        /*
+        // Early abort strategy 
+        if (P-> eas && i == P-> eas_cut ) {
+            if ( mpz_cmp(Qn_divided, P->eas_bound_div) > 0 ) {
+                // If Qn_divided > P-> eas_bound_div give up Qn
+                return 0; 
+            }
+        }
+        */
         // Find the valuation of factor_base[i] and simplify Qn_divided
         valuation = mpz_remove(Qn_divided, Qn_divided, factor_base[i]); 
         if (1 == (valuation & 0x1) ) {
