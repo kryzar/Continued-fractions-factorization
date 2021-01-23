@@ -12,7 +12,7 @@ int is_Qn_factorisable(const Params *P, size_t *Qn_odd_pows,
     (if after having removed all prime divisors of Qn which belong to
     factor_base, the remaining cofactor is less than pm_squared). If the 
     early abort strategy is used, give up Qn if after P-> eas_cut divisions
-    the unfactored prtion of Qn exceeds P-> eas_bound_div.
+    the unfactored portion of Qn exceeds P-> eas_bound_div.
     During this process, when a prime factor of Qn is found and if this
     factor has an odd power in the factorization, its index in factor_base 
     is stored in Qn_odd_pows. For each call of the function is_Qn_factorisable,
@@ -23,8 +23,9 @@ int is_Qn_factorisable(const Params *P, size_t *Qn_odd_pows,
 
     return: 1 if Qn is factor_base-smooth, -1 if the large prime variation
             is used and Qn is almost factor_base-smooth, 0 otherwise.
-    param P: Set of parameters from the problem used to know the size of
-             factor_base and if the large prime variation should be used.
+    param P: Set of parameters for the problem used to know the size of
+             factor_base and if the large prime variation and the early abort
+             strategy should be used.
     param Qn_odd_pows: An array to store the indexes of the prime 
                        factors of Qn that have an odd valuation. It
                        is already allocated and initialized (size s_fb).
