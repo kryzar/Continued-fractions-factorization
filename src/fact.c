@@ -1,6 +1,7 @@
 /* fact.c */
 
 #include "fact.h"
+#include <gmp.h>
 
 void print_results(const Params *P, const Results *R) {
     /*
@@ -17,21 +18,32 @@ void print_results(const Params *P, const Results *R) {
     } else {
         printf("Without the large prime variation \n"); 
     }
-    gmp_printf("N: %Zd \n",       P-> N); 
+    if (P-> eas) {
+        printf("With the early abort strategy (1 cut) \n"); 
+    } else {
+        printf("Without the early abort strategy \n"); 
+    }
+    gmp_printf("N: %Zd \n", P-> N);
+    if (P-> eas) {
+        printf("eas_cut: %u th prime \n", P-> eas_cut); 
+        printf("eas_coeff: %lu\n",        P-> eas_coeff); 
+    }
     printf("k: %u \n",            P-> k); 
     printf("n_lim: %lu \n",       P-> n_lim); 
     printf("s_fb : %lu \n",       P-> s_fb); 
     printf("nb_want_AQp: %lu \n", P-> nb_want_AQp);
 
     // Print the results
+    printf("\nsize of N: %lu bits \n", R-> nb_bits); 
     if (R-> found) {
-       gmp_printf("\nFactor found: %Zd \n", R-> fact_found); 
+       gmp_printf("Factor found: %Zd \n", R-> fact_found); 
     } else {
         printf("No factor found \n"); 
     }
     printf("nb_AQp: %lu \n", R-> nb_AQp);
-    printf("last_n: %lu \n", R-> n_last); 
-} 
+    printf("last_n: %lu \n", R-> n_last);
+    printf("time: %f \n\n",  R-> time); 
+}
 
 void contfract_factor(const Params *P, Results *R) {
     /*
@@ -41,13 +53,16 @@ void contfract_factor(const Params *P, Results *R) {
     create_AQ_pairs. At last, search a factor with the auxiliary function
     find_factor. 
     If a factor is found, R-> found will be 1 and the factor will be in
-    R-> factor.
+    R-> factor. Set the exectution time in R-> time and the size of N in
+    R-> nb_bits.
 
     param P: Pointer to the structure used to store the parameters.
     param R: Pointer to the structure which will be used to store the
              results.
     */
-
+    clock_t t_start = clock();
+    clock_t t_end; 
+    float   time; 
     mpz_t  *factor_base; 
     mpz_t  *Ans; 
     mpz_t  *Qns; 
@@ -87,7 +102,11 @@ void contfract_factor(const Params *P, Results *R) {
     free_mpz_array(exp_vects, R-> nb_AQp); 
     free_mpz_array(hist_vects, R-> nb_AQp); 
     free_mpz_array(factor_base, P -> s_fb);
-    delete_AQp_lp_list(&list_AQp_lp); 
+    delete_AQp_lp_list(&list_AQp_lp);
+
+    t_end = clock(); 
+    R-> time = (float) (t_end - t_start)/CLOCKS_PER_SEC;
+    R-> nb_bits = mpz_sizeinbase(P-> N, 2) - 1; 
 }
 
 size_t choose_s_fb(const mpz_t N) {
@@ -133,6 +152,8 @@ size_t choose_s_fb(const mpz_t N) {
     return 750; 
     
 } 
+
+const unsigned PRIMES[S_PRIMES] = {3, 5, 7, 11, 13, 17, 19, 23, 29, 31};
 
 unsigned choose_k(const mpz_t N, unsigned k_max) {
     /*
