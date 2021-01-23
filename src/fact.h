@@ -9,10 +9,17 @@
 #include "step_B.h"
 #include "step_C.h"
 
+#define S_PRIMES 10  // Size of the PRIMES array used to choose_k 
+#define K_MAX    97  // Default value for the maximum value of k
+
+const unsigned PRIMES[S_PRIMES] = {3, 5, 7, 11, 13, 17, 19, 23, 29, 31}; 
+
 void print_results(const Params *P, const Results *R);
 
 void contfract_factor(const Params *P, Results *R);
 
 size_t choose_s_fb(const mpz_t N); 
+
+unsigned choose_k(const mpz_t N, unsigned k_max); 
 
 #endif 

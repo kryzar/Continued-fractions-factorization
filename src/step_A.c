@@ -19,8 +19,8 @@ void free_mpz_array(mpz_t *array, size_t s_array) {
 void init_factor_base(mpz_t *factor_base, size_t s_fb, const mpz_t N,
 					  unsigned k) {
     /*
-    Compute the factor base of size s_fb, which contains the prime 2 
-    and the smallest primes p such that the Legendre symbol (kN/p) = 1. 
+    Compute the factor base of size s_fb, which contains the prime 2 and
+    the smallest primes p such that the Legendre symbol (kN/p) = 1 or 0. 
 
     param factor_base: An array of size 's_fb' already allocated but
                        not initialized.
@@ -41,7 +41,7 @@ void init_factor_base(mpz_t *factor_base, size_t s_fb, const mpz_t N,
     i = 1; 
     while (i < s_fb) {
         mpz_nextprime(prime, prime); 
-        if (1 == mpz_legendre(kN, prime)) {
+        if (-1 != mpz_legendre(kN, prime)) {
             mpz_init_set(factor_base[i], prime); 
             i ++; 
         }
