@@ -2,8 +2,8 @@
 
 #include <time.h>
 #include "step_A.h"
-#include "step_B.h"
-#include "step_C.h"
+#include "step_1.h"
+#include "step_2.h"
 #include "fact.h"
 #include "test.h"
 
@@ -31,8 +31,8 @@ int main(int argc, char **argv) {
     */
     
     P.lp_var = 1; 
-    P.s_fb = 450;
-    P.nb_want_AQp = 450 + 16; 
+    P.s_fb = 500;
+    P.nb_want_AQp = 500 + 16; 
 
     set_eas_params(&P, EAS_CUT, EAS_COEFF);
     contfract_factor(&P, &R); 

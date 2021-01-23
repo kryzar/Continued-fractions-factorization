@@ -1,6 +1,6 @@
-/* step_B.c */
+/* step_1.c */
 
-#include "step_B.h"
+#include "step_1.h"
     
 int is_Qn_factorisable(const Params *P, size_t *Qn_odd_pows,
                        size_t *nb_Qn_odd_pows, const mpz_t Qn, mpz_t Qn_divided,

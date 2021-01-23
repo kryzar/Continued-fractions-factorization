@@ -1,6 +1,6 @@
-/* step_C.c */
+/* step_2.c */
 
-#include "step_C.h"
+#include "step_2.h"
 
 void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_indexes,
 	                 size_t *nb_lin_rel, size_t nb_AQp) {

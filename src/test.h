@@ -7,8 +7,8 @@
 #include <stdio.h>
 #include <gmp.h>
 #include "step_A.h"
-#include "step_B.h"
-#include "step_C.h"
+#include "step_1.h"
+#include "step_2.h"
 #include "fact.h"
 
 void rand_N(mpz_t N, mp_bitcnt_t nb_bits, gmp_randstate_t state); 

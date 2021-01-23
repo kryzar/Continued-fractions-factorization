@@ -8,8 +8,8 @@
 #include <stdlib.h>
 #include <time.h> 
 #include "step_A.h"
-#include "step_B.h"
-#include "step_C.h"
+#include "step_1.h"
+#include "step_2.h"
 
 #define S_PRIMES 10  // Size of the PRIMES array used to choose k 
 #define K_MAX    97  // Default value for the maximum value of k

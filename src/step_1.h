@@ -1,7 +1,7 @@
-/* step_B.h */
+/* step_1.h */
 
-#ifndef STEP_B_H
-#define STEP_B_H
+#ifndef STEP_1_H
+#define STEP_1_H
 
 #include <gmp.h>
 #include "step_A.h"
