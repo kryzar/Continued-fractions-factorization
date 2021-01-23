@@ -21,19 +21,20 @@ int main(int argc, char **argv) {
      
     mpz_set_str(P.N, "340282366920938463463374607431768211457", 10);
      
-    P.k = 257; 
+    P.k = choose_k(P.N, K_MAX); 
     P.n_lim = 3300000; 
- 
+
+    /*
     P.lp_var = 0;
     P.nb_want_AQp = 2060; 
     P.s_fb = 2700;
+    */
     
-    
-    //P.lp_var = 1; 
-    //P.s_fb = 450;
-    //P.nb_want_AQp = 450 + 16; 
-    
-    // set_eas_params(&P, EAS_CUT, EAS_COEFF);
+    P.lp_var = 1; 
+    P.s_fb = 500;
+    P.nb_want_AQp = P.s_fb + 16; 
+
+    set_eas_params(&P, EAS_CUT, EAS_COEFF);
     contfract_factor(&P, &R); 
     print_results(&P, &R); 
     clear_Params_Results(&P, &R); 

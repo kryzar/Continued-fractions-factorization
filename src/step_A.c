@@ -41,7 +41,7 @@ void init_factor_base(mpz_t *factor_base, size_t s_fb, const mpz_t N,
     i = 1; 
     while (i < s_fb) {
         mpz_nextprime(prime, prime); 
-        if (1 == mpz_legendre(kN, prime)) {
+        if (-1 != mpz_legendre(kN, prime)) {
             mpz_init_set(factor_base[i], prime); 
             i ++; 
         }
