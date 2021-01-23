@@ -5,7 +5,7 @@
 void rand_N(mpz_t N, mp_bitcnt_t nb_bits, gmp_randstate_t state) {
     /*
     Choose randomly a value for N such that N is a product of two 
-    prime number of the same size and N is approximately nb_bits bit. 
+    prime numbers of the same size and N is approximately nb_bits bits. 
     
     param N: Is already initialized. 
     param nb_bits: Number of bits wanted (approximately) for N.
@@ -35,14 +35,8 @@ void rand_N(mpz_t N, mp_bitcnt_t nb_bits, gmp_randstate_t state) {
 int nb_bits_vs_time(const char *file_name, mp_bitcnt_t start_bits, 
                     mp_bitcnt_t end_bits, mp_bitcnt_t incr) {
     /*
-    Collect in a file data expressing the computation time as a function 
-    of the size of N. 
-
-    param file_name: Name of the file to write the data.
-    param start_bits: 
-    param end_bits: 
-    param incr: 
-
+    JUSTE POUR TESTER CE TYPE DE FONCTION QUI ECRIT DANS UN FICHIER. 
+    UNE BASE DE TRAVAIL POUR FAIRE APRES DES FONCTIONS PLUS PROPRES.
     */
 
     FILE           *file; 
