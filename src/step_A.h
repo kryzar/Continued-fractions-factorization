@@ -6,9 +6,8 @@
 #include <stdlib.h> 
 #include <gmp.h>
 
-#define EAS_CUT   50        /* default value to initialize aes_cut */
-#define EAS_COEFF 1000000   /* default value used for aes_bound 
-                               initialization */
+#define EAS_CUT   50        /* default value to initialize eas_cut */
+#define EAS_COEFF 1000000   /* default value used to compute eas_bound_div */
 
 typedef struct Params {
     /*
@@ -18,12 +17,12 @@ typedef struct Params {
     int       lp_var;        /* Boolean to indicate if the large prime
                                 variation is used */
     int       eas;           /* Boolean to indicate if the early abort
-                                strategy is used */
-    unsigned  eas_cut;       /* Index of the cut otherwise */
+                                strategy (eas) is used */
+    unsigned  eas_cut;       /* Index of the cut if the eas is used */
     unsigned long eas_coeff; /* Coefficient to compute eas_bound_div */ 
     mpz_t     eas_bound_div; /* Bound used to test if the unfactored 
                                 portion of Qn is too large to continue 
-                                the factorization (sqrt(N)/eas_coeff) */   
+                                the factorization (sqrt(kN)/eas_coeff) */   
     mpz_t     N;             /* Integer to factor */
     unsigned  k;             /* Multiplier k used in sqrt(kN) */
     size_t    n_lim;         /* Upper limit of the index n in the cont.

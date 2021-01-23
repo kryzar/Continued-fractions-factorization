@@ -10,7 +10,9 @@ int is_Qn_factorisable(const Params *P, size_t *Qn_odd_pows,
     Test (with trial division) if Qn is factor_base-smooth. If the large
     prime variation is used it also tests if Qn is almost factor_base-smooth
     (if after having removed all prime divisors of Qn which belong to
-    factor_base, the remaining cofactor is less than pm_squared).
+    factor_base, the remaining cofactor is less than pm_squared). If the 
+    early abort strategy is used, give up Qn if after P-> eas_cut divisions
+    the unfactored prtion of Qn exceeds P-> eas_bound_div.
     During this process, when a prime factor of Qn is found and if this
     factor has an odd power in the factorization, its index in factor_base 
     is stored in Qn_odd_pows. For each call of the function is_Qn_factorisable,
@@ -43,11 +45,10 @@ int is_Qn_factorisable(const Params *P, size_t *Qn_odd_pows,
     mp_bitcnt_t valuation;   // Qn valuation for a prime of factor_base
     mpz_set(Qn_divided, Qn); // We are going to divide Qn_divided by the
                              // primes of the factor base
-    *nb_Qn_odd_pows = 0; // To start from the beginning of the array
+    *nb_Qn_odd_pows = 0;     // To start from the beginning of the array
 
     size_t i = 0;
     while (i < P-> s_fb && mpz_cmp_ui(Qn_divided, 1) ) {
-        /*
         // Early abort strategy 
         if (P-> eas && i == P-> eas_cut ) {
             if ( mpz_cmp(Qn_divided, P->eas_bound_div) > 0 ) {
@@ -55,7 +56,6 @@ int is_Qn_factorisable(const Params *P, size_t *Qn_odd_pows,
                 return 0; 
             }
         }
-        */
         // Find the valuation of factor_base[i] and simplify Qn_divided
         valuation = mpz_remove(Qn_divided, Qn_divided, factor_base[i]); 
         if (1 == (valuation & 0x1) ) {

@@ -31,8 +31,8 @@ int main(int argc, char **argv) {
     */
     
     P.lp_var = 1; 
-    P.s_fb = 500;
-    P.nb_want_AQp = P.s_fb + 16; 
+    P.s_fb = 450;
+    P.nb_want_AQp = 450 + 16; 
 
     set_eas_params(&P, EAS_CUT, EAS_COEFF);
     contfract_factor(&P, &R); 
