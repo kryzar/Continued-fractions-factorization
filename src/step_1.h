@@ -4,7 +4,7 @@
 #define STEP_1_H
 
 #include <gmp.h>
-#include "step_A.h"
+#include "init_algo.h"
 #include "lp_var.h"
  
 int is_Qn_factorisable(const Params *P, size_t *Qn_odd_pows, 

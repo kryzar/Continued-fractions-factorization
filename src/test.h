@@ -6,7 +6,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <gmp.h>
-#include "step_A.h"
+#include "init_algo.h"
 #include "step_1.h"
 #include "step_2.h"
 #include "fact.h"

@@ -1,13 +1,16 @@
-/* step_A.h */
+/* init_algo.h */
 
-#ifndef STEP_A_H
-#define STEP_A_H
+#ifndef INIT_ALGO_H
+#define INIT_ALGO_H
 
 #include <stdlib.h> 
 #include <gmp.h>
 
-#define EAS_CUT   50        /* default value to initialize eas_cut */
-#define EAS_COEFF 1000000   /* default value used to compute eas_bound_div */
+#define EAS_CUT   50        /* Default value to initialize eas_cut         */
+#define EAS_COEFF 1000000   /* Default value used to compute eas_bound_div */
+#define S_PRIMES  10        /* Size of the PRIMES array used to choose k   */
+#define K_MAX     97        /* Default value for the maximum value of k    */
+
 
 typedef struct Params {
     /*
@@ -58,9 +61,16 @@ typedef struct Results {
 
 void init_mpz_array(mpz_t *array, size_t s_array);
 void free_mpz_array(mpz_t *array, size_t s_array);
-void init_factor_base(mpz_t *factor_base, size_t s_fb, const mpz_t N, unsigned k);
+
 void init_Params_Results(Params *P, Results *R); 
+void clear_Params_Results(Params *P, Results *R);
+
 void set_eas_params(Params *P, unsigned eas_cut, unsigned long eas_coeff); 
-void clear_Params_Results(Params *P, Results *R); 
+
+void init_factor_base(mpz_t *factor_base, size_t s_fb, const mpz_t N, unsigned k);
+
+unsigned choose_k(const mpz_t N, unsigned k_max); 
+
+size_t choose_s_fb(const mpz_t N); 
 
 #endif

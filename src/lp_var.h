@@ -4,7 +4,7 @@
 #define LP_VAR_H
 
 #include <gmp.h>
-#include "step_A.h"
+#include "init_algo.h"
 
 typedef struct AQp_lp{
     /*

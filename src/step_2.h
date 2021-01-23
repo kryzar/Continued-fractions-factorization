@@ -4,7 +4,7 @@
 #define STEP_2_H
 
 #include <gmp.h>
-#include "step_A.h"
+#include "init_algo.h"
 
 void gauss_elimination(mpz_t *exp_vects, mpz_t *hist_vects, size_t *lin_rel_indexes,
                        size_t *nb_lin_rel, size_t nb_AQp);
