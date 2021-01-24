@@ -6,36 +6,33 @@ $(A, Q)$ avec $Q$ friable pour une base de factorisation préalablement détermi
 On associe à chaque $Q$ ainsi produit un vecteur exposant \texttt{mpz\_t exp\_vect}.
 Ce vecteur permet de retenir les nombres premiers qui interviennent dans la 
 factorisation de $Q$ avec une valuation impaire. Dans le but d'augmenter le nombre
-de paires $(A,Q) $ acceptées lors de cette étape, nous avons implémenté la "large 
-prime variation". Celle-ci permet d'accepter une paire si $Q$ se factorise  grâce
+de paires $(A,Q) $ acceptées lors de cette étape, nous avons implémenté la \og 
+large prime variation \fg{}. Celle-ci permet d'accepter une paire si $Q$ se factorise  grâce
 aux premiers de la base de factorisation et à un grand facteur premier 
-supplémentaire. Les fonctions de cette phase de collecte sont rassemblées dans les
-fichiers \texttt{step\_1.h} et \texttt{step\_1.c}. Elles font appel, pour mettre
-en oeuvre la "large prime variation", aux fonctions des fichiers \texttt{lp\_var.h}
-et \texttt{lp\_var.c}. \\
+supplémentaire. Les fonctions de cette phase de collecte sont rassemblées dans le
+fichier \texttt{step\_1.c}. Elles font appel, pour mettre en oeuvre la 
+\og large prime variation \fg{}, aux fonctions du fichier \texttt{lp\_var.c}. \\
  
 Ces données sont traitées lors de la seconde phase dans l'espoir de trouver un 
 facteur non trivial de $N$. Il s'agit de trouver des ensembles valides de paires
 $(A, Q)$ par pivot de Gauss sur la matrice dont les lignes sont formées des 
-vecteurs exposants. Chaque ensemble valide est à l'origine d'une congruence
-$A^2 \equiv Q^2$ (mod $N$) permettant potentiellement de trouver un facteur non
-trivial de $N$. Les fonctions de cette phase sont regroupées dans les fichiers
-\texttt{step\_2.h} et \texttt{step\_2.c}. \\
+vecteurs exposants. Chaque ensemble valide est à l'origine d'une congruence de 
+la forme $A^2 \equiv Q^2$ (mod $N$) permettant potentiellement de trouver un
+facteur non trivial de $N$. Les fonctions de cette phase sont regroupées dans 
+le fichier \texttt{step\_2.c}. \\
 
 Avant d'effectuer la première étape, il convient de se doter d'une base de 
-factorisation. Ceci est permis par une fonction de fonction \NTS{trouver nom}
-qui gèrent plus généralement le choix par défaut des paramètres. \\
+factorisation. Ceci est permis par une des fonctions de \texttt{init\_algo.c}.
+Ces dernières se chargent plus généralement de l'initialisation et du choix par
+défaut des paramètres. \\
 
-explique \texttt{fact.c} \texttt{fact.h} \\ 
-proposition : renommer stepA stepB stepC fact.h et changer les fonctions de 
-fact.h et stepA.h
+Finalement, en mettant bout à bout les deux étapes, la fonction 
+\texttt{contfract\_factor} du fichier \texttt{fact.c} recherche un facteur
+non trivial de $N$ et \texttt{print\_results} affiche les résultats. 
 
+\subsection{Entrées et sorties du programme}
 
-\newpage
-
-\section{Entrées et sorties du programme}
-
-Nous avons regroupé dans une structures \texttt{Params} les paramètres d'entrée 
+Nous avons regroupé dans une structure \texttt{Params} les paramètres d'entrée 
 de la fonction de factorisation, à savoir :
 
 \begin{itemize}
@@ -45,33 +42,87 @@ de la fonction de factorisation, à savoir :
     \item \texttt{n\_lim} : le nombre maximal de paires $(A,Q)$ que l'on 
                              s'autorise à calculer. Ce nombre prend en compte
                              toutes les paires produites et non uniquement les
-                             paires avec $Q$ friable ou accepté par la "large
-                             prime variation"
+                             paires avec $Q$ friable ou accepté par la \og large
+                             prime variation \fg{}.
     \item \texttt{s\_fb} : la taille de la base de factorisation. 
     \item \texttt{nb\_want\_AQp} : le nombre désiré de paires $(A,Q)$ avec $Q$ 
-                                 friable ou accepté par la "large prime variation"
-    \item des booléens indiquant si la "early abort strategy" ou la "large prime 
-          variation" doivent être utilisées et des paramètres s'y rapportant.
+                                 friable ou accepté par la \og large prime 
+                                 variation \fg{}.
+    \item des booléens indiquant si la \og early abort strategy \fg{} ou la 
+          \og large prime variation \fg{} doivent être utilisées et des paramètres s'y rapportant.
 
 \end{itemize}
 
-Le programme stocke dans une structure \texttt{Results} le facteur non trivial
+Le programme stocke dans une structure \texttt{Results} un facteur non trivial
 de \texttt{N} trouvé (si tel est le cas) ainsi que des données permettant 
-l'analyse des performances de la méthode.
+l'analyse des performances de la méthode est de 
 
 \begin{remarque}
-Nous avons décidé de ne pas implémenter un programme réalisant la factorisation
-complète de $N$. En effet, l'efficatité de la méthode de factorisation dépend
-du choix de certains paramètres : la taille de la base de factorisation et le
-coefficient \texttt{k}. Nous avons préféré les considérer comme paramètres 
-d'entrée du programme plutôt que comme paramètres devant être déterminés par 
-une sous-routine en fonction du nombre à factoriser pou avoir plus de latitude 
-dans les tests. 
+L'efficatité de la méthode de factorisation dépend du choix des paramètres
+ci-dessus. Pour avoir plus de latitude dans les tests, nous les considérons 
+comme des paramètres d'entrée du programme. C'est pourquoi notre programme
+ne s'attèle pas à la factorisation complète d'un entier, qui aurait nécessité
+une sous-routine déterminant des paramètres optimaux. 
+   
 \end{remarque}
 
 \begin{remarque}
 Notre programme n'est pas supposé prendre en entrée un nombre admettant un petit
 facteur premier (inférieur aux premiers de la base de factorisation par exemple).
-En effet, il ne test pas au préalable si $N$ est divisible par des petits facteurs, 
-et mettra donc autant de temps à trouver un petit facteur qu'un grand facteur.
+En effet, comme il ne teste pas au préalable si \texttt{N} est divisible par de 
+petits facteurs, il mettra autant de temps à trouver un petit facteur qu'un
+grand facteur.
 \end{remarque}
+
+\subsection{Collecte des paires $(A,Q)$ : \texttt{step\_1.c et lp\_var.c}}
+
+Décrivons tout d'abord la phase de collecte des données. Elles sont
+stockées au fur et à mesure de la collecte dans les tableaux \texttt{mpz\_t *Ans}, 
+\texttt{mpz\_t *Qns}, \texttt{mpz\_t *exp\_vects} et \texttt{mpz\_t *hist\_vects}.
+A un indice correspond un paire $(A,Q)$ donnée.\\ 
+
+\subsubsection{La fonction \texttt{create\_AQ\_pairs}}
+
+Sachant que seules les paires $(A,Q)$ dont on a pu factoriser $Q_n$ nous
+intéressent pour la seconde phase, nous avons décidé de ne stocker que celles-ci.
+Ce choix a en outre un avantage : étant donné un nombre \texttt{nb\_want\_AQp}
+représentant le nombre voulu de telles paires, il est possible d'arrêter le 
+développement en fraction continue dès que ce nombre est atteint. Cela évite
+d'avoir à stocker toutes les paires $(A,Q)$, pour ensuite sélectionner celles 
+qui nous intéressent, en courant le risque d'en avoir trop ou pas assez. \\
+
+Ce choix amène à avoir une grande fonction, en l'occurence 
+\texttt{create\_AQ\_pairs}, qui au fur à mesure du développement de $\sqrt{kN}$
+en fraction continue, teste si le $Q_n$ qui vient d'être calculé est factorisable.
+Si c'est le cas, on crée son vecteur exposant et ajoute les données de la paire
+aux tableaux \texttt{Ans}, \texttt{Qns} et \texttt{exp\_vects}. Pour faire cela, la fonction
+utilise les sous-routines \texttt{is\_Qn\_factorisable} et 
+\texttt{init\_exp\_vect}.
+
+\subsubsection{La \og early abort strategy \fg{}}
+
+La fonction \texttt{is\_Qn\_factorisable} teste si un $Q_n$ est friable par 
+divisions successives avec les premiers de la base de factorisation.  Un moyen 
+d'améliorer les performances de la méthode est de décider de ne pas poursuivre
+les divisions successives si après un nombre \texttt{eas\_cut} de divisions
+la partie non factorisée de $Q_n$ est trop grande (supérieure à une borne 
+\texttt{eas\_bound\_div} proportionnelle à la borne déjà connue $\sqrt{kN}$). 
+
+\subsubsection{La \og large prime variation \fg{}}
+
+Etant donnée une base de factorisation $B = \{ p_1, \cdots, p_m\}$, la \og large
+prime variation \fg{} consiste à accepter lors de la collecte, non seulement des 
+$Q_n$ $B$-friables mais aussi des $Q_n$ produits d'un entier $B$-friable et d'un
+entier $lp_n$ inférieur à $p_m^2$ (et donc premier), que l'on appelera
+\emph{grand premier (large prime)}. De tels $Q_n$ deviennent intéressants s'ils partagent 
+grand premier $lp$ en commun. \\
+
+En effet, si on on connait $Q_{n_1} = X_{n_1}lp$ et $Q_{n_2} = X_{n_2}lp$ avec $X_{n_1}$ et 
+$X_{n_2}$ $B$-friables, alors 
+\\ 
+
+
+
+
+
+
