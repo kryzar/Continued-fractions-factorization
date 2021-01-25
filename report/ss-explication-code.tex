@@ -1,4 +1,6 @@
-\subsection{La stucture générale du programme}
+\subsection{Architecture du programme}
+
+\subsubsection{Structure générale}
 
 Notre programme comprend deux étapes principales. La première consiste à générer, 
 à partir du développement en fractions continues de $ \sqrt{kN} $, des paires 
@@ -30,8 +32,7 @@ Finalement, en mettant bout à bout les deux étapes, la fonction
 \texttt{contfract\_factor} du fichier \texttt{fact.c} recherche un facteur
 non trivial de $N$ et \texttt{print\_results} affiche les résultats. 
 
-\subsection{Entrées et sorties du programme}
-
+\subsubsection{Entrées et sorties}
 Nous avons regroupé dans une structure \texttt{Params} les paramètres d'entrée 
 de la fonction de factorisation, à savoir :
 
@@ -76,12 +77,21 @@ petits facteurs, il mettra autant de temps à trouver un petit facteur qu'un
 grand facteur.
 \end{remarque}
 
+
+\subsection{Pivot de Gauss et recherche d'un facteur non trivial
+            : \texttt{step\_2.c}}
+
+Avant de nous pencher sur les détails de la phase de collecte, regardons 
+l'implémentation de la seconde phase, qui aide à comprendre quelles
+données nous avons besoin de collecter pendant la première phase et sous 
+quelle forme les stocker.
+
 \subsection{Collecte des paires $(A,Q)$ : \texttt{step\_1.c et lp\_var.c}}
 
-Décrivons tout d'abord la phase de collecte des données. Elles sont
-stockées au fur et à mesure de la collecte dans les tableaux \texttt{mpz\_t *Ans}, 
-\texttt{mpz\_t *Qns}, \texttt{mpz\_t *exp\_vects} et \texttt{mpz\_t *hist\_vects}.
-A un indice correspond un paire $(A,Q)$ donnée.\\ 
+Décrivons tout d'abord \NTS{à présent ? choisir l'ordre} la phase de collecte
+des données. Elles sont stockées au fur et à mesure de la collecte dans les 
+tableaux \texttt{mpz\_t *Ans}, \texttt{mpz\_t *Qns}, \texttt{mpz\_t *exp\_vects}
+et \texttt{mpz\_t *hist\_vects}. A un indice correspond un paire $(A,Q)$ donnée.\\ 
 
 \subsubsection{La fonction \texttt{create\_AQ\_pairs}}
 
@@ -166,4 +176,7 @@ $(A,Q)$ selon la méthode énoncée plus haut et ajoute ses composantes aux tabl
 \texttt{Ans}, \texttt{Qns} et \texttt{exp\_vects}. La fonction
 \texttt{insert\_or\_elim\_lp} se charge de cela. \\
 
-évoquer à un moment \texttt{init\_hist\_vects}\\  
+évoquer à un moment \texttt{init\_hist\_vects}\\ 
+
+
+
