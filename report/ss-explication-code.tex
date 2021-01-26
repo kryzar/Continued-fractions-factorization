@@ -1,11 +1,31 @@
 \subsection{Architecture du programme}
 
+\subsubsection{Terminologie}
+
+Posons pour commencer quelques définitions qui seront utiles pour décrire le code.
+
+\begin{definition}
+	On dira qu'un couple $(A_{n-1}, Q_n)$ est une \emph{paire $(A, Q)$}. .
+\end{definition}
+
+\begin{definition}
+	Un ensemble de paires $(A, Q)$ indexé par $n_1, \dots, n_k$ est dit
+	\emph{valide} si le produit $\prod_{i=1}^k (-1)^{n_i} Q_{n_i}$ est un carré
+	(dans $\Z$ et non uniquement dans $\Z/N\Z$).
+\end{definition}
+
+\begin{definition}
+    Si $B$ est la base de factorisation utilisée par le programme, on 
+    désignera par l'expression \emph{vecteur exposant associé à $Q_n$} 
+    le $B$-vecteurs exposant $v_B((-1)^n Q_n)$.
+\end{definition}
+
 \subsubsection{Structure générale}
 
 Notre programme comprend deux étapes principales. La première consiste à générer, 
 à partir du développement en fractions continues de $ \sqrt{kN} $, des paires 
 $(A, Q)$ avec $Q_n$ friable pour une base de factorisation préalablement déterminée.
-On associe à chaque $Q_n$ ainsi produit un vecteur exposant \texttt{mpz\_t exp\_vect}.
+On associe à chaque $Q_n$ ainsi produit son vecteur exposant \texttt{mpz\_t exp\_vect}.
 Ce vecteur permet de retenir les nombres premiers qui interviennent dans la 
 factorisation de $Q_n$ avec une valuation impaire. Dans le but d'augmenter le nombre
 de paires $(A,Q) $ acceptées lors de cette étape, nous avons implémenté la \og 
@@ -77,21 +97,32 @@ petits facteurs, il mettra autant de temps à trouver un petit facteur qu'un
 grand facteur.
 \end{remarque}
 
-
 \subsection{Pivot de Gauss et recherche d'un facteur non trivial
             : \texttt{step\_2.c}}
 
 Avant de nous pencher sur les détails de la phase de collecte, regardons 
-l'implémentation de la seconde phase, qui aide à comprendre quelles
-données nous avons besoin de collecter pendant la première phase et sous 
-quelle forme les stocker.
+l'implémentation de la seconde phase, qui aide à mieux comprendre la 
+forme sous laquelle nous collectons les données. A l'issue de la première
+phase, on espère avoir collecté \texttt{nb\_want\_AQp} paires $(A,Q)$ avec
+$Q_n$ friable\footnote{ou résultant de la \og large prime variation \fg{} mais 
+cela n'a aucune incidence sur les fonctions de cette partie}. Le nombre
+réel de telles paires est stocké dans le champ \texttt{nb\_AQp} d'une structure
+\texttt{Results}.\\
+
+Les données de ces \texttt{nb\_AQp} paires sont stockées dans
+quatre tableaux : \texttt{mpz\_t *Ans}, \texttt{mpz\_t *Qns}, 
+\texttt{mpz\_t *exp\_vects} et \texttt{mpz\_t *hist\_vects}.
+A un indice correspond un paire $(A,Q)$ donnée. 
 
 \subsection{Collecte des paires $(A,Q)$ : \texttt{step\_1.c et lp\_var.c}}
 
-Décrivons tout d'abord \NTS{à présent ? choisir l'ordre} la phase de collecte
-des données. Elles sont stockées au fur et à mesure de la collecte dans les 
-tableaux \texttt{mpz\_t *Ans}, \texttt{mpz\_t *Qns}, \texttt{mpz\_t *exp\_vects}
-et \texttt{mpz\_t *hist\_vects}. A un indice correspond un paire $(A,Q)$ donnée.\\ 
+Décrivons à présent la phase de collecte des données. Le nombre de paires $(A,Q)$
+collectées sera stockée dans le champ texttt{nb\_AQp} de la structure 
+\texttt{Results}. Concernant les vecteurs
+historiques \texttt{exp\_vect}, il suffit d'initialiser \texttt{exp\_vects[i]} 
+
+évoquer à un moment \texttt{init\_hist\_vects}. Le reste demande un peu plus
+d'explications \\ 
 
 \subsubsection{La fonction \texttt{create\_AQ\_pairs}}
 
@@ -176,7 +207,6 @@ $(A,Q)$ selon la méthode énoncée plus haut et ajoute ses composantes aux tabl
 \texttt{Ans}, \texttt{Qns} et \texttt{exp\_vects}. La fonction
 \texttt{insert\_or\_elim\_lp} se charge de cela. \\
 
-évoquer à un moment \texttt{init\_hist\_vects}\\ 
 
 
 
