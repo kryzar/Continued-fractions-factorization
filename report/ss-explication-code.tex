@@ -127,12 +127,14 @@ A un indice correspond une paire $(A,Q)$ donnée. \\
 
 Le vecteur historique sert à indexer les paires collectées pour former
 un analogue de la matrice identité utilisée pendant le pivot de Gauss. 
-Plus précisément, \texttt{hist\_vects[i]} est le vecteur $(e_{nb\_AQp -1 }, 
-\cdots, e_0)$ où $e_j = \delta_{ij}$.\\ 
+Plus précisément, \texttt{hist\_vects[i]} est, avant pivot de Gauss, le
+vecteur $(e_{k-1}, \cdots, e_0)$ où $k=\texttt{nb\_AQp}$ et $e_j = 
+\delta_{ij}$.\\ 
 
 A partir de ces quatre tableaux, la fonction \texttt{find\_factor} cherche 
-un facteur de \texttt{N}. Elle utilise pour cela les fonctions auxiliaires 
-\texttt{gauss\_elimination} et \texttt{calculate\_A\_Q}. 
+un facteur de \texttt{N} selon la méthode des congruences de carrés. Elle
+utilise pour cela les fonctions auxiliaires \texttt{gauss\_elimination} et
+\texttt{calculate\_A\_Q}. 
 
 \subsubsection{La fonction \texttt{gauss\_elimination}}
 
@@ -145,7 +147,7 @@ vecteurs exposants donne le vecteur nul, cela
 signifie qu'une relation de dépendance a été trouvée. On inscrit alors dans un
 tableau l'indice de ce vecteur nul. Le vecteur historique dudit indice indique 
 les paires $(A,Q)$ de l'ensemble valide trouvé. La procédure que nous avons
-implémentée est décrite ci-dessus. 
+implémentée est décrite ci-dessous. 
 
 \vspace{1em}
 \begin{algorithm}[H]
@@ -192,13 +194,26 @@ $nb\_lin\_rel \gets 0$\;
         }
     }
 }
-\Return{ \textsc{hist\_vects}$[0 \cdots nb\_AQp -1]$,
-           \textsc{lin\_rel\_ind}$[0 \cdots nb\_lin\_rel-1]$,
-           nb\_lin\_rel} 
+\textbf{retourner} \sc{hist\_vects}$[0 \cdots nb\_AQp -1]$, \textsc{lin\_rel\_ind}
+                  $[0 \cdots nb\_lin\_rel-1]$, $ \quad nb\_lin\_rel$
 \end{algorithm}
 \vspace{1em}
 
+\newpage 
 \subsubsection{La fonction \texttt{calculate\_A\_Q}}
+
+Une fois les indices des vecteurs historiques indiquant un ensemble valide de paires 
+$(A, Q)$ récupérés, la fonction \texttt{find\_factor} appelle la fonction
+\texttt{calculate\_A\_Q} pour calculer des entiers $A$ et $Q$ vérifiant
+$A^2 \equiv Q^2 \pmod{N}$. Elle lui donne en argument un de ces vecteurs
+historiques et les données des tableaux \texttt{Ans} et \texttt{Qns}. \\
+
+Notons $k$ l'entier \texttt{nb\_AQp} et $(e_{k-1}, \cdots , e_0) \in \mathbb{F}_2^{k}$ le vecteur 
+historique donné en argument de la fonction. Le calcul de
+\[A:= \prod_{n=0}^{k} A_{n-1}^{e_i} \pmod{N} \] ne pose pas de 
+difficulté. Pour le calcul de \[Q:= \sqrt{\prod_{n=0}^{k-1 } Q_n ^{e_i}}
+\pmod{N},\]
+on utilise l'algorithme proposé par Morrison et Brillhart.
 
 \vspace{1em}
 \begin{algorithm}[H]
@@ -220,7 +235,7 @@ $X \gets \sqrt{R}$\;
 \vspace{1em}
 
 Pour démontrer la correction de l'algorithme, on peut utiliser l'invariant de 
-boucle suivant : $Q\sqrt{R.Q_i\cdots Q_r} \pmod{N} = \sqrt{\prod_{i=1}^r Q_{i}}
+boucle $Q\sqrt{R.Q_i\cdots Q_r} \pmod{N} = \sqrt{\prod_{i=1}^r Q_{i}}
 \pmod{N}$. La conservation de l'invariant découle de l'égalité
 \[  Q\sqrt{R.Q_i\cdots Q_r} \pmod{N} = 
 (QX\text{ mod }N) \sqrt{ \frac{R}{X}\frac{Q_i}{X}Q_{i+1} \cdots Q_r} \pmod{N}.\]
