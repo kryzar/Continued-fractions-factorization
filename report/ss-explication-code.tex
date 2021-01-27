@@ -1,3 +1,5 @@
+\newpage
+
 \subsection{Architecture du programme}
 
 \subsubsection{Terminologie}
@@ -18,7 +20,7 @@ Enonçons pour commencer quelques définitions qui seront utiles pour décrire l
 \begin{definition}
     Si $B$ est la base de factorisation utilisée par le programme, on 
     désignera par l'expression \emph{vecteur exposant associé à $Q_n$} 
-    le $B$-vecteurs exposant $v_B((-1)^n Q_n)$.
+    le $B$-vecteur exposant $v_B((-1)^n Q_n)$.
 \end{definition}
 
 \subsubsection{Structure générale}
@@ -65,7 +67,7 @@ de la fonction de factorisation, à savoir :
                              s'autorise à calculer. Ce nombre prend en compte
                              toutes les paires produites et non uniquement les
                              paires avec $Q_n$ friable ou résultant de la  
-                             \textit{large prime variation }.
+                             \textit{large prime variation}.
     \item \texttt{s\_fb} : la taille de la base de factorisation. 
     \item \texttt{nb\_want\_AQp} : le nombre désiré de paires $(A,Q)$ avec $Q_n$ 
                                     friable ou résultant de la \textit{large prime 
@@ -98,6 +100,7 @@ petits facteurs, il mettra autant de temps à trouver un petit facteur qu'un
 grand facteur.
 \end{remarque}
 
+\newpage 
 \subsection{Pivot de Gauss et recherche d'un facteur non trivial
             : \texttt{step\_2.c}}
 
@@ -111,22 +114,20 @@ phase, on espère avoir collecté \texttt{nb\_want\_AQp} paires $(A,Q)$ avec
 $Q_n$ friable\footnote{ou résultant de la \textit{large prime variation} mais 
 cela n'a aucune incidence sur les fonctions de cette partie.}. Le nombre
 réel de telles paires est stocké dans le champ \texttt{nb\_AQp} d'une structure
-\texttt{Results}.\\
-
-Une paire $(A,Q)$ collectée est caractérisée par :
+\texttt{Results}. Une paire $(A,Q)$ collectée est caractérisée par :
 
 \begin{itemize}
     \item la valeur $A_{n-1}$
     \item la valeur $Q_n$
     \item le vecteur exposant associé à $Q_n$
-    \item un vecteur historique (voir ci-contre) \end{itemize}
-
+    \item un vecteur historique (voir ci-contre)
+\end{itemize}
 Les données de ces \texttt{nb\_AQp} paires sont stockées dans
 quatre tableaux : \texttt{mpz\_t *Ans}, \texttt{mpz\_t *Qns}, 
 \texttt{mpz\_t *exp\_vects} et \texttt{mpz\_t *hist\_vects}.
 A un indice correspond une paire $(A,Q)$ donnée. \\
 
-Le vecteur historique sert à indexer les paires collectées et à former
+Le vecteur historique sert à indexer les paires collectées pour former
 un analogue de la matrice identité utilisée pendant le pivot de Gauss. 
 Plus précisément, \texttt{hist\_vects[i]} est le vecteur $(e_{nb\_AQp -1 }, 
 \cdots, e_0)$ où $e_j = \delta_{ij}$.\\ 
@@ -137,13 +138,16 @@ un facteur de \texttt{N}. Elle utilise pour cela les fonctions auxiliaires
 
 \subsubsection{La fonction \texttt{gauss\_elimination}}
 
-La fonction \texttt{gauss-elimination} effectue un pivot de Gauss sur la
-matrice dont les ligne sont les éléments de \texttt{mpz\_t *exp\_vects} 
-(vus comme des vecteurs). Comme pour un pivot de Gauss classique, les 
-calculs effectués sur les lignes de cette matrice sont reproduits en 
-parallèle sur la matrice identité, c'est-à-dire sur les éléments de 
-\texttt{mpz\_t *hist\_vects}. Puisque l'on travaille modulo $2$, additionner
-deux vecteurs exposants équivaut à calculer leur xor. 
+La fonction \texttt{gauss\_elimination} effectue un pivot de Gauss sur les
+éléments de \texttt{mpz\_t *exp\_vects}, vus comme les vecteurs-lignes
+d'une matrice. Comme pour un pivot de Gauss classique, les calculs effectués
+sur les vecteurs exposants sont reproduits en parallèle sur la matrice identité,
+c'est-à-dire sur les éléments de \texttt{mpz\_t *hist\_vects}. Si le xor de deux
+vecteurs exposants donne le vecteur nul, cela 
+signifie qu'une relation de dépendance a été trouvée. On inscrit alors dans un
+tableau l'indice de ce vecteur nul. Le vecteur historique dudit indice indique 
+les paires $(A,Q)$ de l'ensemble valide trouvé. La procédure que nous avons
+implémentée est décrite ci-dessus. 
 
 \vspace{1em}
 \begin{algorithm}[H]
@@ -163,7 +167,7 @@ $nb\_lin\_rel \gets 0$\;
 \vspace{0.5em}
     \tcc{Initialisation du tableau \textsc{msb\_ind} : \textsc{Msb}(x) renvoie $0$
     si x est nul, l'indice du bit de poids fort de x sinon. Les indices des bits sont  
-    numérotés de 1 à l'indice du bit de poids for.t
+    numérotés de 1 à l'indice du bit de poids fort.
 }\
 \For{$i \gets 0 \textbf{ à } nb\_AQp -1 $ }{
     \textsc{msb\_ind}$[i] \gets \textsc{Msb} (\textsc{exp\_vects}[i])$  \; 
@@ -182,7 +186,7 @@ $nb\_lin\_rel \gets 0$\;
                 $\textsc{exp\_vects}[i] $  $\gets $ $\textsc{exp\_vects}[i] \oplus \textsc{exp\_vects}[pivot]$ \; 
                 $\textsc{hist\_vects}[i] \gets \textsc{hist\_vects}[i] \oplus \textsc{hist\_vects}[pivot]$\; 
                 $\textsc{msb\_ind}[i] \gets $ \textsc{Msb}$(\textsc{exp\_vects}[i])$\; 
-                \If{$\textsc{exp\_vects}[i] = 0 $}{
+                \If{\textsc{exp\_vects}$[i] = 0 $}{
                     ajouter $i$ au tableau \textsc{lin\_rel\_ind}\; 
                     $nb\_lin\_rel \gets nb\_lin\_rel + 1 $\; 
                 }
@@ -190,9 +194,9 @@ $nb\_lin\_rel \gets 0$\;
         }
     }
 }
-    \Return{$\textsc{exp\_vects}[0 \cdots nb\_AQp -1 ]$, $lin\_rel\_indexes$}, 
-    $\textsc{lin\_rel\_ind}[0 \cdots nb\_lin\_rel-1]$ \;
-
+\Return{ \textsc{{hist\_vects}$[0 \cdots nb\_AQp -1]$,
+           \textsc{lin\_rel\_ind}$[0 \cdots nb\_lin\_rel-1]$,
+           nb\_lin\_rel} 
 \end{algorithm}
 \vspace{1em}
 
@@ -313,7 +317,4 @@ noeud, on utilise le noeud possédant ce $lp$ pour obtenir une nouvelle paire
 $(A,Q)$ selon la méthode énoncée plus haut et ajoute ses composantes aux tableaux
 \texttt{Ans}, \texttt{Qns} et \texttt{exp\_vects}. La fonction
 \texttt{insert\_or\_elim\_lp} se charge de cela. \\
-
-
-
 
