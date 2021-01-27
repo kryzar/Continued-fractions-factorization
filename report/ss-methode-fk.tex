@@ -58,46 +58,41 @@ trouver une différence de deux carrés qui soit un multiple de $N$.
 \end{remarque}
 
 La factorisation de $N$ se fait donc en trouvant de tels couples $(u, v)$.
-Kraitchik cherche pour cela des couples $(u_i, v_i)_{1\leq i \leq r}$ vérifiant
-\[u_i^2 \equiv v_i \pmod{N}\] et tels que l'entier $\prod_{i=1}^r v_i$ soit un
+Kraitchik cherche pour cela des couples $(u_i, Q_i)_{1\leq i \leq r}$ vérifiant
+\[u_i^2 \equiv Q_i \pmod{N}\] et tels que l'entier $\prod_{i=1}^r Q_i$ soit un
 carré (dans $\Z$). Posant $u = \prod_{i=1}^r u_i$ et $v = \sqrt{\prod_{i=1}^r
-v_i}$, il vient \[v^2\equiv u^2 \pmod{N}.\] En se donnant des éléments $u_1,
+Q_i}$, il vient \[v^2\equiv u^2 \pmod{N}.\] En se donnant des éléments $u_1,
 \dots, u_r\in \Z$ et en posant $v_1 = K(u_1), \dots, v_r = K(u_r)$, où $K :=
 X^2 - N \in \Z[X]$, on obtient $u_i^2 \equiv K(u_i) \pmod{N}$ pour tout
-$u_i \in \Z$. Comment exhiber une sous-famille des $v_i, 1\leq i\leq r$ dont le
+$u_i \in \Z$. Comment exhiber une sous-famille des $Q_i, 1\leq i\leq r$ dont le
 produit est un carré ?
 
 \subsubsection{Recherche de congruences de carrés}
 
-Morrison et Brillhart apportent dans l'article \NTS{ref} une réponse à cette
-question. Leur méthode est basée sur la connaissance de congruences de la forme
-\[u_i^2 \equiv Q_i \pmod{N},\] où $| Q_i |$ est suffisamment petit pour être 
-factorisé. \footnote{La notation $Q_i$ fera échos à celle utilisée pour décrire
-la méthode de factorisation avec les fractions continues.} 
-On fixe pour cela $B$ une base de factorisation, c'est à dire un ensemble non 
-vide fini de nombres premiers, et l'on dit qu'un entier $Q\in \N\setminus
-\{0, 1\}$ est \emph{$B$-friable} si tous ses facteurs premiers sont dans $B$.
-La connaissance de suffisamment d'entiers $Q_i$ qui sont $B$-friables permet
-de factoriser $N$.
+Morrison et Brillhart répondent à cette question dans \cite{MB}. Leur méthode
+est basée sur la connaissance de congruences de la forme \[u_i^2 \equiv Q_i
+\pmod{N},\] où $| Q_i |$ est suffisamment petit pour être factorisé. On fixe
+pour cela $B = \{p_1, \dots, p_m\}$ une base de factorisation, c'est à dire un
+ensemble non vide fini de nombres premiers, et l'on dit qu'un entier $Q\in
+\N\setminus \{0, 1\}$ est \emph{$B$-friable} si tous ses facteurs premiers sont
+dans $B$. La connaissance de suffisamment d'entiers $Q_i$ qui sont $B$-friables
+permet de factoriser $N$. Soit $Q\in \Z$ un entier dont la valeur absolue est
+$B$-friable, il s'écrit alors \[Q = (-1)^{v_0}\prod_{i=1}^m p_i^{v_{p_i}(Q)}.\]
+Puisque les éléments de $B$ sont fixés et en nombre fini, l'élément $Q$ peut
+être vu comme le vecteur des valuations $(v_{p_m}(Q), \dots, v_{p_1}(Q), v_0 )
+\in \mathbb{N}^{m+1}$.
 
 \begin{definition}
-	Soient $B = \{p_1,\dots, p_m \}$ une base de factorisation et $Q\in \Z$ un
-	entier dont la valeur absolue est $B$-friable. Q s'écrit alors 
-    \[Q = (-1)^{v_0}\prod_{i=1}^m p_i^{v_{p_i}(Q)}.\] 
-    Puisque les éléments de $B$ sont fixés et en nombre fini, l'élément
-	$Q$ peut être vu comme le vecteur des valuations $(v_{p_m}(Q), \dots,
-    v_{p_1}(Q), v_0 ) \in \mathbb{N}^{m+1}$. \\
-
-    On appelle \emph{$B$-vecteur
-	exposant de $Q$} et l'on note $v_B(Q)$ le vecteur
-    \footnote{Notez qu'il 
-    s'agit d'un élément de $\mathbb{F}_2^{m+1}$ : seule la parité des
-    valuations nous intéresse. L'élément $v_0$ est placé à droite et non au 
-    début car il correspondra au bit de poids faible du $B$-vecteur exposant
-    dans le code.} 
-     \[v_B(Q) :=
-	(v_{p_m}(Q), \dots, v_{p_1}(Q), v_0 ) \in \mathbb{F}_2^{m+1}.\] 
+	On appelle \emph{$B$-vecteur exposant de $Q$} et l'on note $v_B(Q)$ le
+	vecteur \footnote{Notez qu'il s'agit d'un élément de $\mathbb{F}_2^{m+1}$ :
+	seule la parité des valuations nous intéresse. L'élément $v_0$ est placé à
+	droite et non au début car il correspondra au bit de poids faible du
+	$B$-vecteur exposant dans le code.} \[v_B(Q) := (v_{p_m}(Q), \dots,
+	v_{p_1}(Q), v_0 ) \in \mathbb{F}_2^{m+1}.\] 
 \end{definition}
+
+Connaissant suffisamment d'entiers $Q_i$ étant $B$-friables, on peut en
+extraire une sous-famille dont le produit est un carré.
 
 \begin{proposition}
 	Soit $F$ une famille d'entiers dont les valeurs absolues sont $B$-friables.
@@ -107,23 +102,21 @@ de factoriser $N$.
 
 \begin{proof}
 	Posons $F = \{Q_1, \dots, Q_k\}$ (de sorte que $k = \# F)$ et $B = (p_1,
-	\dots, p_m)$ (de sorte que $\# B = m$). Par hypothèse de friabilité,
-    on peut associer à chaque $Q_j$, $1\leqslant j \leqslant k$, un 
-    $B$-vecteur exposant.\\
-
-    Fixons $j, j'\in [\![1,k]\!]$. L'entier $Q_j$ est un carré \ssi les 
-    composantes de son vecteur de valuations $(v_{p_m}(Q), \dots,
-    v_{p_1}(Q), v_0 ) \in \mathbb{N}^{m+1}$ sont paires, i.e. si son 
-    $B$-vecteur exposant est nul. Par propriété des valuations, le
-    $B$-vecteur exposant associé au produit $Q_j\cdot Q_{j'}$ est le vecteur
-    somme $v_B(Q_j) + v_B(Q_{j'})$. Autrement dit, le produit d'une sous-famille
-    $\{Q_{j_1}, \dots, Q_{j_s}\}$ de $F$ est un carré \ssi la somme des 
-    $B$-vecteurs exposants $v_B(Q_{j_1}), \dots, v_B(Q_{j_s})$ est nulle. Soit
-    $V$ le $\mathbb{F}_2$-espace vectoriel $\mathbb{F}_2^{m+1}$, qui est de 
-    dimension $m+1$. Comme $k\geqslant m+2$, la famille $\{v_B(Q_1), \dots,
-    v_B(Q_k)\}$ est liée dans $V$ et il existe de fait des éléments $l_1,\dots,
-    l_k\in \mathbb{F}_2$ tels que \[\sum_{j=1}^k l_j v_B(Q_j) = 0.\] L'élément
-    $\prod_{j=1}^k Q_j^{l_j}$ est alors un carré.
+	\dots, p_m)$ (de sorte que $\# B = m$). Par hypothèse de friabilité, on
+	peut associer à chaque $Q_j$, $1\leqslant j \leqslant k$, un $B$-vecteur
+	exposant. Fixons $j, j'\in [\![1,k]\!]$. L'entier $Q_j$ est un carré \ssi
+	les composantes de son vecteur de valuations $(v_{p_m}(Q), \dots,
+	v_{p_1}(Q), v_0 ) \in \mathbb{N}^{m+1}$ sont paires, i.e. si son
+	$B$-vecteur exposant est nul. Par propriété des valuations, le $B$-vecteur
+	exposant associé au produit $Q_j\cdot Q_{j'}$ est le vecteur somme
+	$v_B(Q_j) + v_B(Q_{j'})$. Autrement dit, le produit d'une sous-famille
+	$\{Q_{j_1}, \dots, Q_{j_s}\}$ de $F$ est un carré \ssi la somme des
+	$B$-vecteurs exposants $v_B(Q_{j_1}), \dots, v_B(Q_{j_s})$ est nulle. Soit
+	$V$ le $\mathbb{F}_2$-espace vectoriel $\mathbb{F}_2^{m+1}$, qui est de
+	dimension $m+1$. Comme $k\geqslant m+2$, la famille $\{v_B(Q_1), \dots,
+	v_B(Q_k)\}$ est liée dans $V$ et il existe de fait des éléments $l_1,\dots,
+	l_k\in \mathbb{F}_2$ tels que \[\sum_{j=1}^k l_j v_B(Q_j) = 0.\] L'élément
+	$\prod_{j=1}^k Q_j^{l_j}$ est alors un carré.
 \end{proof}
 
 Étant données des congruences de la forme $u_i^2 \equiv Q_i \pmod{N}$, la
@@ -133,7 +126,7 @@ tout d'abord des $Q_{i_1}, \dots, Q_{i_k}$ dont la valeur absolue est
 $B$-friable\footnote{Nous le ferons en factorisant les $Q_i$ à disposition par
 divisions successives.}. Soit $M$ la matrice \[M := \begin{pmatrix}
 v_B(Q_{i_1}) \\ \vdots \\ v_B(Q_{i_k})\end{pmatrix}\in \mathcal{M}_{k,
-\#B+1}(\mathbb{F}_2).\] Soient $l_{1}, \dots, l_{k}$ les éléments de
+\#B+1}(\mathbb{F}_2),\] soient $l_{1}, \dots, l_{k}$ les éléments de
 $\mathbb{F}_2$ donnés dans la preuve de la proposition tels que \[\prod_{j=1}^k
 Q_{i_j}^{l_{i_j}}\] est un carré. Le vecteur $(l_1, \dots, l_{k})$ est un
 élément du noyau de la matrice transposée de $M$. Il peut donc être exhibé 
@@ -150,7 +143,7 @@ posons $x = \sqrt{kN}$ et reprenons les notations \ref{notations} et celles
 développées à la fin de la sous-section \ref{ss-irrquad}. En vertu de
 l'identité \[A_{n-1}^2 \equiv (-1)^n Q_n \pmod{N},\] nous appelons
 \emph{méthode de factorisation des fractions continues} la méthode de Kraitchik
-dans laquelle les entiers $u_i$ sont donnés par les $A_{i-1}$ et les $v_i$ par
+dans laquelle les entiers $u_i$ sont donnés par les $A_{i-1}$ et les $Q_i$ par
 les $(-1)^i Q_i$. \\
 
 Ce choix de congruences est intéressant car on sait que les $Q_n$ sont majorés
