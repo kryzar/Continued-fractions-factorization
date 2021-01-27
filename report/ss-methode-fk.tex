@@ -57,15 +57,15 @@ trouver une différence de deux carrés qui soit un multiple de $N$.
 	$u$ et $v$ nous fournissent un facteur non trivial de $N$. \\
 \end{remarque}
 
-Pour factoriser $N$, il s'agit donc de trouver de tels couples $(u, v)$.
+La factorisation de $N$ se fait donc en trouvant de tels couples $(u, v)$.
 Kraitchik cherche pour cela des couples $(u_i, v_i)_{1\leq i \leq r}$ vérifiant
 \[u_i^2 \equiv v_i \pmod{N}\] et tels que l'entier $\prod_{i=1}^r v_i$ soit un
 carré (dans $\Z$). Posant $u = \prod_{i=1}^r u_i$ et $v = \sqrt{\prod_{i=1}^r
-v_i}$, il vient \[v^2\equiv u^2 \pmod{N}.\] Pour chercher ces couples $(u_i, v_i)
-_{1\leq i \leq r}$, Kraitchik propose d'utiliser le polynôme  $K := X^2 - N \in
-\Z[X]$ qui fournit la congruence $u_i^2 \equiv K(u_i) \pmod{N}$ pour tout $u_i
-\in \Z$. Une question reste cependant en suspens : comment trouver en pratique 
-des éléments $K(u_i)$ dont le produit est un carré ?
+v_i}$, il vient \[v^2\equiv u^2 \pmod{N}.\] En se donnant des éléments $u_1,
+\dots, u_r\in \Z$ et en posant $v_1 = K(u_1), \dots, v_r = K(u_r)$, où $K :=
+X^2 - N \in \Z[X]$, on obtient $u_i^2 \equiv K(u_i) \pmod{N}$ pour tout
+$u_i \in \Z$. Comment exhiber une sous-famille des $v_i, 1\leq i\leq r$ dont le
+produit est un carré ?
 
 \subsubsection{Recherche de congruences de carrés}
 
