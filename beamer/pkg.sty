@@ -1,0 +1,77 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{paquet}[2020/02/01 paquet]
+
+% packages
+%% usual suspects
+% \RequirePackage{polyglossia}
+\RequirePackage{lmodern}
+%% mathématique
+\RequirePackage{amsfonts}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{mathrsfs}% pour avoir \mathscr
+\RequirePackage{dsfont} % plus jolis ensembles Q, R, C
+%%% pour barrer des expressions avec un trait oblique
+%%% https://tex.stackexchange.com/questions/40253/how-to-strike-through-obliquely-e-g-to-indicate-cancellation
+\RequirePackage{cancel}
+%% bric à brac
+\RequirePackage{xcolor}
+\RequirePackage{fancyhdr}
+\RequirePackage{hyperref}
+%%% modifier la table des matières, voir ci-après
+
+\ProcessOptions\relax
+
+% commande pour se mettre des notes en rouge et en gras dans le document
+% NTS = Note To Self
+\newcommand{\NTS}[1]{\textcolor{red}{\textbf{#1}}}
+
+% \addto{\captionsfrench}{\renewcommand{\abstractname}{Trop Long ; Pas Lu}} 
+%% jolis signes <= et >=
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+
+% macros mathématiques
+%% structures usuelles
+\newcommand{\N}{\mathds{N}}					% monoïde des entiers naturels
+\newcommand{\Z}{\mathds{Z}}					% anneau des entiers relatifs
+\newcommand{\Q}{{\mathds{Q}}}					% corps des rationnels
+\newcommand{\R}{\mathds{R}}					% corps des réels
+\newcommand{\C}{\mathds{C}}					% corps des complexes
+\newcommand{\Fp}{\mathds{F}_p}				% corps fini à p éléments
+\newcommand{\Fq}{\mathds{F}_q}				% corps fini à q éléments
+\newcommand{\ssi}{si, et seulement si, }
+%% opérateurs et ensembles usuels
+\DeclareMathOperator{\Aut}{Aut}				% automorphismes d'une structure
+\DeclareMathOperator{\End}{End}				% endomorphismes d'une structure
+\DeclareMathOperator{\Hom}{Hom}				% Homomorphismes d'une structure
+\DeclareMathOperator{\GL}{GL}				% groupe linéaire général d'une structure
+\DeclareMathOperator{\Ker}{Ker}				% noyau d'un morphisme
+\newcommand{\kro}[2]{{\left(\frac{#1}{#2}\right)}} % symbole de Kronecker
+\DeclareMathOperator{\Id}{Id}				% fonction identité
+\renewcommand{\Im}{\mathrm{Im}}				% image d'une fonction
+\newcommand{\im}{\mathfrak{I}}				% partie imaginaire d'un complexe
+\DeclareMathOperator{\pgcd}{pgcd}			% pgcd
+\DeclareMathOperator{\ppcm}{ppcm}			% ppcm
+\newcommand{\re}{\mathfrak{re}}				% partie réelle d'un complexe
+\DeclareMathOperator{\rg}{rg}				% rang d'un module
+%% algèbre commutative et théorie de Galois
+\newcommand{\An}{\mathfrak{A}_n}			% n-ième groupe alterné
+\DeclareMathOperator{\Car}{Car}				% caractéristique d'un anneau
+\DeclareMathOperator{\Disc}{Disc}			% discriminant d'une algèbre
+\DeclareMathOperator{\Frac}{Frac}			% corps des fractions d'un anneau
+\DeclareMathOperator{\Gal}{Gal}				% groupe de Galois
+\newcommand{\m}{\mathfrak{m}}				% m un idéal maximal
+\DeclareMathOperator{\Tr}{Tr} % Trace d'un élément
+\DeclareMathOperator{\Norm}{Norm}				% norme d'un idéal
+\newcommand{\OK}{{\mathcal{O}_K}}				% anneau des entiers d'un corps de nombres K
+\newcommand{\OL}{{\mathcal{O}_L}}				% anneau des entiers d'un corps de nombres L
+\newcommand{\p}{\mathfrak{p}}				% p un idéal premier
+\renewcommand{\P}{\mathfrak{P}}				% P un idéal premier
+\newcommand{\Sn}{\mathfrak{S}_n}			% n-ième groupe symétrique
+\DeclareMathOperator{\Spec}{Spec}				% spectre d'un anneau
+\DeclareMathOperator{\Spm}{Spm}				% spectre maximal d'un anneau
+\newcommand{\X}{\mathscr{X}}				% ensemble des plongements d'une extension
+
+\endinput
