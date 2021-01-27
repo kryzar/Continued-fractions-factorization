@@ -2,15 +2,16 @@
 
 \subsubsection{Terminologie}
 
-Posons pour commencer quelques définitions qui seront utiles pour décrire le code.
+Enonçons pour commencer quelques définitions qui seront utiles pour décrire le code.
+
 
 \begin{definition}
-	On dira qu'un couple $(A_{n-1}, Q_n)$ est une \emph{paire $(A, Q)$}. .
+	On dira qu'un couple $(A_{n-1}, Q_n)$ est une \emph{paire $(A, Q)$}.
 \end{definition}
 
 \begin{definition}
-	Un ensemble de paires $(A, Q)$ indexé par $n_1, \dots, n_k$ est dit
-	\emph{valide} si le produit $\prod_{i=1}^k (-1)^{n_i} Q_{n_i}$ est un carré
+	Un ensemble de paires $(A, Q)$ indexé par $n_1, \dots, n_r$ est dit
+	\emph{valide} si le produit $\prod_{i=1}^r (-1)^{n_i} Q_{n_i}$ est un carré
 	(dans $\Z$ et non uniquement dans $\Z/N\Z$).
 \end{definition}
 
@@ -28,12 +29,12 @@ $(A, Q)$ avec $Q_n$ friable pour une base de factorisation préalablement déter
 On associe à chaque $Q_n$ ainsi produit son vecteur exposant \texttt{mpz\_t exp\_vect}.
 Ce vecteur permet de retenir les nombres premiers qui interviennent dans la 
 factorisation de $Q_n$ avec une valuation impaire. Dans le but d'augmenter le nombre
-de paires $(A,Q) $ acceptées lors de cette étape, nous avons implémenté la \og 
-large prime variation \fg{}. Celle-ci permet d'accepter une paire si $Q_n$ se
+de paires $(A,Q) $ acceptées lors de cette étape, nous avons implémenté la 
+\textit{large prime variation}. Celle-ci permet d'accepter une paire si $Q_n$ se
 factorise  grâce aux premiers de la base de factorisation et à un grand facteur
 premier supplémentaire. Les fonctions de cette phase de collecte sont rassemblées
 dans le fichier \texttt{step\_1.c}. Elles font appel, pour mettre en oeuvre la 
-\og large prime variation \fg{}, aux fonctions du fichier \texttt{lp\_var.c}. \\
+\textit{large prime variation}, aux fonctions du fichier \texttt{lp\_var.c}. \\
  
 Ces données sont traitées lors de la seconde phase dans l'espoir de trouver un 
 facteur non trivial de $N$. Il s'agit de trouver des ensembles valides de paires
@@ -63,15 +64,15 @@ de la fonction de factorisation, à savoir :
     \item \texttt{n\_lim} : le nombre maximal de paires $(A,Q)$ que l'on 
                              s'autorise à calculer. Ce nombre prend en compte
                              toutes les paires produites et non uniquement les
-                             paires avec $Q_n$ friable ou produites par la \og 
-                             large prime variation \fg{}.
+                             paires avec $Q_n$ friable ou résultant de la  
+                             \textit{large prime variation }.
     \item \texttt{s\_fb} : la taille de la base de factorisation. 
     \item \texttt{nb\_want\_AQp} : le nombre désiré de paires $(A,Q)$ avec $Q_n$ 
-                                 friable ou produites par la \og large prime 
-                                 variation \fg{}.
-    \item des booléens indiquant si la \og early abort strategy \fg{} ou la 
-          \og large prime variation \fg{} doivent être utilisées et des paramètres
-          s'y rapportant.
+                                    friable ou résultant de la \textit{large prime 
+                                   variation}.
+                               \item des booléens indiquant si la \textit{early 
+                                   abort strategy} ou la \textit{large prime variation}
+                                   doivent être utilisées et des paramètres s'y rapportant.
 
 \end{itemize}
 
@@ -102,27 +103,74 @@ grand facteur.
 
 Avant de nous pencher sur les détails de la phase de collecte, regardons 
 l'implémentation de la seconde phase, qui aide à mieux comprendre la 
-forme sous laquelle nous collectons les données. A l'issue de la première
+forme sous laquelle nous collectons les données.
+
+\subsubsection{Utilisation des données collectées}
+A l'issue de la première
 phase, on espère avoir collecté \texttt{nb\_want\_AQp} paires $(A,Q)$ avec
-$Q_n$ friable\footnote{ou résultant de la \og large prime variation \fg{} mais 
-cela n'a aucune incidence sur les fonctions de cette partie}. Le nombre
+$Q_n$ friable\footnote{ou résultant de la \textit{large prime variation} mais 
+cela n'a aucune incidence sur les fonctions de cette partie.}. Le nombre
 réel de telles paires est stocké dans le champ \texttt{nb\_AQp} d'une structure
 \texttt{Results}.\\
+
+Une paire $(A,Q)$ collectée est caractérisée par :
+
+\begin{itemize}
+    \item la valeur $A_{n-1}$
+    \item la valeur $Q_n$
+    \item le vecteur exposant associé à $Q_n$
+    \item un vecteur historique (voir ci-contre) \end{itemize}
 
 Les données de ces \texttt{nb\_AQp} paires sont stockées dans
 quatre tableaux : \texttt{mpz\_t *Ans}, \texttt{mpz\_t *Qns}, 
 \texttt{mpz\_t *exp\_vects} et \texttt{mpz\_t *hist\_vects}.
-A un indice correspond un paire $(A,Q)$ donnée. 
+A un indice correspond une paire $(A,Q)$ donnée. \\
+
+Le vecteur historique sert à indexer les paires collectées et à former
+un analogue de la matrice identité utilisée pendant le pivot de Gauss. 
+Plus précisément, \texttt{hist\_vects[i]} est le vecteur $(e_{nb\_AQp -1 }, 
+\cdots, e_0)$ où $e_j = \delta_{ij}$.\\ 
+
+A partir de ces quatre tableaux, la fonction \texttt{find\_factor} cherche 
+un facteur de \texttt{N}. Elle utilise pour cela les fonctions auxiliaires 
+\texttt{gauss\_elimination} et \texttt{calculate\_A\_Q}. 
+
+\subsubsection{ La fonction \texttt{gauss\_elimination} }
+
+\subsubsection{ La fonction \texttt{calculate\_A\_Q} }
+
+\vspace{1em}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\caption{Extraction de racine carrée}
+\KwIn{Des entiers $Q_1,\cdots, Q_r \in \Z$ tels que $\prod_{i=1}^r Q_{i}$ est un carré}
+    \KwOut{$\sqrt{\prod_{i=1}^r Q_{i}} \pmod{N}$}
+$Q \gets 1$\;
+$R \gets Q_1$\;
+    \For{$i \gets 2$ $\textbf{à } r$}{
+    $X \gets \pgcd(R, Q_i)$\; 
+    $Q \gets XQ \pmod{N}$\;
+    $R \gets \frac{R}{X} \cdot \frac{Q_i}{X}$\;
+}
+$X \gets \sqrt{R}$\;
+    $Q \gets XQ \pmod{N}$\;
+\Return{Q}\;
+\end{algorithm}
+\vspace{1em}
+
+Pour démontrer la correction de l'algorithme, on peut utiliser l'invariant de 
+boucle suivant : $Q\sqrt{R.Q_i\cdots Q_r} \pmod{N} = \sqrt{\prod_{i=1}^r Q_{i}}
+\pmod{N}$. La conservation de l'invariant découle de l'égalité
+\[  Q\sqrt{R.Q_i\cdots Q_r} \pmod{N} = 
+(QX\text{ mod }N) \sqrt{ \frac{R}{X}\frac{Q_i}{X}Q_{i+1} \cdots Q_r} \pmod{N}.\]
 
 \subsection{Collecte des paires $(A,Q)$ : \texttt{step\_1.c et lp\_var.c}}
 
-Décrivons à présent la phase de collecte des données. Le nombre de paires $(A,Q)$
-collectées sera stockée dans le champ texttt{nb\_AQp} de la structure 
-\texttt{Results}. Concernant les vecteurs
-historiques \texttt{exp\_vect}, il suffit d'initialiser \texttt{exp\_vects[i]} 
-
-évoquer à un moment \texttt{init\_hist\_vects}. Le reste demande un peu plus
-d'explications \\ 
+Décrivons à présent la phase de collecte des données. Concernant les vecteurs
+historiques, il suffit d'initialiser à la fin de la 
+collecte \texttt{hist\_vects[i]} pour \texttt{0 <= i < nb\_AQp}. C'est ce que fait 
+la fonction \texttt{init\_hist\_vects}. La collecte des autres données 
+requiert un peu plus d'explications. 
 
 \subsubsection{La fonction \texttt{create\_AQ\_pairs}}
 
@@ -142,7 +190,7 @@ aux tableaux \texttt{Ans}, \texttt{Qns} et \texttt{exp\_vects}. Pour ce faire, l
 fonction utilise les sous-routines \texttt{is\_Qn\_factorisable} et 
 \texttt{init\_exp\_vect}.
 
-\subsubsection{La \og early abort strategy \fg{}}
+\subsubsection{La \textit{early abort strategy}}
 
 La fonction \texttt{is\_Qn\_factorisable} teste si un $Q_n$ est friable 
 \footnote {ou presque friable, voir paragraphe suivant.} par divisions successives
@@ -152,10 +200,10 @@ successives si après un nombre \texttt{eas\_cut} de divisions la partie non
 factorisée de $Q_n$ est trop grande (supérieure à une borne 
 \texttt{eas\_bound\_div} proportionnelle à la borne déjà connue $\sqrt{kN}$). 
 
-\subsubsection{La \og large prime variation \fg{}}
+\subsubsection{La \textit{large prime variation }}
 
-Etant donnée une base de factorisation $B = \{ p_1, \cdots, p_m\}$, la \og large
-prime variation \fg{} consiste à accepter lors de la collecte, non seulement des 
+Etant donnée une base de factorisation $B = \{ p_1, \cdots, p_m\}$, la \textit{large
+prime variation } consiste à accepter lors de la collecte, non seulement des 
 $Q_n$ $B$-friables mais aussi des $Q_n$ produits d'un entier $B$-friable et d'un
 entier $lp_n$ inférieur à $p_m^2$. On dira que $Q_n$ est \emph{presque friable}
 et l'on appelera \emph{grand premier (large prime)} le premier $lp_n$ en question. \\

@@ -5,6 +5,9 @@
 \usepackage{mathtools}
 \usepackage[backend=biber, style=alphabetic]{biblatex}
 \usepackage{pkg}
+\usepackage[linesnumbered, boxruled, vlined, onelanguage, french]{algorithm2e}
+% modifier Output en Sorties dans algorithm2e
+\SetKwInput{KwOut}{Sorties}
 
 \addbibresource{bi.bib}
 
@@ -20,9 +23,9 @@
 
 \tableofcontents
 
-\section{Théorie}
+%\section{Théorie}
 % \input{ss-fractions-continues}
-\input{ss-methode-fk}
+%\input{ss-methode-fk}
 
 \section{Explication du programme}
 \input{ss-explication-code}
