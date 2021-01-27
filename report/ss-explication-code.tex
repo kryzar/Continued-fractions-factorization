@@ -1,41 +1,60 @@
-\subsection{La stucture générale du programme}
+\subsection{Architecture du programme}
+
+\subsubsection{Terminologie}
+
+Enonçons pour commencer quelques définitions qui seront utiles pour décrire le code.
+
+
+\begin{definition}
+	On dira qu'un couple $(A_{n-1}, Q_n)$ est une \emph{paire $(A, Q)$}.
+\end{definition}
+
+\begin{definition}
+	Un ensemble de paires $(A, Q)$ indexé par $n_1, \dots, n_r$ est dit
+	\emph{valide} si le produit $\prod_{i=1}^r (-1)^{n_i} Q_{n_i}$ est un carré
+	(dans $\Z$ et non uniquement dans $\Z/N\Z$).
+\end{definition}
+
+\begin{definition}
+    Si $B$ est la base de factorisation utilisée par le programme, on 
+    désignera par l'expression \emph{vecteur exposant associé à $Q_n$} 
+    le $B$-vecteur exposant $v_B((-1)^n Q_n)$.
+\end{definition}
+
+\subsubsection{Structure générale}
 
 Notre programme comprend deux étapes principales. La première consiste à générer, 
 à partir du développement en fractions continues de $ \sqrt{kN} $, des paires 
-$(A, Q)$ avec $Q$ friable pour une base de factorisation préalablement déterminée.
-On associe à chaque $Q$ ainsi produit un vecteur exposant \texttt{mpz\_t exp\_vect}.
+$(A, Q)$ avec $Q_n$ friable pour une base de factorisation préalablement déterminée.
+On associe à chaque $Q_n$ ainsi produit son vecteur exposant \texttt{mpz\_t exp\_vect}.
 Ce vecteur permet de retenir les nombres premiers qui interviennent dans la 
-factorisation de $Q$ avec une valuation impaire. Dans le but d'augmenter le nombre
-de paires $(A,Q) $ acceptées lors de cette étape, nous avons implémenté la "large 
-prime variation". Celle-ci permet d'accepter une paire si $Q$ se factorise  grâce
-aux premiers de la base de factorisation et à un grand facteur premier 
-supplémentaire. Les fonctions de cette phase de collecte sont rassemblées dans les
-fichiers \texttt{step\_1.h} et \texttt{step\_1.c}. Elles font appel, pour mettre
-en oeuvre la "large prime variation", aux fonctions des fichiers \texttt{lp\_var.h}
-et \texttt{lp\_var.c}. \\
+factorisation de $Q_n$ avec une valuation impaire. Dans le but d'augmenter le nombre
+de paires $(A,Q) $ acceptées lors de cette étape, nous avons implémenté la 
+\textit{large prime variation}. Celle-ci permet d'accepter une paire si $Q_n$ se
+factorise  grâce aux premiers de la base de factorisation et à un grand facteur
+premier supplémentaire. Les fonctions de cette phase de collecte sont rassemblées
+dans le fichier \texttt{step\_1.c}. Elles font appel, pour mettre en oeuvre la 
+\textit{large prime variation}, aux fonctions du fichier \texttt{lp\_var.c}. \\
  
 Ces données sont traitées lors de la seconde phase dans l'espoir de trouver un 
 facteur non trivial de $N$. Il s'agit de trouver des ensembles valides de paires
 $(A, Q)$ par pivot de Gauss sur la matrice dont les lignes sont formées des 
-vecteurs exposants. Chaque ensemble valide est à l'origine d'une congruence
-$A^2 \equiv Q^2$ (mod $N$) permettant potentiellement de trouver un facteur non
-trivial de $N$. Les fonctions de cette phase sont regroupées dans les fichiers
-\texttt{step\_2.h} et \texttt{step\_2.c}. \\
+vecteurs exposants. Chaque ensemble valide est à l'origine d'une congruence de 
+la forme $A^2 \equiv Q^2$ (mod $N$) permettant potentiellement de trouver un
+facteur non trivial de $N$. Les fonctions de cette phase sont regroupées dans 
+le fichier \texttt{step\_2.c}. \\
 
 Avant d'effectuer la première étape, il convient de se doter d'une base de 
-factorisation. Ceci est permis par une fonction de fonction \NTS{trouver nom}
-qui gèrent plus généralement le choix par défaut des paramètres. \\
+factorisation. Ceci est permis par une des fonctions de \texttt{init\_algo.c}.
+Ces dernières se chargent plus généralement de l'initialisation et du choix par
+défaut des paramètres. \\
 
-explique \texttt{fact.c} \texttt{fact.h} \\ 
-proposition : renommer stepA stepB stepC fact.h et changer les fonctions de 
-fact.h et stepA.h
+Finalement, en mettant bout à bout les deux étapes, la fonction 
+\texttt{contfract\_factor} du fichier \texttt{fact.c} recherche un facteur
+non trivial de $N$ et \texttt{print\_results} affiche les résultats. 
 
-
-\newpage
-
-\section{Entrées et sorties du programme}
-
-Nous avons regroupé dans une structures \texttt{Params} les paramètres d'entrée 
+\subsubsection{Entrées et sorties}
+Nous avons regroupé dans une structure \texttt{Params} les paramètres d'entrée 
 de la fonction de factorisation, à savoir :
 
 \begin{itemize}
@@ -45,33 +64,270 @@ de la fonction de factorisation, à savoir :
     \item \texttt{n\_lim} : le nombre maximal de paires $(A,Q)$ que l'on 
                              s'autorise à calculer. Ce nombre prend en compte
                              toutes les paires produites et non uniquement les
-                             paires avec $Q$ friable ou accepté par la "large
-                             prime variation"
+                             paires avec $Q_n$ friable ou résultant de la  
+                             \textit{large prime variation}.
     \item \texttt{s\_fb} : la taille de la base de factorisation. 
-    \item \texttt{nb\_want\_AQp} : le nombre désiré de paires $(A,Q)$ avec $Q$ 
-                                 friable ou accepté par la "large prime variation"
-    \item des booléens indiquant si la "early abort strategy" ou la "large prime 
-          variation" doivent être utilisées et des paramètres s'y rapportant.
+    \item \texttt{nb\_want\_AQp} : le nombre désiré de paires $(A,Q)$ avec $Q_n$ 
+                                    friable ou résultant de la \textit{large prime 
+                                   variation}.
+                               \item des booléens indiquant si la \textit{early 
+                                   abort strategy} ou la \textit{large prime variation}
+                                   doivent être utilisées et des paramètres s'y rapportant.
 
 \end{itemize}
 
-Le programme stocke dans une structure \texttt{Results} le facteur non trivial
+Le programme stocke dans une structure \texttt{Results} un facteur non trivial
 de \texttt{N} trouvé (si tel est le cas) ainsi que des données permettant 
-l'analyse des performances de la méthode.
+l'analyse des performances de la méthode.  
 
 \begin{remarque}
-Nous avons décidé de ne pas implémenter un programme réalisant la factorisation
-complète de $N$. En effet, l'efficatité de la méthode de factorisation dépend
-du choix de certains paramètres : la taille de la base de factorisation et le
-coefficient \texttt{k}. Nous avons préféré les considérer comme paramètres 
-d'entrée du programme plutôt que comme paramètres devant être déterminés par 
-une sous-routine en fonction du nombre à factoriser pou avoir plus de latitude 
-dans les tests. 
+L'efficatité de la méthode dépend du choix des paramètres ci-dessus. Pour avoir
+plus de latitude dans les tests, nous les considérons comme des paramètres 
+d'entrée du programme. C'est pourquoi notre programme ne s'attèle pas à la
+factorisation complète d'un entier, qui aurait nécessité une sous-routine 
+déterminant des paramètres optimaux en fonction de la taille de l'entier 
+dont on cherche un facteur. 
+   
 \end{remarque}
 
 \begin{remarque}
 Notre programme n'est pas supposé prendre en entrée un nombre admettant un petit
 facteur premier (inférieur aux premiers de la base de factorisation par exemple).
-En effet, il ne test pas au préalable si $N$ est divisible par des petits facteurs, 
-et mettra donc autant de temps à trouver un petit facteur qu'un grand facteur.
+En effet, comme il ne teste pas au préalable si \texttt{N} est divisible par de 
+petits facteurs, il mettra autant de temps à trouver un petit facteur qu'un
+grand facteur.
 \end{remarque}
+
+\newpage 
+\subsection{Pivot de Gauss et recherche d'un facteur non trivial
+            : \texttt{step\_2.c}}
+
+Avant de nous pencher sur les détails de la phase de collecte, regardons 
+l'implémentation de la seconde phase, qui aide à mieux comprendre la 
+forme sous laquelle nous collectons les données.
+
+\subsubsection{Utilisation des données collectées}
+A l'issue de la première
+phase, on espère avoir collecté \texttt{nb\_want\_AQp} paires $(A,Q)$ avec
+$Q_n$ friable\footnote{ou résultant de la \textit{large prime variation} mais 
+cela n'a aucune incidence sur les fonctions de cette partie.}. Le nombre
+réel de telles paires est stocké dans le champ \texttt{nb\_AQp} d'une structure
+\texttt{Results}. Une paire $(A,Q)$ collectée est caractérisée par :
+
+\begin{itemize}
+    \item la valeur $A_{n-1}$
+    \item la valeur $Q_n$
+    \item le vecteur exposant associé à $Q_n$
+    \item un vecteur historique (voir ci-contre)
+\end{itemize}
+Les données de ces \texttt{nb\_AQp} paires sont stockées dans
+quatre tableaux : \texttt{mpz\_t *Ans}, \texttt{mpz\_t *Qns}, 
+\texttt{mpz\_t *exp\_vects} et \texttt{mpz\_t *hist\_vects}.
+A un indice correspond une paire $(A,Q)$ donnée. \\
+
+Le vecteur historique sert à indexer les paires collectées pour former
+un analogue de la matrice identité utilisée pendant le pivot de Gauss. 
+Plus précisément, \texttt{hist\_vects[i]} est, avant pivot de Gauss, le
+vecteur $(e_{k-1}, \cdots, e_0)$ où $k=\texttt{nb\_AQp}$ et $e_j = 
+\delta_{ij}$.\\ 
+
+A partir de ces quatre tableaux, la fonction \texttt{find\_factor} cherche 
+un facteur de \texttt{N} selon la méthode des congruences de carrés. Elle
+utilise pour cela les fonctions auxiliaires \texttt{gauss\_elimination} et
+\texttt{calculate\_A\_Q}. 
+
+\subsubsection{La fonction \texttt{gauss\_elimination}}
+
+La fonction \texttt{gauss\_elimination} effectue un pivot de Gauss sur les
+éléments de \texttt{mpz\_t *exp\_vects}, vus comme les vecteurs-lignes
+d'une matrice. Comme pour un pivot de Gauss classique, les calculs effectués
+sur les vecteurs exposants sont reproduits en parallèle sur la matrice identité,
+c'est-à-dire sur les éléments de \texttt{mpz\_t *hist\_vects}. Si le xor de deux
+vecteurs exposants donne le vecteur nul, cela 
+signifie qu'une relation de dépendance a été trouvée. On inscrit alors dans un
+tableau l'indice de ce vecteur nul. Le vecteur historique dudit indice indique 
+les paires $(A,Q)$ de l'ensemble valide trouvé. La procédure que nous avons
+implémentée est décrite ci-dessous. 
+
+\vspace{1em}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\caption{\sc{Pivot de Gauss}}
+\KwIn{tableau $\mathrm{exp\_vects}[0 \cdots nb\_AQp -1 ] $ des vecteurs exposants,
+     tableau $\mathrm{hist\_vects}[0 \cdots nb\_AQp -1 ]$ des vecteurs historiques}
+\vspace{0.5em}
+\KwOut{$\mathrm{hist\_vects}[0 \cdots nb\_AQp -1]$ après le pivot, le nombre
+        $nb\_lin\_rel$ de relations linéaires trouvées, $\mathrm{lin\_rel\_ind}[0 \cdots
+        nb\_lin\_rel-1]$ contenant les indices des lignes où une relation 
+        linéaire a été trouvée}
+\vspace{0.5em}
+créer tableau $\mathrm{msb\_ind}[0 \cdots nb\_AQp - 1]$\;  
+créer tableau $\mathrm{lin\_rel\_ind}$\; 
+$nb\_lin\_rel \gets 0$\; 
+\vspace{0.5em}
+    \tcc{Initialisation du tableau \textsc{msb\_ind} : \textsc{Msb}(x) renvoie $0$
+    si x est nul, l'indice du bit de poids fort de x sinon. Les indices des bits sont  
+    numérotés de 1 à l'indice du bit de poids fort.
+}\
+\For{$i \gets 0 \textbf{ à } nb\_AQp -1 $ }{
+    $\mathrm{msb\_ind}[i] \gets \textsc{MSB} (\mathrm{exp\_vects}[i])$  \; 
+}
+\vspace{0.5em}
+    \For{$ j \gets \textsc{MAX}(\mathrm{msb\_ind}) \textbf{à } 1 $ }{
+    $pivot \gets 
+    \begin{cases}
+        \min \big\{ i \in  \{ 0, nb\_AQp - 1 \} \big\vert \mathrm{msb\_ind}[i] = j \big\}\\
+        \emptyset \text{ si pour tout }i \in \{ 0, nb\_AQp - 1 \},  \mathrm{msb\_ind}[i] \neq j  
+   \end{cases}
+    $\;
+    \If{$pivot \neq \emptyset$}{
+        \For{$i \gets pivot + 1 \textbf{ à } nb\_AQp -1 $}{
+            \If{$\mathrm{msb\_ind}[i] = j$}{
+                $\mathrm{exp\_vects}[i]  \gets \mathrm{exp\_vects}[i] \oplus \mathrm{exp\_vects}[pivot]$ \; 
+                $\mathrm{hist\_vects}[i] \gets \mathrm{hist\_vects}[i] \oplus \mathrm{hist\_vects}[pivot]$\; 
+                $\mathrm{msb\_ind}[i] \gets  \textsc{MSB}(\mathrm{exp\_vects}[i])$\; 
+                \If{$\mathrm{exp\_vects}[i] = 0 $}{
+                    ajouter $i$ au tableau $\mathrm{lin\_rel\_ind}$\; 
+                    $nb\_lin\_rel \gets nb\_lin\_rel + 1 $\; 
+                }
+            }
+        }
+    }
+}
+\Return{$\mathrm{hist\_vects}[0 \cdots nb\_AQp -1]$, $\mathrm{lin\_rel\_ind}
+    [0 \cdots nb\_lin\_rel-1]$, $nb\_lin\_rel$}
+\end{algorithm}
+\vspace{1em}
+
+\newpage 
+\subsubsection{La fonction \texttt{calculate\_A\_Q}}
+
+Une fois les indices des vecteurs historiques indiquant un ensemble valide de paires 
+$(A, Q)$ récupérés, la fonction \texttt{find\_factor} appelle la fonction
+\texttt{calculate\_A\_Q} pour calculer des entiers $A$ et $Q$ vérifiant
+$A^2 \equiv Q^2 \pmod{N}$. Elle lui donne en argument un de ces vecteurs
+historiques et les données des tableaux \texttt{Ans} et \texttt{Qns}. \\
+
+Notons $k$ l'entier \texttt{nb\_AQp} et $(e_{k-1}, \cdots , e_0) \in \mathbb{F}_2^{k}$ le vecteur 
+historique donné en argument de la fonction. Le calcul de
+\[A:= \prod_{n=0}^{k} A_{n-1}^{e_i} \pmod{N} \] ne pose pas de 
+difficulté. Pour le calcul de \[Q:= \sqrt{\prod_{n=0}^{k-1 } Q_n ^{e_i}}
+\pmod{N},\]
+on utilise l'algorithme proposé par Morrison et Brillhart.
+
+\vspace{1em}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\caption{\sc Extraction de racine carrée}
+\KwIn{Des entiers $Q_1,\cdots, Q_r \in \Z$ tels que $\prod_{i=1}^r Q_{i}$ est un carré}
+\KwOut{$\sqrt{\prod_{i=1}^r Q_{i}} \pmod{N}$}
+$Q \gets 1$\;
+$R \gets Q_1$\;
+    \For{$i \gets 2$ $\textbf{à } r$}{
+    $X \gets \pgcd(R, Q_i)$\; 
+    $Q \gets XQ \pmod{N}$\;
+    $R \gets \frac{R}{X} \cdot \frac{Q_i}{X}$\;
+}
+$X \gets \sqrt{R}$\;
+    $Q \gets XQ \pmod{N}$\;
+\Return{Q}\;
+\end{algorithm}
+\vspace{1em}
+
+Pour démontrer la correction de l'algorithme, on peut utiliser l'invariant de 
+boucle $Q\sqrt{R.Q_i\cdots Q_r} \pmod{N} = \sqrt{\prod_{i=1}^r Q_{i}}
+\pmod{N}$. La conservation de l'invariant découle de l'égalité
+\[  Q\sqrt{R.Q_i\cdots Q_r} \pmod{N} = 
+(QX\text{ mod }N) \sqrt{ \frac{R}{X}\frac{Q_i}{X}Q_{i+1} \cdots Q_r} \pmod{N}.\]
+
+\subsection{Collecte des paires $(A,Q)$ : \texttt{step\_1.c et lp\_var.c}}
+
+Décrivons à présent la phase de collecte des données. Concernant les vecteurs
+historiques, il suffit d'initialiser à la fin de la 
+collecte \texttt{hist\_vects[i]} pour \texttt{0 <= i < nb\_AQp}. C'est ce que fait 
+la fonction \texttt{init\_hist\_vects}. La collecte des autres données 
+requiert un peu plus d'explications. 
+
+\subsubsection{La fonction \texttt{create\_AQ\_pairs}}
+
+Sachant que seules les paires $(A,Q)$ dont on a pu factoriser $Q_n$ nous
+intéressent pour la seconde phase, nous avons décidé de ne stocker que celles-ci.
+Ce choix a en outre un avantage : étant donné un nombre \texttt{nb\_want\_AQp}
+représentant le nombre voulu de telles paires, il est possible d'arrêter le 
+développement en fraction continue dès que ce nombre est atteint. Cela évite
+d'avoir à stocker toutes les paires $(A,Q)$, pour ensuite sélectionner celles 
+qui nous intéressent, en courant le risque d'en avoir trop ou pas assez. \\
+
+Ce choix amène à avoir une grande fonction, en l'occurence 
+\texttt{create\_AQ\_pairs}, qui au fur à mesure du développement de $\sqrt{kN}$
+en fraction continue, teste si le $Q_n$ qui vient d'être calculé est factorisable.
+Si c'est le cas, on crée son vecteur exposant et ajoute les données de la paire
+aux tableaux \texttt{Ans}, \texttt{Qns} et \texttt{exp\_vects}. Pour ce faire, la
+fonction utilise les sous-routines \texttt{is\_Qn\_factorisable} et 
+\texttt{init\_exp\_vect}.
+
+\subsubsection{La \textit{early abort strategy}}
+
+La fonction \texttt{is\_Qn\_factorisable} teste si un $Q_n$ est friable 
+\footnote {ou presque friable, voir paragraphe suivant.} par divisions successives
+avec les premiers de la base de factorisation.  Un moyen d'améliorer les 
+performances de la méthode est de décider de ne pas poursuivre les divisions 
+successives si après un nombre \texttt{eas\_cut} de divisions la partie non
+factorisée de $Q_n$ est trop grande (supérieure à une borne 
+\texttt{eas\_bound\_div} proportionnelle à la borne déjà connue $\sqrt{kN}$). 
+
+\subsubsection{La \textit{large prime variation }}
+
+Etant donnée une base de factorisation $B = \{ p_1, \cdots, p_m\}$, la \textit{large
+prime variation } consiste à accepter lors de la collecte, non seulement des 
+$Q_n$ $B$-friables mais aussi des $Q_n$ produits d'un entier $B$-friable et d'un
+entier $lp_n$ inférieur à $p_m^2$. On dira que $Q_n$ est \emph{presque friable}
+et l'on appelera \emph{grand premier (large prime)} le premier $lp_n$ en question. \\
+
+Pour que des $Q_n$ presque friables soient exploitables, il faut qu'ils aient
+un grand premier $lp$ en commun. En effet, si on trouve deux entiers presque
+friables $Q_{n_1} = X_{n_1}lp $ et $Q_{n_2} =  X_{n_2}lp $, on peut former une
+nouvelle paire $(A,Q)$ avec laquelle on peut travailler pour chercher une 
+congruence de carrés. \\ 
+
+Remarquons pour cela qu'on a les conguences :
+\begin{equation*}
+  \left\{
+      \begin{aligned}
+          A_{n_1 -1}^2 &\equiv (-1)^{n_1} X_{n_1}lp\pmod{N} \\
+          A_{n_2 -1}^2 &\equiv (-1)^{n_2} X_{n_2}lp\pmod{N}\\
+        \end{aligned}
+    \right.
+\end{equation*}
+
+En les multipliant, on obtient : 
+\[  (A_{n_1 -1} A_{n_2 -1})^2 \equiv 
+     \underbrace{(-1)^{n_1 + n_2} X_{n_1} X_{n_2}}_
+            {\begin{subarray}{c}\text{associé au vecteur exposant}\\
+             v_{B} \big( (-1 )^{n_1} X_{n_1} \big)
+             + v_{B} \big( (-1 )^{n_2} X_{n_2} \big) \end{subarray}
+             }
+    \underbrace{lp^2}_{\text{carré qui ne pose pas problème}}
+    \pmod{N}
+ \]
+  
+On forme donc la nouvelle paire $ (A_{n_1-1}A_{n_2 -1} \pmod{N}, Q_{n_1}Q_{n_2}) $
+associée au vecteur exposant $v_{B} \big( (-1 )^{n_1} X_{n_1} \big)+
+v_{B} \big( (-1 )^{n_2} X_{n_2} \big) $.  Elle sera traitée lors de la 
+deuxième phase exactement de la même manière que les paires \og classiques \fg{}.\\
+
+En pratique, pour repérer les paires qui ont le même grand premier, nous
+constituons au fur et à mesure de la collecte une liste chainée dont les noeuds
+stockent les données d'une paire dont le $Q_n$ est presque friable (les entiers
+$Q_n$, $A_{n-1}$, le vecteur exposant et le grand premier associé à $Q_n$). Nous
+maintenons cette liste triée par taille des grands premiers. Lorsque que survient
+un $Q_n$ presque friable, il est repéré par la fonction
+\texttt{is\_Qn\_factorisable} qui fournit également son grand premier $lp$. La 
+liste chainée est alors parcourue pour savoir si l'on a déjà rencontré ce $lp$.
+Deux cas se présentent alors. Si $lp$ est absent de la liste, on crée à la bonne
+place un noeud. Si $lp$ est déjà présent dans la liste, au lieu de rajouter un
+noeud, on utilise le noeud possédant ce $lp$ pour obtenir une nouvelle paire
+$(A,Q)$ selon la méthode énoncée plus haut et ajoute ses composantes aux tableaux
+\texttt{Ans}, \texttt{Qns} et \texttt{exp\_vects}. La fonction
+\texttt{insert\_or\_elim\_lp} se charge de cela. \\
+
