@@ -138,33 +138,36 @@ L'introduction des fractions continues est motivée par le constat suivant. Si
 \[u_i^2 = Q_i + kNb^2, \quad u_i, Q_i, b\in \Z, k\in \N^*\] de telle sorte que
 $| Q_i |$ soit petit, alors \[\left(\frac{u_i}{b}\right)^2 - kN =
 \frac{Q_i}{b^2}\] est petit en valeur absolue et $\frac{u_i}{b}$ est une bonne
-approximation de $\sqrt{kN}$ \NTS{réf}. Fixons $k$ un entier naturel non nul,
-posons $x = \sqrt{kN}$ et reprenons les notations \ref{notations} et celles
-développées à la fin de la sous-section \ref{ss-irrquad}. En vertu de
-l'identité \[A_{n-1}^2 \equiv (-1)^n Q_n \pmod{N},\] nous appelons
-\emph{méthode de factorisation des fractions continues} la méthode de Kraitchik
-dans laquelle les entiers $u_i$ sont donnés par les $A_{i-1}$ et les $Q_i$ par
-les $(-1)^i Q_i$. \\
+approximation de $\sqrt{kN}$ (\cite{Cohen}, p. 478). Fixons $k$ un entier
+naturel non nul, posons $x = \sqrt{kN}$ et reprenons les notations
+\ref{notations} et celles développées à la fin de la sous-section
+\ref{ss-irrquad}. En vertu de l'identité \[A_{n-1}^2 \equiv (-1)^n Q_n
+\pmod{N},\] nous appelons \emph{méthode de factorisation des fractions
+continues} la méthode de Kraitchik dans laquelle les entiers $u_i$ sont donnés
+par les $A_{i-1}$ et les $Q_i$ par les $(-1)^i Q_i$. \\
 
-Ce choix de congruences est intéressant car on sait que les $Q_n$ sont majorés
-(\ref{inegalite}) par $2\sqrt{kN}$. A l'inverse, les $x^2 - N\in \Z[X], x\in \N$
-ont une croissance linéaire de pente $2\sqrt{N}$ lorsque $x$ s'éloigne de 
-$\sqrt{N}$. Pour une base de factorisation $B$ fixée, les $Q_n$ auront donc
-plus de chance d'être $B$-friables que les $K(x)$ de Kraitchik. Or, l'étape la 
-plus coûteuse de l'algorithme est celle de la recherche des termes $B$-friables
-par divisions successives. Notons d'autre part qu'il est facile de générer le
-développement en fraction continue de $x$ et les paires $(A_{n-1}, Q_n)$ grace
-à un algorithme itératif dû à Gau\ss{} et exposé dans \NTS{réf}. \\
+L'intérêt de la méthode des fractions continues réside en la majoration $Q_n
+\leq 2\sqrt{kN}$ (\ref{inegalite}). À l'inverse, les $x^2 - N, x\in \N$ de
+Kraitchik ont une croissance linéaire de pente $2\sqrt{N}$ lorsque $x$
+s'éloigne de $\sqrt{N}$. Pour une base de factorisation $B$ fixée, les $Q_n$
+auront donc plus de chance d'être $B$-friables. Or, l'étape la plus coûteuse de
+l'algorithme est celle de la recherche des termes $B$-friables par divisions
+successives. Notons d'autre part qu'il est facile de générer le développement
+en fraction continue de $x$ et les paires $(A_{n-1}, Q_n)$ grace à un
+algorithme itératif dû à Gau\ss{} et exposé dans \cite{MB}, p. 185. Qui plus
+est, on a le résultat suivant (\cite{MB}, p. 191).
 
-L'égalité $A_{n-1}^2 - kNB_{n-1}^2 = (-1)^n Q_n$ donne un critère pour
-sélectionner les premiers de la base de factorisation : les premiers $p$
-divisant $Q_n$ vérifient nécessairement \[ \left(\frac{kN}{p} \right) = 0 
-\text{ ou } 1 \] En effet, supposons qu'un premier $p$ divise $Q_n$. 
-On a alors $ A_{n-1}^2 \equiv kNB_{n-1}^2 \pmod{p}$. Comme
-$\pgcd(A_{n-1},B_{n-1}) = 1$, $p$ ne peut pas diviser $B_{n-1}$ (sinon
-$A_{n-1}^2 \equiv 0 \pmod{p}$ et $p$ diviserait aussi $A_{n-1}$). $B_{n-1}$ 
-est donc inversible modulo $p$ et $\left( \frac{A_{n-1}}{B_{n-1}}\right )^2 
-\equiv kN \pmod{p}$.\\ 
+\begin{proposition}
+	Les diviseurs premiers $p$ de $Q_n$ vérifient nécessairement
+	\[\left(\frac{kN}{p} \right) \in \{0, 1\}.\]
+\end{proposition}
+
+\begin{proof}
+	Soit $p$ un diviseur premier de $Q_n$. Alors $ A_{n-1}^2 \equiv kNB_{n-1}^2
+	\pmod{p}$. Comme $\pgcd(A_{n-1},B_{n-1}) = 1$, $p$ ne peut pas diviser
+	$B_{n-1}$ (sinon $A_{n-1}^2 \equiv 0 \pmod{p}$ et $p$ diviserait aussi
+	$A_{n-1}$). L'entier $B_{n-1}$ est donc inversible modulo $p$ et $\left(
+	\frac{A_{n-1}}{B_{n-1}}\right )^2 \equiv kN \pmod{p}$.
+\end{proof}
 
 \subsubsection{Quelques éléments pour appréhender la complexité de la méthode}
-
