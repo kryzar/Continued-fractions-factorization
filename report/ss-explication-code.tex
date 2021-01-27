@@ -149,51 +149,49 @@ deux vecteurs exposants équivaut à calculer leur xor.
 \begin{algorithm}[H]
 \DontPrintSemicolon
 \caption{\sc{Pivot de Gauss}}
-\KwIn{tableau $EXP\_VECTS[0 \cdots nb\_AQp -1 ] $ des vecteurs exposants 
-         tableau $HIST\_VECTS[0 \cdots nb\_AQp -1 ]$ des vecteurs historiques}
+    \KwIn{tableau \textsc{exp\_vects}$[0 \cdots nb\_AQp -1 ] $ des vecteurs exposants 
+         tableau \textsc{hist\_vects}$[0 \cdots nb\_AQp -1 ]$ des vecteurs historiques}
 \vspace{0.5em}
-\KwOut{$HIST\_VECTS[0 \cdots nb\_AQp -1]$ après le pivot, le nombre
-        $nb\_lin\_rel$ de relations linéaires trouvées, $LIN\_REL\_IND[0 \cdots
+    \KwOut{\textsc{hist\_vects}$[0 \cdots nb\_AQp -1]$ après le pivot, le nombre
+        $nb\_lin\_rel$ de relations linéaires trouvées, \textsc{lin\_rel\_ind}$[0 \cdots
         nb\_lin\_rel-1]$ contenant les indices des lignes où une relation 
         linéaire a été trouvée}
 \vspace{0.5em}
-
-    \tcc{tableau pour stocker les indices des bits de poids fort des vecteurs 
-     exposants}
-créer tableau $MSB\_IND[0 \cdots nb\_AQp - 1]$\;  
-créer tableau $LIN\_REL\_IND$\; 
+créer tableau \textsc{msb\_ind}$[0 \cdots nb\_AQp - 1]$\;  
+créer tableau \textsc{lin\_rel\_ind}\; 
 $nb\_lin\_rel \gets 0$\; 
-    \tcc{Initialisation du tableau $MSB\_IND$ : \textsc MSB(x) renvoie $0$
-    si x est nul, l'indice du bit (numéroté à partir de $1$) de poids fort
-    de x sinon.
+\vspace{0.5em}
+    \tcc{Initialisation du tableau \textsc{msb\_ind} : \textsc{Msb}(x) renvoie $0$
+    si x est nul, l'indice du bit de poids fort de x sinon. Les indices des bits sont  
+    numérotés de 1 à l'indice du bit de poids for.t
 }\
 \For{$i \gets 0 \textbf{ à } nb\_AQp -1 $ }{
-    $MSB\_IND[i] \gets \textsc{Msb} (EXP\_VECTS[i])$  \; 
+    \textsc{msb\_ind}$[i] \gets \textsc{Msb} (\textsc{exp\_vects}[i])$  \; 
 }
-    \For{$ j \gets \textsc{Max}(MSB\_IND)$ $\textbf{à } 1 $ }{
+\vspace{0.5em}
+    \For{$ j \gets \textsc{Max}(\textsc{msb\_ind})$ $\textbf{à } 1 $ }{
     $pivot \gets 
     \begin{cases}
-        \min \big\{ i \in  \{ 0, nb\_AQp - 1 \} \big\vert MSB\_IND[i] = j \big\}\\
-        \emptyset \text{ si pour tout }i \in \{ 0, nb\_AQp - 1 \}, \quad
-        MSB\_IND[i] \neq j \big\} 
+        \min \big\{ i \in  \{ 0, nb\_AQp - 1 \} \big\vert \textsc{msb\_ind}[i] = j \big\}\\
+        \emptyset \text{ si pour tout }i \in \{ 0, nb\_AQp - 1 \}$ $\textsc{msb\_ind}[i] \neq j  
    \end{cases}
     $\;
     \If{$pivot \neq \emptyset$}{
         \For{$i \gets pivot + 1 \textbf{ à } nb\_AQp -1 $}{
-            \If{$MSN\_IND[i] = j$}{
-                $EXP\_VECTS[i] \gets EXP\_VECTS[i] \oplus EXP\_VECTS[pivot]$ \; 
-                $HIST\_VECTS[i] \gets  HIST\_VECTS[i] \oplus HIST\_VECTS[pivot]$\; 
-                $MSB\_IND[i] \gets $ \textsc{Msb}$(EXP\_VECTS[i])$\; 
-                \If{$EXP\_VECTS[i] = 0 $}{
-                    ajouter $i$ au tableau $LIN\_REL\_IND$\; 
+            \If{$\textsc{msb\_ind}[i] = j$}{
+                $\textsc{exp\_vects}[i] $  $\gets $ $\textsc{exp\_vects}[i] \oplus \textsc{exp\_vects}[pivot]$ \; 
+                $\textsc{hist\_vects}[i] \gets \textsc{hist\_vects}[i] \oplus \textsc{hist\_vects}[pivot]$\; 
+                $\textsc{msb\_ind}[i] \gets $ \textsc{Msb}$(\textsc{exp\_vects}[i])$\; 
+                \If{$\textsc{exp\_vects}[i] = 0 $}{
+                    ajouter $i$ au tableau \textsc{lin\_rel\_ind}\; 
                     $nb\_lin\_rel \gets nb\_lin\_rel + 1 $\; 
                 }
             }
         }
     }
 }
-\Return{$EXP\_VECTS[0 \cdots nb\_AQp -1 ]$, $lin\_rel\_indexes$}, 
-    $LIN\_REL\_IND[0 \cdots nb\_lin\_rel-1]$ \;
+    \Return{$\textsc{exp\_vects}[0 \cdots nb\_AQp -1 ]$, $lin\_rel\_indexes$}, 
+    $\textsc{lin\_rel\_ind}[0 \cdots nb\_lin\_rel-1]$ \;
 
 \end{algorithm}
 \vspace{1em}
