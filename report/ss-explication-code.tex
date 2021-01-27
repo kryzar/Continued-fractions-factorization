@@ -135,16 +135,77 @@ A partir de ces quatre tableaux, la fonction \texttt{find\_factor} cherche
 un facteur de \texttt{N}. Elle utilise pour cela les fonctions auxiliaires 
 \texttt{gauss\_elimination} et \texttt{calculate\_A\_Q}. 
 
-\subsubsection{ La fonction \texttt{gauss\_elimination} }
+\subsubsection{La fonction \texttt{gauss\_elimination}}
 
-\subsubsection{ La fonction \texttt{calculate\_A\_Q} }
+La fonction \texttt{gauss-elimination} effectue un pivot de Gauss sur la
+matrice dont les ligne sont les éléments de \texttt{mpz\_t *exp\_vects} 
+(vus comme des vecteurs). Comme pour un pivot de Gauss classique, les 
+calculs effectués sur les lignes de cette matrice sont reproduits en 
+parallèle sur la matrice identité, c'est-à-dire sur les éléments de 
+\texttt{mpz\_t *hist\_vects}. Puisque l'on travaille modulo $2$, additionner
+deux vecteurs exposants équivaut à calculer leur xor. 
 
 \vspace{1em}
 \begin{algorithm}[H]
 \DontPrintSemicolon
-\caption{Extraction de racine carrée}
+\caption{\sc{Pivot de Gauss}}
+\KwIn{tableau $EXP\_VECTS[0 \cdots nb\_AQp -1 ] $ des vecteurs exposants 
+         tableau $HIST\_VECTS[0 \cdots nb\_AQp -1 ]$ des vecteurs historiques}
+\vspace{0.5em}
+\KwOut{$HIST\_VECTS[0 \cdots nb\_AQp -1]$ après le pivot, le nombre
+        $nb\_lin\_rel$ de relations linéaires trouvées, $LIN\_REL\_IND[0 \cdots
+        nb\_lin\_rel-1]$ contenant les indices des lignes où une relation 
+        linéaire a été trouvée}
+\vspace{0.5em}
+
+    \tcc{tableau pour stocker les indices des bits de poids fort des vecteurs 
+     exposants}
+créer tableau $MSB\_IND[0 \cdots nb\_AQp - 1]$\;  
+créer tableau $LIN\_REL\_IND$\; 
+$nb\_lin\_rel \gets 0$\; 
+    \tcc{Initialisation du tableau $MSB\_IND$ : \textsc MSB(x) renvoie $0$
+    si x est nul, l'indice du bit (numéroté à partir de $1$) de poids fort
+    de x sinon.
+}\
+\For{$i \gets 0 \textbf{ à } nb\_AQp -1 $ }{
+    $MSB\_IND[i] \gets \textsc{Msb} (EXP\_VECTS[i])$  \; 
+}
+    \For{$ j \gets \textsc{Max}(MSB\_IND)$ $\textbf{à } 1 $ }{
+    $pivot \gets 
+    \begin{cases}
+        \min \big\{ i \in  \{ 0, nb\_AQp - 1 \} \big\vert MSB\_IND[i] = j \big\}\\
+        \emptyset \text{ si pour tout }i \in \{ 0, nb\_AQp - 1 \}, \quad
+        MSB\_IND[i] \neq j \big\} 
+   \end{cases}
+    $\;
+    \If{$pivot \neq \emptyset$}{
+        \For{$i \gets pivot + 1 \textbf{ à } nb\_AQp -1 $}{
+            \If{$MSN\_IND[i] = j$}{
+                $EXP\_VECTS[i] \gets EXP\_VECTS[i] \oplus EXP\_VECTS[pivot]$ \; 
+                $HIST\_VECTS[i] \gets  HIST\_VECTS[i] \oplus HIST\_VECTS[pivot]$\; 
+                $MSB\_IND[i] \gets $ \textsc{Msb}$(EXP\_VECTS[i])$\; 
+                \If{$EXP\_VECTS[i] = 0 $}{
+                    ajouter $i$ au tableau $LIN\_REL\_IND$\; 
+                    $nb\_lin\_rel \gets nb\_lin\_rel + 1 $\; 
+                }
+            }
+        }
+    }
+}
+\Return{$EXP\_VECTS[0 \cdots nb\_AQp -1 ]$, $lin\_rel\_indexes$}, 
+    $LIN\_REL\_IND[0 \cdots nb\_lin\_rel-1]$ \;
+
+\end{algorithm}
+\vspace{1em}
+
+\subsubsection{La fonction \texttt{calculate\_A\_Q}}
+
+\vspace{1em}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\caption{\sc Extraction de racine carrée}
 \KwIn{Des entiers $Q_1,\cdots, Q_r \in \Z$ tels que $\prod_{i=1}^r Q_{i}$ est un carré}
-    \KwOut{$\sqrt{\prod_{i=1}^r Q_{i}} \pmod{N}$}
+\KwOut{$\sqrt{\prod_{i=1}^r Q_{i}} \pmod{N}$}
 $Q \gets 1$\;
 $R \gets Q_1$\;
     \For{$i \gets 2$ $\textbf{à } r$}{
