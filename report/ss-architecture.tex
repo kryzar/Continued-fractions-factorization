@@ -53,26 +53,23 @@ non trivial de $N$ et \texttt{print\_results} affiche les résultats.
 
 \subsubsection{Entrées et sorties}
 
-Nous avons regroupé dans une structure \texttt{Params} les paramètres d'entrée 
+Nous avons regroupé dans une structure \texttt{Params} les paramètres d'entrée
 de la fonction de factorisation, à savoir :
 
 \begin{itemize}
-    \item \texttt{N} : le nombre à factoriser, supposé produit de deux grands
-                       nombres premiers.
+	\item \texttt{N} : le nombre à factoriser, supposé produit de deux grands
+	nombres premiers.
     \item \texttt{k} : le coefficient multiplicateur.
-    \item \texttt{n\_lim} : le nombre maximal de paires $(A,Q)$ que l'on 
-                             s'autorise à calculer. Ce nombre prend en compte
-                             toutes les paires produites et non uniquement les
-                             paires avec $Q_n$ friable ou résultant de la  
-                             \textit{large prime variation}.
+	\item \texttt{n\_lim} : le nombre maximal de paires $(A,Q)$ que l'on
+	s'autorise à calculer. Ce nombre prend en compte toutes les paires
+	produites, non uniquement les paires dont le $Q_n$ est friable ou résultant
+	de la \textit{large prime variation}.
     \item \texttt{s\_fb} : la taille de la base de factorisation. 
-    \item \texttt{nb\_want\_AQp} : le nombre désiré de paires $(A,Q)$ avec $Q_n$ 
-                                    friable ou résultant de la \textit{large prime 
-                                   variation}.
-                               \item des booléens indiquant si la \textit{early 
-                                   abort strategy} ou la \textit{large prime variation}
-                                   doivent être utilisées et des paramètres s'y rapportant.
-
+	\item \texttt{nb\_want\_AQp} : le nombre désiré de paires $(A,Q)$ avec
+	$Q_n$ friable ou résultant de la \textit{large prime variation}.
+	\item des booléens indiquant si la \textit{early abort strategy} ou la
+	\textit{large prime variation} doivent être utilisées et des paramètres s'y
+	rapportant.
 \end{itemize}
 
 Le programme stocke dans une structure \texttt{Results} un facteur non trivial
@@ -80,19 +77,18 @@ de \texttt{N} trouvé (si tel est le cas) ainsi que des données permettant
 l'analyse des performances de la méthode.  
 
 \begin{remarque}
-L'efficatité de la méthode dépend du choix des paramètres ci-dessus. Pour avoir
-plus de latitude dans les tests, nous les considérons comme des paramètres 
-d'entrée du programme. C'est pourquoi notre programme ne s'attèle pas à la
-factorisation complète d'un entier, qui aurait nécessité une sous-routine 
-déterminant des paramètres optimaux en fonction de la taille de l'entier 
-dont on cherche un facteur. 
-   
+	L'efficatité de la méthode dépend du choix des paramètres ci-dessus. Pour
+	avoir plus de latitude dans les tests, nous les considérons comme des
+	paramètres d'entrée du programme. C'est pourquoi notre programme ne
+	s'attèle pas à la factorisation complète d'un entier, qui aurait nécessité
+	une sous-routine déterminant des paramètres optimaux en fonction de la
+	taille de l'entier dont on cherche un facteur. 
 \end{remarque}
 
 \begin{remarque}
-Notre programme n'est pas supposé prendre en entrée un nombre admettant un petit
-facteur premier (inférieur aux premiers de la base de factorisation par exemple).
-En effet, comme il ne teste pas au préalable si \texttt{N} est divisible par de 
-petits facteurs, il mettra autant de temps à trouver un petit facteur qu'un
-grand facteur.
+	Notre programme n'est pas supposé prendre en entrée un nombre admettant un
+	petit facteur premier (inférieur aux premiers de la base de factorisation
+	par exemple).  En effet, comme il ne teste pas au préalable si \texttt{N}
+	est divisible par de petits facteurs, il mettra autant de temps à trouver
+	un petit facteur qu'un grand facteur.
 \end{remarque}
