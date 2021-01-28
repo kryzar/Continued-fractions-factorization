@@ -103,18 +103,18 @@ $nb\_lin\_rel \gets 0$\;
 
 \subsubsection{La fonction \texttt{calculate\_A\_Q}}
 
-Une fois les indices des \emph{vecteurs historiques} indiquant un ensemble
-valide de paires $(A, Q)$ récupérés, la fonction \texttt{find\_factor} appelle
-la fonction \texttt{calculate\_A\_Q} pour calculer des entiers $A$ et $Q$
+Une fois les indices des vecteurs historiques indiquant un ensemble valide de
+paires $(A, Q)$ récupérés, la fonction \texttt{find\_factor} appelle la
+fonction \texttt{calculate\_A\_Q} pour calculer des entiers $A$ et $Q$
 vérifiant $A^2 \equiv Q^2 \pmod{N}$. Elle lui donne en argument un de ces
 vecteurs historiques et les données des tableaux \texttt{Ans} et \texttt{Qns}.
 \\
 
 Notons $l$ l'entier \texttt{nb\_AQp} et $(e_{l-1}, \cdots , e_0) \in
-\mathbb{F}_2^{l}$ le \emph{vecteur historique} donné en argument de la
-fonction. Le calcul de \[A:= \prod_{n=0}^{l-1} Ans[i]^{e_i} \pmod{N} \] ne pose
-pas de difficulté. Pour le calcul de \[Q:= \sqrt{\prod_{n=0}^{l-1 } Qns[i]
-^{e_i}} \pmod{N},\] on utilise l'algorithme proposé par Morrison et Brillhart.
+\mathbb{F}_2^{l}$ le vecteur historique donné en argument de la fonction. Le
+calcul de \[A:= \prod_{n=0}^{l-1} Ans[i]^{e_i} \pmod{N} \] ne pose pas de
+difficulté. Pour le calcul de \[Q:= \sqrt{\prod_{n=0}^{l-1 } Qns[i] ^{e_i}}
+\pmod{N},\] on utilise l'algorithme proposé par Morrison et Brillhart.
 
 \vspace{1em}
 \begin{algorithm}[H]
