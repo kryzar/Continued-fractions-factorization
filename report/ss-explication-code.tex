@@ -115,10 +115,10 @@ réel de telles paires est stocké dans le champ \texttt{nb\_AQp} d'une structur
 \texttt{Results}. Une paire $(A,Q)$ collectée est caractérisée par :
 
 \begin{itemize}
-    \item la valeur $A_{n-1}$
-    \item la valeur $Q_n$
-    \item le vecteur exposant associé à $Q_n$
-    \item un vecteur historique (voir ci-contre)
+    \item la valeur $A_{n-1}$,
+    \item la valeur $Q_n$,
+    \item le vecteur exposant associé à $Q_n$,
+    \item un vecteur historique (voir ci-contre).
 \end{itemize}
 Les données de ces \texttt{nb\_AQp} paires sont stockées dans
 quatre tableaux : \texttt{mpz\_t *Ans}, \texttt{mpz\_t *Qns}, 
@@ -208,12 +208,11 @@ $(A, Q)$ récupérés, la fonction \texttt{find\_factor} appelle la fonction
 $A^2 \equiv Q^2 \pmod{N}$. Elle lui donne en argument un de ces vecteurs
 historiques et les données des tableaux \texttt{Ans} et \texttt{Qns}. \\
 
-Notons $k$ l'entier \texttt{nb\_AQp} et $(e_{k-1}, \cdots , e_0) \in \mathbb{F}_2^{k}$ le vecteur 
-historique donné en argument de la fonction. Le calcul de
-\[A:= \prod_{n=0}^{k} A_{n-1}^{e_i} \pmod{N} \] ne pose pas de 
-difficulté. Pour le calcul de \[Q:= \sqrt{\prod_{n=0}^{k-1 } Q_n ^{e_i}}
-\pmod{N},\]
-on utilise l'algorithme proposé par Morrison et Brillhart.
+Notons $k$ l'entier \texttt{nb\_AQp} et $(e_{k-1}, \cdots , e_0) \in 
+\mathbb{F}_2^{k}$ le vecteur historique donné en argument de la fonction. Le
+calcul de \[A:= \prod_{n=0}^{k-1} Ans[i]^{e_i} \pmod{N} \] ne pose pas de 
+difficulté. Pour le calcul de \[Q:= \sqrt{\prod_{n=0}^{k-1 } Qns[i] ^{e_i}}
+\pmod{N},\] on utilise l'algorithme proposé par Morrison et Brillhart.
 
 \vspace{1em}
 \begin{algorithm}[H]
