@@ -20,6 +20,7 @@ void fact_rand_N(mp_bitcnt_t nb_bits);
 
 int test_s_fb(const char *file_name, unsigned row_S_FB, unsigned nb_tests); 
 
-int size_k_time(const char *file_name, mp_bitcnt_t nb_bits, unsigned nb_tests); 
+int test_nb_bits_vs_time(const char *file_name, mp_bitcnt_t nb_bits,
+                         unsigned nb_tests); 
 
 #endif

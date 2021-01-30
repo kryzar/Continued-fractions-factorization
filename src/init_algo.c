@@ -20,18 +20,18 @@ void free_mpz_array(mpz_t *array, size_t s_array) {
 void init_Params_Results(Params *P, Results *R) {
     /*
     Initialize the mpz_t (s) of the structures P and R.
-    Set the other R's value to 0. Set by default P-> lp_var to 1.
-    Set by default P-> eas to 0. If set_aes_params is called, its value
-    will be set to 1. Set by default P-> n_lim to N_LIM. 
+    Set the other R's value to 0. Set by default P-> n_lim to N_LIM,
+    P-> lp_var to 1 and P-> eas to 0. If set_aes_params is called, 
+    P-> eas value will be set to 1. 
     */
-    mpz_inits(P-> N, P-> eas_bound_div, R-> fact_found, NULL);
-    P-> lp_var = 1; 
-    P-> eas    = 0;
-    P-> n_lim  = N_LIM; 
+    mpz_inits(P-> N, P-> eas_bound_div, R-> fact_found, NULL); 
     R-> found  = 0; 
     R-> nb_AQp = 0; 
     R-> n_last = 0; 
     R-> time   = 0; 
+    P-> n_lim  = N_LIM; 
+    P-> lp_var = 1; 
+    P-> eas    = 0;     
 }
 
 void clear_Params_Results(Params *P, Results *R) {

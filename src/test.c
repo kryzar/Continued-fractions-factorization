@@ -29,7 +29,7 @@ void fact_F7(int lp_var, int eas) {
         P.nb_want_AQp = P.s_fb + DELTA; 
     } else {
         P.lp_var      = 0;
-        P.s_fb        = 750; 
+        P.s_fb        = 950; 
         P.nb_want_AQp = P.s_fb + DELTA; 
     }
 
@@ -101,7 +101,7 @@ void fact_rand_N(mp_bitcnt_t nb_bits) {
     clear_Params_Results(&P, &R);
 }
 
-size_t S_FB[9][12] = { {70 , 10 , 40 , 50 , 60 , 70 , 80 , 90 , 100, 110, 120, 130},
+size_t S_FB[9][12] = { {70 , 10 , 30 , 40 , 50 , 60 , 70 , 80 , 90 , 100, 110, 120},
                        {80 , 10 , 50 , 60 , 70 , 80 , 90 , 100, 110, 120, 130, 140},
                        {90 , 8  , 100, 110, 120, 130, 140, 150, 160, 170, 0  , 0  },
                        {100, 6  , 130, 150, 170, 190, 210, 230, 0  , 0  , 0  , 0  },
@@ -129,19 +129,18 @@ int test_s_fb(const char *file_name, unsigned row_S_FB, unsigned nb_tests){
     
     nb bits|N|T with s_fb = S_FB[*][2] |T with s_fb = S_FB[*][3] |...|best s_fb|best time 
 
-    param file_name: The name of the file. 
+    param file_name: Name of the file. 
     param row_S_FB: The row of S_FB to use. 
-    param nb_tests: The number of integer N to be tested. 
+    param nb_tests: Number of integer N to be tested. 
                     1 test <-> 1 line in the file.
     */
-
     FILE           *file; 
     Params          P; 
     Results         R; 
     unsigned long   seed; 
     gmp_randstate_t state;
     size_t          best_s_fb; 
-    float           best_time = FLT_MAX; 
+    float           best_time; 
 
     seed = time(NULL); 
     gmp_randinit_default(state); 
@@ -154,17 +153,17 @@ int test_s_fb(const char *file_name, unsigned row_S_FB, unsigned nb_tests){
     }
 
     for (unsigned i = 0; i < nb_tests; i++) {
+        best_time = FLT_MAX; 
         rand_N(P.N, S_FB[row_S_FB][0], state);
         set_eas_params(&P, EAS_CUT, EAS_COEFF);
         P.k = choose_k(P.N, K_MAX); 
-        
+
         gmp_fprintf(file, "%lu\t %Zd\t",  mpz_sizeinbase(P.N, 2) - 1, P.N);      
         
         for (unsigned j = 2; j < 2 + S_FB[row_S_FB][1]; j++) {
             P.s_fb        = S_FB[row_S_FB][j]; 
             P.nb_want_AQp = P.s_fb + DELTA; 
-            R.found       = 0; 
-            
+            R.found       = 0;  
             contfract_factor(&P, &R); 
             if (R.found) {
                 fprintf(file, "%f\t", R.time);
@@ -175,25 +174,25 @@ int test_s_fb(const char *file_name, unsigned row_S_FB, unsigned nb_tests){
             } else {
                  fprintf(file, "%f\t", FLT_MAX); 
             }
-        }
-        
+        } 
         fprintf(file, "%lu\t %f\t \n", best_s_fb, best_time); 
     }
  
     fclose(file); 
- 
     gmp_randclear(state); 
     clear_Params_Results(&P, &R);
     return 1; 
 }
 
-int size_k_time(const char *file_name, mp_bitcnt_t nb_bits, unsigned nb_tests) {
+int test_nb_bits_vs_time(const char *file_name, mp_bitcnt_t nb_bits, 
+                         unsigned nb_tests) {
     /*
     Write at the end of file_name the execution time of the programm as
     a function of the number of bits of the integer N to factor. The 
-    size of the factor base is choosen by default. We compute the time
-    for k = 1 (time_k_1) and for k given by the function choose_k
-    (time_k_default). One line is written per integer N. A line looks like: 
+    size of the factor base is choosen with the function choose_s_fb.
+    We compute the time for k = 1 (time_k_1) and for k given by the 
+    function choose_k(time_k_default). One line is written per integer
+    N. A line looks like: 
     
     nb bits of N| k by default |time_k_1 | time_k_default| time_k_1/time_k_default
 
@@ -224,7 +223,7 @@ int size_k_time(const char *file_name, mp_bitcnt_t nb_bits, unsigned nb_tests) {
         set_eas_params(&P, EAS_CUT, EAS_COEFF);
         P.s_fb        = choose_s_fb(P.N);
         P.nb_want_AQp = P.s_fb + DELTA; 
-        
+        // First test with k = 1
         R.found = 0;
         P.k     = 1; 
         contfract_factor(&P, &R);
@@ -233,7 +232,7 @@ int size_k_time(const char *file_name, mp_bitcnt_t nb_bits, unsigned nb_tests) {
         } else {
             time_k_1 = FLT_MAX; 
         }
-
+        // Second test with k choosen by choose_k 
         R.found = 0;
         P.k     = choose_k(P.N, K_MAX); 
         contfract_factor(&P, &R); 
@@ -247,8 +246,7 @@ int size_k_time(const char *file_name, mp_bitcnt_t nb_bits, unsigned nb_tests) {
                 time_k_default, time_k_1/time_k_default); 
 
     }
-    fclose(file); 
- 
+    fclose(file);  
     gmp_randclear(state); 
     clear_Params_Results(&P, &R);
     return 1; 
