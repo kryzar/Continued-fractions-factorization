@@ -6,14 +6,20 @@
 #include <time.h>
 #include <stdio.h>
 #include <gmp.h>
+#include <float.h>
 #include "init_algo.h"
 #include "step_1.h"
 #include "step_2.h"
 #include "fact.h"
 
-void rand_N(mpz_t N, mp_bitcnt_t nb_bits, gmp_randstate_t state); 
+void fact_F7(int lp_var, int eas); 
 
-int nb_bits_vs_time(const char *file_name, mp_bitcnt_t start_bits, 
-                    mp_bitcnt_t end_bits, mp_bitcnt_t incr); 
+void rand_N(mpz_t N, mp_bitcnt_t nb_bits, gmp_randstate_t state);
+
+void fact_rand_N(mp_bitcnt_t nb_bits); 
+
+int test_s_fb(const char *file_name, unsigned row_S_FB, unsigned nb_tests); 
+
+int size_k_time(const char *file_name, mp_bitcnt_t nb_bits, unsigned nb_tests); 
 
 #endif
