@@ -9,6 +9,9 @@
 % modifier Output en Sorties dans algorithm2e
 \SetKwInput{KwOut}{Sorties}
 
+\usepackage{array}
+\newcolumntype{M}[1]{>{\raggedright}m{#1}}
+
 \addbibresource{bi.bib}
 
 \DeclarePairedDelimiter\ent{\lfloor}{\rfloor}
@@ -29,6 +32,8 @@
 
 \section{Explication du programme}
 \input{ss-explication-code}
+
+\input{s-resultats.tex}
 
 \addcontentsline{toc}{section}{Bibliographie}
 \printbibliography
