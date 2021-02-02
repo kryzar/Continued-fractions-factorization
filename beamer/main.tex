@@ -1,10 +1,14 @@
-\documentclass[serif, french]{beamer}
+\documentclass[serif, french, handout]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[vlined, onelanguage, french]{algorithm2e}
+\usepackage{chronology}
+\usepackage{mathtools}
 \usepackage[french]{babel}
 \usepackage{lmodern}
 \usepackage{pkg}
 \usepackage[normalem]{ulem}  % \emph
+
+\DeclarePairedDelimiter\ent{\lfloor}{\rfloor}
 
 % Réglages Beamer
 %% Merci Adrien (modififié)
@@ -43,6 +47,13 @@
 \begin{frame}
 	\titlepage
 \end{frame}
+
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
+\input{introduction}
+
+\section*{Théorie}
+\input{ss-fractions-continues}
 
 
 \end{document}

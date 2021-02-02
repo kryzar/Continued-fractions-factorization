@@ -133,8 +133,8 @@ irrationnels et fractions continues infinies}) permettent de montrer que toute
 fraction continue infinie converge, et qu'elle converge vers un irrationnel.
 
 \begin{theoreme}
-	L'application canonique \[x \mapsto \cfrac{1}{\hat{x}_0 +
-	\cfrac{1}{\hat{x}_1 + \cfrac{1}{\hat{x}_2 + \dots}}}\] établit une
+	L'application canonique \[x \mapsto \hat{x_0} + \cfrac{1}{\hat{x}_1 +
+	\cfrac{1}{\hat{x}_2 + \cfrac{1}{\hat{x}_3 + \dots}}}\] établit une
 	\emph{bijection} entre l'ensemble des nombres réels irrationnels et
 	l'ensemble des fractions continues infinies.
 \end{theoreme}
@@ -226,7 +226,7 @@ forme $\frac{A_n}{B_n}$, où $A_n, B_n$ sont entiers et la fraction est
 irréductible bien définie. Pour tout $n\geqslant 1$, on a (\cite{Lauritzen} §
 2.7) \[A_{n-1}^2 - kN B_{n-1}^2 = (-1)^n Q_n\] et donc
 \begin{equation}
-	A_{n-1}^2 \equiv (-1)^n Q_n.
+	A_{n-1}^2 \equiv (-1)^n Q_n \pmod{N}.
 \end{equation}
 On a également (\cite{Lauritzen} dém. de 2.5.8)
 \begin{equation}\label{inegalite}
