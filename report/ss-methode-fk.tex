@@ -58,14 +58,16 @@ trouver une différence de deux carrés qui soit un multiple de $N$.
 \end{remarque}
 
 La factorisation de $N$ se fait donc en trouvant de tels couples $(u, v)$.
-Kraitchik cherche pour cela des couples $(u_i, Q_i)_{1\leq i \leq r}$ vérifiant
-\[u_i^2 \equiv Q_i \pmod{N}\] et tels que l'entier $\prod_{i=1}^r Q_i$ soit un
-carré (dans $\Z$). Posant $u = \prod_{i=1}^r u_i$ et $v = \sqrt{\prod_{i=1}^r
-Q_i}$, il vient \[v^2\equiv u^2 \pmod{N}.\] En se donnant des éléments $u_1,
-\dots, u_r\in \Z$ et en posant $v_1 = K(u_1), \dots, v_r = K(u_r)$, où $K :=
-X^2 - N \in \Z[X]$, on obtient $u_i^2 \equiv K(u_i) \pmod{N}$ pour tout
-$u_i \in \Z$. Comment exhiber une sous-famille des $Q_i, 1\leq i\leq r$ dont le
-produit est un carré ?
+Kraitchik cherche dans un premier temps des couples $(u_i, Q_i)_{1\leq i \leq r}$
+vérifiant \[u_i^2 \equiv Q_i \pmod{N}\] et tels que l'entier $\prod_{i=1}^r Q_i$ 
+soit un carré (dans $\Z$). Posant $u = \prod_{i=1}^r u_i$ et $v = 
+\sqrt{\prod_{i=1}^rQ_i}$, il vient \[u^2\equiv v^2 \pmod{N}.\]
+Obtenir des congruences de la forme $u_i^2 \equiv Q_i \pmod{N}$ ne pose pas de 
+difficulté. Kraitchik propose d'utiliser le polynôme $Q:= X^2 - N \in \Z[X]$.
+En se donnant des éléments $u_1,\dots, u_s\in \Z$ et en posant
+$Q_1 = Q(u_1), \cdots, Q_s = Q(u_s)$, on a bien les congruences souhaitées.
+Comment exhiber une sous-famille de $\{Q_1, \cdots, Q_s\}$ dont le produit 
+est un carré ?
 
 \subsubsection{Recherche de congruences de carrés}
 
