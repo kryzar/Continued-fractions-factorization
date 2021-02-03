@@ -65,9 +65,9 @@ soit un carré (dans $\Z$). Posant $u = \prod_{i=1}^r u_i$ et $v =
 Obtenir des congruences de la forme $u_i^2 \equiv Q_i \pmod{N}$ ne pose pas de 
 difficulté. Kraitchik propose d'utiliser le polynôme $Q:= X^2 - N \in \Z[X]$.
 En se donnant des éléments $u_1,\dots, u_s\in \Z$ et en posant
-$Q_1 = Q(u_1), \cdots, Q_s = Q(u_s)$, on a bien les congruences souhaitées.
-Comment exhiber une sous-famille de $\{Q_1, \cdots, Q_s\}$ dont le produit 
-est un carré ?
+$Q_1 = Q(u_1), \cdots, Q_s = Q(u_s)$, on a bien des congruences de la forme 
+souhaitée. Comment exhiber une sous-famille de $\{Q_1, \cdots, Q_s\}$ dont le
+produit est un carré ?
 
 \subsubsection{Recherche de congruences de carrés}
 
@@ -77,9 +77,8 @@ est basée sur la connaissance de congruences de la forme \[u_i^2 \equiv Q_i
 pour cela $B = \{p_1, \dots, p_m\}$ une base de factorisation, c'est à dire un
 ensemble non vide fini de nombres premiers, et l'on dit qu'un entier $Q\in
 \N\setminus \{0, 1\}$ est \emph{$B$-friable} si tous ses facteurs premiers sont
-dans $B$. La connaissance de suffisamment d'entiers $Q_i$ qui sont $B$-friables
-permet de factoriser $N$. Soit $Q\in \Z$ un entier dont la valeur absolue est
-$B$-friable, il s'écrit alors \[Q = (-1)^{v_0}\prod_{i=1}^m p_i^{v_{p_i}(Q)}.\]
+dans $B$. Soit $Q\in \Z$ un entier dont la valeur absolue est
+$B$-friable. Il s'écrit alors \[Q = (-1)^{v_0}\prod_{i=1}^m p_i^{v_{p_i}(Q)}.\]
 Puisque les éléments de $B$ sont fixés et en nombre fini, l'élément $Q$ peut
 être vu comme le vecteur des valuations $(v_{p_m}(Q), \dots, v_{p_1}(Q), v_0 )
 \in \mathbb{N}^{m+1}$.
@@ -94,8 +93,8 @@ Puisque les éléments de $B$ sont fixés et en nombre fini, l'élément $Q$ peu
 	(v_{p_m}(Q), \dots, v_{p_1}(Q), v_0 ) \in \mathbb{F}_2^{m+1}.\] 
 \end{definition}
 
-Connaissant suffisamment d'entiers $Q_i$ étant $B$-friables, on peut en
-extraire une sous-famille dont le produit est un carré.
+Connaissant suffisamment d'entiers $Q_i$ de valeur absolue $B$-friable, on peut
+en extraire une sous-famille dont le produit est un carré.
 
 \begin{proposition}
 	Soit $F$ une famille d'entiers dont les valeurs absolues sont $B$-friables.
