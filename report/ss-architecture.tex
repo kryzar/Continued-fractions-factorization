@@ -15,6 +15,12 @@ code. \NTS{réf vers 1.2.3 pour les notations}
 	(dans $\Z$).
 \end{definition}
 
+\begin{definition}
+    Si $B$ est la base de factorisation utilisée par le programme, on 
+    désignera par l'expression \emph{vecteur exposant associé à $Q_n$} 
+    le $B$-vecteur exposant $v_B((-1)^n Q_n)$.
+\end{definition}
+
 \subsubsection{Structure générale}
 
 Le programme comprend deux étapes principales. La première consiste à générer,
@@ -23,26 +29,24 @@ section}, des paires $(A, Q)$ avec $Q_n$ friable pour une base de factorisation
 préalablement déterminée et fixée. On associe à chaque $Q_n$ ainsi produit son
 vecteur exposant \texttt{mpz\_t exp\_vect}. Ce vecteur permet de retenir les
 nombres premiers qui interviennent dans la factorisation de $Q_n$ avec une
-valuation impaire \NTS{on n'a pas expliqué pourquoi on ne regardait que les
-valuations impaires}. Dans le but d'augmenter le nombre de paires $(A,Q)$
+valuation impaire. Dans le but d'augmenter le nombre de paires $(A,Q)$
 acceptées lors de cette étape, nous avons implémenté la \textit{large prime
-variation}. Cette variation permet d'accepter une paire si son $Q_n$ se
-factorise sur la base de factorisation fixée et un nombre premier
-supplémentaire \NTS{réf vers la partie du rapport correspondante ?}. Les
-fonctions de cette phase de collecte sont rassemblées dans le fichier
-\texttt{step\_1.c}. Elles font appel, pour mettre en oeuvre la \textit{large
-prime variation}, aux fonctions du fichier \texttt{lp\_var.c}. \\
+variation}. Cette variante permet d'accepter une paire si son $Q_n$ se
+factorise grâce aux premiers de la base de factorisation fixée et à un nombre
+premier supplémentaire. Les fonctions de cette phase de collecte sont rassemblées dans
+le fichier \texttt{step\_1.c}. Elles font appel, pour mettre en oeuvre la
+\textit{large prime variation}, aux fonctions du fichier \texttt{lp\_var.c}. \\
  
 Ces données sont traitées lors de la seconde phase dans l'espoir de trouver un
 facteur non trivial de $N$. Il s'agit de trouver des ensembles valides de
-paires $(A, Q)$ parmi celles trouvées en première phase. Cela se fait par pivot
-de Gau\ss{} sur la matrice dont les lignes sont formées des vecteurs exposants
-\NTS{réf à avant}. Chaque ensemble de paires $(A, Q)$ valide trouvé fournit une
-congruence de la forme $A^2 \equiv Q^2$ (mod $N$). Cette dernière permet
-éventuellement de trouver un facteur non trivial de $N$. Les fonctions de cette
-phase sont regroupées dans le fichier \texttt{step\_2.c}. \\
+paires $(A, Q)$ parmi les paires trouvées en première phase. Cela se fait par
+pivot de Gau\ss{} sur la matrice dont les lignes sont formées des vecteurs
+exposants \NTS{réf à avant}. Chaque ensemble de paires $(A, Q)$ valide trouvé
+fournit une congruence de la forme $A^2 \equiv Q^2$ (mod $N$). Cette dernière
+permet éventuellement de trouver un facteur non trivial de $N$. Les fonctions de 
+cette phase sont regroupées dans le fichier \texttt{step\_2.c}. \\
 
-Avant d'effectuer la première étape, il faut se doter d'une base de
+Avant d'effectuer la première étape, il convient de se doter d'une base de
 factorisation, ce qui est fait avec les fonctions de \texttt{init\_algo.c}.
 Ces dernières se chargent plus généralement de l'initialisation et du choix par
 défaut des paramètres, comme la taille de la base de factorisation ou l'entier

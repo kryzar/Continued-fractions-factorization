@@ -27,7 +27,7 @@ Les données de ces \texttt{nb\_AQp} paires sont stockées dans quatre tableaux 
 Le vecteur historique sert à indexer les paires collectées pour former un
 analogue de la matrice identité utilisée pendant le pivot de Gauss. Plus
 précisément, \texttt{hist\_vects[i]} est, avant pivot de Gauss, le vecteur
-$(e_{k-1}, \cdots, e_0)$ où $k=\texttt{nb\_AQp}$ et $e_j = \delta_{ij}$. À
+$(e_{l-1}, \cdots, e_0)$ où $l=\texttt{nb\_AQp}$ et $e_j = \delta_{ij}$. À
 partir de ces quatre tableaux, la fonction \texttt{find\_factor} cherche un
 facteur de \texttt{N} selon la méthode des congruences de carrés. Elle utilise
 pour cela les fonctions auxiliaires \texttt{gauss\_elimination} et
@@ -43,8 +43,8 @@ c'est-à-dire sur les éléments de \texttt{mpz\_t *hist\_vects}. Si le
 \textit{xor} de deux vecteurs exposants donne le vecteur nul, cela signifie
 qu'une relation de dépendance a été trouvée. On inscrit alors dans un tableau
 l'indice de ce vecteur nul. Le vecteur historique dudit indice indique les
-paires $(A,Q)$ de l'ensemble valide trouvé. La procédure que implémentée est
-décrite ci-dessous. 
+paires $(A,Q)$ de l'ensemble valide trouvé. La procédure que nous avons 
+implémentée est décrite ci-dessous. 
 
 \vspace{1em}
 \begin{algorithm}[H]
@@ -65,14 +65,14 @@ $nb\_lin\_rel \gets 0$\;
 \vspace{0.5em}
 \tcc{Initialisation du tableau \textsc{msb\_ind} : \textsc{Msb}(x) renvoie $0$
 	si x est nul, l'indice du bit de poids fort de x sinon. Les indices des
-	bits sont  numérotés de 1 à l'indice du bit de poids fort.}\
-
+	bits sont  numérotés de 1 à l'indice du bit de poids fort.}
+\vspace{0.5em}
 \For{$i \gets 0 \textbf{ à } nb\_AQp -1 $}{
     $\mathrm{msb\_ind}[i] \gets \textsc{MSB} (\mathrm{exp\_vects}[i])$  \; 
 }
 \vspace{0.5em}
 
-\For{$ j \gets \textsc{MAX}(\mathrm{msb\_ind}) \textbf{ à } 1 $}{
+\For{$ j \gets \textsc{MAX} (\mathrm{msb\_ind}) \textbf{ à } 1 $}{
     $pivot \gets \begin{cases}
 		\min \big\{ i \in [\![ 0, nb\_AQp - 1 ]\!] \big\vert \mathrm{msb\_ind}[i]
 		= j \big\}\\
@@ -138,5 +138,5 @@ $X \gets \sqrt{R}$\;
 
 Pour démontrer la correction de l'algorithme, on peut utiliser l'invariant de
 boucle \[Q\sqrt{R.Q_i\cdots Q_r} \equiv \sqrt{\prod_{i=1}^r Q_{i}} \pmod{N},\]
-dont la conservation de l'invariant découle de l'égalité \[Q\sqrt{R.Q_i\cdots
-Q_r} \equiv QW \sqrt{\frac{R}{X}\frac{Q_i}{X}Q_{i+1} \cdots Q_r} \pmod{N}.\]
+dont la conservation découle de l'égalité \[Q\sqrt{R.Q_i\cdots
+Q_r} \equiv QX \sqrt{\frac{R}{X}\frac{Q_i}{X}Q_{i+1} \cdots Q_r} \pmod{N}.\]

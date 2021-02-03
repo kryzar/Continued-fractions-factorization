@@ -16,22 +16,23 @@ développement en fraction continue dès que ce nombre est atteint. Au fur à
 mesure du développement de $\sqrt{kN}$ en fraction continue, il faut donc
 tester si le $Q_n$ qui vient d'être calculé est factorisable. Si c'est le cas,
 on crée son vecteur exposant et ajoute les données de la paire aux tableaux
-\texttt{Ans}, \texttt{Qns} et \texttt{exp\_vects}. Pour ce faire, la fonction
-utilise les sous-routines \texttt{is\_Qn\_factorisable} et
-\texttt{init\_exp\_vect}. Tout ceci est géré dans la longue fonction
-\texttt{create\_AQ\_pairs}.
+\texttt{Ans}, \texttt{Qns} et \texttt{exp\_vects}. Tout ceci est géré dans la
+longue fonction \texttt{create\_AQ\_pairs}, qui utilise les sous-routines
+\texttt{is\_Qn\_factorisable} et \texttt{init\_exp\_vect}.
+
 
 \subsubsection{La \textit{early abort strategy}}
 
 La fonction \texttt{is\_Qn\_factorisable} teste si un $Q_n$ est friable
 \footnote{Ou presque friable, voir ¶ suivant.} par divisions successives avec
 les premiers de la base de factorisation. Il est possible d'améliorer les
-performances de la fonction en l'empêchant de factoriser des $Q_n$ trop grands.
-On fixe pour cela une borne \texttt{eas\_bould\_div} (proportionnelle à la
-borne déjà connue $2\sqrt{kN}$ \NTS{pourquoi proportionnelle ?}), un palier
-\texttt{eas\_cut} et l'on arrête les divisions successives sur $Q_n$ si $Q_n$
-reste plus grand que \texttt{eas\_bould\_div} après \texttt{eas\_cut}
-divisions (ou tentatives de).
+performances de la fonction en l'empêchant de poursuivre les divisions 
+successives si, après un certain nombre de tentatives, on juge la partie non 
+factorisée de $Q_n$ trop grande. On fixe pour cela une borne
+\texttt{eas\_bound\_div} (proportionnelle à la borne déjà connue $2\sqrt{kN}$),
+un palier \texttt{eas\_cut} et l'on arrête les divisions successives sur $Q_n$ 
+si $Q_n$ reste plus grand que \texttt{eas\_bound\_div} après \texttt{eas\_cut}
+tentatives de divisions.
 
 \subsubsection{La \textit{large prime variation }}
 
