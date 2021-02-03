@@ -8,8 +8,8 @@
 #include "test.h"
 
 int main(int argc, char **argv) {
-    char *file_name = "70_s_fb.txt";
-    test_s_fb(file_name, 0, 50); 
+    char *file_name = "130_s_fb.txt";
+    test_s_fb(file_name, 6, 5); 
     
     /*
     int lp_var  = 0; 
