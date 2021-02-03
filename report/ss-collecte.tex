@@ -1,0 +1,87 @@
+\subsection{Collecte des paires $(A,Q)$ : \texttt{step\_1.c et lp\_var.c}}
+
+Décrivons à présent la phase de collecte des données. Concernant les vecteurs
+historiques, il suffit d'initialiser à la fin de la collecte
+\texttt{hist\_vects[i]} pour \texttt{0 <= i < nb\_AQp}. C'est ce que fait la
+fonction \texttt{init\_hist\_vects}. La collecte des autres données requiert un
+peu plus d'explications. 
+
+\subsubsection{La fonction \texttt{create\_AQ\_pairs}}
+
+Sachant que seules les paires $(A,Q)$ dont on a pu factoriser $Q_n$ nous
+intéressent pour la seconde phase, nous avons décidé de ne stocker que
+celles-ci. Ce choix a un autre avantage : ayant fixé \texttt{nb\_want\_AQp} le
+nombre de paires $(A, Q)$ factorisées désirées, on peut arrêter le
+développement en fraction continue dès que ce nombre est atteint. Au fur à
+mesure du développement de $\sqrt{kN}$ en fraction continue, il faut donc
+tester si le $Q_n$ qui vient d'être calculé est factorisable. Si c'est le cas,
+on crée son vecteur exposant et ajoute les données de la paire aux tableaux
+\texttt{Ans}, \texttt{Qns} et \texttt{exp\_vects}. Tout ceci est géré dans la
+longue fonction \texttt{create\_AQ\_pairs}, qui utilise les sous-routines
+\texttt{is\_Qn\_factorisable} et \texttt{init\_exp\_vect}.
+
+
+\subsubsection{La \textit{early abort strategy}}
+
+La fonction \texttt{is\_Qn\_factorisable} teste si un $Q_n$ est friable
+\footnote{Ou presque friable, voir ¶ suivant.} par divisions successives avec
+les premiers de la base de factorisation. Il est possible d'améliorer les
+performances de la fonction en l'empêchant de poursuivre les divisions 
+successives si, après un certain nombre de tentatives, on juge la partie non 
+factorisée de $Q_n$ trop grande. On fixe pour cela une borne
+\texttt{eas\_bound\_div} (proportionnelle à la borne déjà connue $2\sqrt{kN}$),
+un palier \texttt{eas\_cut} et l'on arrête les divisions successives sur $Q_n$ 
+si $Q_n$ reste plus grand que \texttt{eas\_bound\_div} après \texttt{eas\_cut}
+tentatives de divisions.
+
+\subsubsection{La \textit{large prime variation }}
+
+Étant donnée une base de factorisation $B = \{ p_1, \cdots, p_m\}$, la
+\textit{large prime variation } consiste à accepter lors de la collecte, non
+seulement des $Q_n$ $B$-friables mais aussi des $Q_n$ produits d'un entier
+$B$-friable et d'un entier $lp_n$ inférieur à $p_m^2$. On dira que $Q_n$ est
+\emph{presque friable} et l'on appellera \emph{grand premier (large prime)} le
+premier $lp_n$ en question. \\
+
+Pour que des $Q_n$ presque friables soient exploitables, il faut qu'ils aient
+un grand premier $lp$ en commun. En effet, si on trouve deux entiers presque
+friables $Q_{n_1} = X_{n_1}lp $ et $Q_{n_2} =  X_{n_2}lp $, on peut former une
+nouvelle paire $(A,Q)$ avec laquelle on peut travailler pour chercher une 
+congruence de carrés. Remarquons pour cela que :
+\[\begin{cases}
+	A_{n_1 -1}^2 \equiv (-1)^{n_1} X_{n_1}lp\pmod{N}, \\
+	A_{n_2 -1}^2 \equiv (-1)^{n_2} X_{n_2}lp\pmod{N}.
+\end{cases}\]
+
+Multiplier entre elles ces deux identités donne :
+\[(A_{n_1 -1} A_{n_2 -1})^2 \equiv 
+     \underbrace{(-1)^{n_1 + n_2} X_{n_1} X_{n_2}}_
+            {\begin{subarray}{c}\text{associé au vecteur exposant}\\
+             v_{B} \big( (-1 )^{n_1} X_{n_1} \big)
+             + v_{B} \big( (-1 )^{n_2} X_{n_2} \big) \end{subarray}
+             }
+    \underbrace{lp^2}_{\text{carré qui ne pose pas problème}}
+    \pmod{N}.
+ \]
+  
+On forme donc la nouvelle paire $ (A_{n_1-1}A_{n_2 -1} \pmod{N},
+Q_{n_1}Q_{n_2}) $ associée au vecteur exposant $v_{B} \big( (-1 )^{n_1} X_{n_1}
+\big)+ v_{B} \big( (-1 )^{n_2} X_{n_2} \big) $.  Elle sera traitée lors de la
+deuxième phase exactement de la même manière que les paires \og classiques
+\fg{}.\\
+
+En pratique, pour repérer les paires qui ont le même grand premier, nous
+constituons au fur et à mesure de la collecte une liste chainée dont les nœuds
+stockent les données d'une paire dont le $Q_n$ est presque friable (les entiers
+$Q_n$, $A_{n-1}$, le vecteur exposant et le grand premier associé à $Q_n$).
+Nous maintenons cette liste triée par taille des grands premiers. Lorsque
+survient un $Q_n$ presque friable, il est repéré par la fonction
+\texttt{is\_Qn\_factorisable} qui fournit également son grand premier $lp$. La
+liste chainée est alors parcourue pour savoir si l'on a déjà rencontré ce $lp$.
+Deux cas se présentent alors. Si $lp$ est absent de la liste, on crée à la
+bonne place un nœud. Si $lp$ est déjà présent dans la liste, au lieu de
+rajouter un nœud, on utilise le nœud possédant ce $lp$ pour obtenir une
+nouvelle paire $(A,Q)$ selon la méthode énoncée plus haut et ajoute ses
+composantes aux tableaux \texttt{Ans}, \texttt{Qns} et \texttt{exp\_vects}. La
+fonction \texttt{insert\_or\_elim\_lp} se charge de cela. \\
+

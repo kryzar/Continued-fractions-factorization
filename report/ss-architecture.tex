@@ -1,0 +1,98 @@
+\subsection{Architecture du programme}
+
+\subsubsection{Terminologie}
+
+Énonçons pour commencer quelques définitions qui seront utiles pour décrire le
+code. \NTS{réf vers 1.2.3 pour les notations}
+
+\begin{definition}
+	On nomme \emph{paire $(A, Q)$} tout couple $(A_{n-1}, Q_n), n\geq 1$.
+\end{definition}
+
+\begin{definition}
+	Un ensemble de paires $(A, Q)$ indexé par $n_1, \dots, n_r$ est dit
+	\emph{valide} si le produit $\prod_{i=1}^r (-1)^{n_i} Q_{n_i}$ est un carré
+	(dans $\Z$).
+\end{definition}
+
+\begin{definition}
+    Si $B$ est la base de factorisation utilisée par le programme, on 
+    désignera par l'expression \emph{vecteur exposant associé à $Q_n$} 
+    le $B$-vecteur exposant $v_B((-1)^n Q_n)$.
+\end{definition}
+
+\subsubsection{Structure générale}
+
+Le programme comprend deux étapes principales. La première consiste à générer,
+à partir du développement en fractions continues de $\sqrt{kN}$ \NTS{réf
+section}, des paires $(A, Q)$ avec $Q_n$ friable pour une base de factorisation
+préalablement déterminée et fixée. On associe à chaque $Q_n$ ainsi produit son
+vecteur exposant \texttt{mpz\_t exp\_vect}. Ce vecteur permet de retenir les
+nombres premiers qui interviennent dans la factorisation de $Q_n$ avec une
+valuation impaire. Dans le but d'augmenter le nombre de paires $(A,Q)$
+acceptées lors de cette étape, nous avons implémenté la \textit{large prime
+variation}. Cette variante permet d'accepter une paire si son $Q_n$ se
+factorise grâce aux premiers de la base de factorisation fixée et à un nombre
+premier supplémentaire. Les fonctions de cette phase de collecte sont rassemblées dans
+le fichier \texttt{step\_1.c}. Elles font appel, pour mettre en oeuvre la
+\textit{large prime variation}, aux fonctions du fichier \texttt{lp\_var.c}. \\
+ 
+Ces données sont traitées lors de la seconde phase dans l'espoir de trouver un
+facteur non trivial de $N$. Il s'agit de trouver des ensembles valides de
+paires $(A, Q)$ parmi les paires trouvées en première phase. Cela se fait par
+pivot de Gau\ss{} sur la matrice dont les lignes sont formées des vecteurs
+exposants \NTS{réf à avant}. Chaque ensemble de paires $(A, Q)$ valide trouvé
+fournit une congruence de la forme $A^2 \equiv Q^2$ (mod $N$). Cette dernière
+permet éventuellement de trouver un facteur non trivial de $N$. Les fonctions de 
+cette phase sont regroupées dans le fichier \texttt{step\_2.c}. \\
+
+Avant d'effectuer la première étape, il faut se doter d'une base de factorisation,
+ce qui est fait avec les fonctions de \texttt{init\_algo.c}. Ces dernières se
+chargent plus généralement de l'initialisation et du choix par défaut des
+paramètres, comme la taille de la base de factorisation ou l'entier $k$. \\
+
+Finalement, en mettant bout à bout les deux étapes, la fonction 
+\texttt{contfract\_factor} du fichier \texttt{fact.c} recherche un facteur
+non trivial de $N$ et \texttt{print\_results} affiche les résultats. 
+
+\subsubsection{Entrées et sorties}
+
+Nous avons regroupé dans une structure \texttt{Params} les paramètres d'entrée
+de la fonction de factorisation, à savoir :
+
+\begin{itemize}
+	\item \texttt{N} : le nombre à factoriser, supposé produit de deux grands
+	nombres premiers.
+    \item \texttt{k} : le coefficient multiplicateur.
+	\item \texttt{n\_lim} : le nombre maximal de paires $(A,Q)$ que l'on
+	s'autorise à calculer. Ce nombre prend en compte toutes les paires
+	produites, non uniquement les paires dont le $Q_n$ est friable ou résultant
+	de la \textit{large prime variation}.
+    \item \texttt{s\_fb} : la taille de la base de factorisation. 
+	\item \texttt{nb\_want\_AQp} : le nombre désiré de paires $(A,Q)$ avec
+	$Q_n$ friable ou résultant de la \textit{large prime variation}.
+	\item des booléens indiquant si la \textit{early abort strategy} ou la
+	\textit{large prime variation} doivent être utilisées et des paramètres s'y
+	rapportant.
+\end{itemize}
+
+Le programme stocke dans une structure \texttt{Results} un facteur non trivial
+de \texttt{N} trouvé (si tel est le cas) ainsi que des données permettant 
+l'analyse des performances de la méthode.  
+
+\begin{remarque}
+	L'efficatité de la méthode dépend du choix des paramètres ci-dessus. Pour
+	avoir plus de latitude dans les tests, nous les considérons comme des
+	paramètres d'entrée du programme. C'est pourquoi notre programme ne
+	s'attèle pas à la factorisation complète d'un entier, qui aurait nécessité
+	une sous-routine déterminant des paramètres optimaux en fonction de la
+	taille de l'entier dont on cherche un facteur. 
+\end{remarque}
+
+\begin{remarque}
+	Notre programme n'est pas supposé prendre en entrée un nombre admettant un
+	petit facteur premier (inférieur aux premiers de la base de factorisation
+	par exemple).  En effet, comme il ne teste pas au préalable si \texttt{N}
+	est divisible par de petits facteurs, il mettra autant de temps à trouver
+	un petit facteur qu'un grand facteur.
+\end{remarque}

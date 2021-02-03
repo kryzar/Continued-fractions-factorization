@@ -1,0 +1,19 @@
+% introduction.tex
+
+La méthode de factorisation par fractions continues est une variante de la
+méthode de Fermat-Kraitchik dont les idées (recherche de congruences de carrés
+$\pmod{N}$ — $N$ étant le nombre à factoriser — et recherche de relations
+linéaires sur $\mathbb{F}_2$) demeurent centrales dans les algorithmes de
+factorisation actuels. Cette méthode fut suggérée en 1931 par D. H. Lehmer et
+R. E. Powers et permet de manier des quantités plus petites que dans la méthode
+de Kraitchik originelle. C'est aussi l'une des premières méthodes de
+factorisation dont la complexité soit sous exponentielle. Bien que la méthode
+de crible quadratique lui soit aujourd'hui préférée, la méthode des fractions
+continues obtint des succès d'importance, notamment la première factorisation
+du nombre de Fermat $F_7 = 2^{2^7} + 1$ le 13 septembre 1970. Cet exploit est
+dû à M. A. Morrison et J. Brillhart qui implémentèrent la méthode pour la
+première fois. Dans ce projet, nous implémentons à notre tour la méthode des
+fractions continues, en langage C, et dans une version très proche de celle de
+Morrison et Brillhart. La première section de ce texte est donc consacrée à la
+théorie mathématique sous-jacente ; la deuxième présente l'implémentation en
+détails ; la troisième expose les résultats numériques obtenus.
