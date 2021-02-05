@@ -136,7 +136,10 @@ $X \gets \sqrt{R}$\;
 \end{algorithm}
 \vspace{1em}
 
-Pour démontrer la correction de l'algorithme, on peut utiliser l'invariant de
-boucle \[Q\sqrt{R.Q_i\cdots Q_r} \equiv \sqrt{\prod_{i=1}^r Q_{i}} \pmod{N},\]
-dont la conservation découle de l'égalité \[Q\sqrt{R.Q_i\cdots
-Q_r} \equiv QX \sqrt{\frac{R}{X}\frac{Q_i}{X}Q_{i+1} \cdots Q_r} \pmod{N}.\]
+\begin{remarque}
+    Pour démontrer la correction de l'algorithme, on peut utiliser l'invariant
+    de boucle \[Q\sqrt{R.Q_i\cdots Q_r} \equiv \sqrt{\prod_{i=1}^r Q_{i}}
+    \pmod{N},\] dont la conservation découle de l'égalité \[Q\sqrt{R.Q_i\cdots
+    Q_r} \equiv QX \sqrt{\frac{R}{X}\frac{Q_i}{X}Q_{i+1} \cdots Q_r}
+    \pmod{N}.\]
+\end{remarque}

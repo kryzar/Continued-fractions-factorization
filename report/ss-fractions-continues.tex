@@ -11,7 +11,7 @@ infinité de fois. La limite de la suite générée est la \og{} valeur \fg{} de
 fraction continue. Nous ferons sens plus précis de l'intuition dans la
 prochaine sous-section. \\
 
-Les fractions continues permettent d'approcher des réels irrationels par une
+Les fractions continues permettent d'approcher des réels irrationnels par une
 suite de fractions d'entiers.  Par exemple, la fraction $\frac{103 993}{33
 102}$ approche $\pi$ avec une précision meilleure que le milliardième. Pour
 générer une telle fraction continue, on part de l'identité $x = x + \ent{x} -
@@ -30,7 +30,7 @@ continue canoniquement associée à $x$ sera notée $\hat{x}$.} \[\hat{x}_0 +
 où l'on a posé \[\hat{x}_i = \ent{x_i}\] pour tout $i\in \N$.
 
 \begin{notation}\label{notations}
-	Soit $x\in \R$ un élément irrationel. Notons $x_0 = x$, \[x_n :=
+	Soit $x\in \R$ un élément irrationnel. Notons $x_0 = x$, \[x_n :=
 	\frac{1}{x_{n-1} - \ent{x_n}}, \quad \forall n \geq 1,\] puis \[\hat{x}_n
 	:= \ent{x_n}, \quad \forall n\in \N.\]
 \end{notation}
@@ -56,7 +56,7 @@ descriptive et non prescriptive.} une fraction continue ainsi :
 \end{definition}
 
 \begin{notation}
-	Soit $x\in \R$ un irrationel. On note $\hat{x}$ la fraction continue
+	Soit $x\in \R$ un irrationnel. On note $\hat{x}$ la fraction continue
 	infinie canoniquement associée à $x$ par la méthode exposée dans le premier
 	paragraphe.
 \end{notation}
@@ -67,7 +67,7 @@ fractions \og intermédiaires \fg{} appelées
 définition d'éviter les divisions par zéro.}.
 
 \begin{definition}[Réduites formelles]
-	Soit $(X_i)_{i\in \N}$ une suite (infinie) d'indeterminées sur le corps
+	Soit $(X_i)_{i\in \N}$ une suite (infinie) d'indéterminées sur le corps
 	$\Q$. On définit \[[X_0] = X_0\] puis par récurrence \[[X_0, \dots,
 	X_n] = X_0 + \frac{1}{[X_1, \dots, X_n]}.\]
 \end{definition}
@@ -93,14 +93,13 @@ définition d'éviter les divisions par zéro.}.
 \end{exemple}
 
 Les réduites de toute fraction continue sont des éléments rationnels, y compris
-celles de la forme $\hat{x}$ pour un certain irrationel $x$. De fait, $x$ n'est
+celles de la forme $\hat{x}$ pour un certain irrationnel $x$. De fait, $x$ n'est
 égal à aucune des réduites de $\hat{x}$. On a toutefois (voir notations
 \ref{notations}) :
 
 \begin{equation} \label{egalite-reduite}
 	x = [\hat{x}_1, \dots, \hat{x}_{n-1}, x_n], \quad \forall x\in \N.
 \end{equation}
-Cette égalité est cruciale dans notre algorithme de factorisation. \\
 
 Si formellement les fractions continues sont des suites (déf.
 \ref{def-fracont}), leur représentation graphique permet de les voir
@@ -139,29 +138,28 @@ fraction continue infinie converge, et qu'elle converge vers un irrationnel.
 	l'ensemble des fractions continues infinies.
 \end{theoreme}
 
-En particulier, un réel une fraction continue converge vers un réel $x$ \ssi
+En particulier, une fraction continue converge vers un réel $x$ \ssi
 $f=\hat{x}$. Attention, les réels tout entier ne sont pas en bijection avec les
 fractions continues (finies ou infinies). En effet, un rationnel est égal à
 exactement deux fractions continues car $[a_0, \dots, a_n] = [a_0, \dots, a_n -
 1, 1]$ (\cite{wikiu} ¶ \emph{Les deux fractions continues (finies) d'un
 rationnel}).
 
-\subsubsection{Irrationels quadratiques}
+\subsubsection{Irrationnels quadratiques}
 \label{ss-irrquad}
 
 L'adaptation de l'algorithme de Fermat-Kraitchik avec les fractions continues
-que nous verrons plus tard utilise crucialement le développement en fraction
-continue de $\sqrt{kN}$, où $N$ est le nombre à factoriser et $k\in \N*$ un
-entier arbitraire. Intéréssons nous aux fractions continues des éléments de
-cette forme.
+que nous verrons plus tard utilise le développement en fraction continue de
+$\sqrt{kN}$, où $N$ est le nombre à factoriser et $k\in \N*$ un entier bien
+choisi. Intéressons nous aux fractions continues des éléments de cette forme.
 
 \begin{definition}[Irrationel quadratique]
-	On appelle \emph{irrationel quadratique} tout nombre réel, algébrique sur
-	$\Q$, de degré $2$. Un irrationel quadratique est dit \emph{réduit} si son
+	On appelle \emph{irrationnel quadratique} tout nombre réel, algébrique sur
+	$\Q$, de degré $2$. Un irrationnel quadratique est dit \emph{réduit} si son
 	conjugué est dans l'intervalle $]-1, 0[$.
 \end{definition}
 
-Les fractions continues d'irrationnels quaratiques sont sujettes à des
+Les fractions continues d'irrationnels quadratiques sont sujettes à des
 phénomènes de périodicité.
 
 \begin{definition}
@@ -175,7 +173,7 @@ phénomènes de périodicité.
 
 \begin{exemple}
 	La fraction continue du nombre d'or est purement périodique de période $1$.
-	La fraction continue de l'irrationel $\sqrt{14}$ vaut \[\sqrt{14} = [4,
+	La fraction continue de l'irrationnel $\sqrt{14}$ vaut \[\sqrt{14} = [4,
 	\overline{2, 1, 3, 1, 2, 8}].\]
 \end{exemple}
 
@@ -183,7 +181,7 @@ Les résultats suivants sont fondamentaux (voir \cite{wikiu} ¶ \emph{Fraction
 continue d'un irrationnel quadratique} pour les preuves).
 
 \begin{theoreme}[Lagrange, 1770]
-	Un réel irrationel est un irrationel quadratique \ssi son développement en
+	Un réel irrationnel est un irrationnel quadratique \ssi son développement en
 	fraction continue est périodique.
 \end{theoreme}
 
@@ -193,29 +191,31 @@ continue d'un irrationnel quadratique} pour les preuves).
 \end{theoreme}
 
 \begin{theoreme}[Legendre, 1798]
-	Un réel irrationel est la racine carrée d'un entier $>1$ \ssi son
+	Un réel irrationnel est la racine carrée d'un entier $>1$ \ssi son
 	développement en fraction continue est de la forme \[[a_0, \overline{a_1,
 	a_2, \dots, a_2, a_1, 2a_0}].\]
 \end{theoreme}
 
 Ces phénomènes de périodicité devront être pris en compte dans les paramètres
-d'entrée de l'algorithme de factorisation. En plus de la suite des réduites,
-nous aurons besoin d'une autre suite importante.
+d'entrée de l'algorithme de factorisation\footnote{Nous verrons qu'il est
+nécessaire de développer $\sqrt{kN}$ jusqu'à un rang très grand pour obtenir
+d'obtenir beaucoup de relations de congruences. Une période trop courte n'en
+fournirait pas suffisamment.}. En plus de la suite des réduites, nous aurons
+besoin d'une autre suite importante.
 
 \begin{lemme}
-	Soit $x$ un irrationel quadratique. Alors l'élément $\frac{1}{x - \ent{x}}$
-	est lui aussi un irrationel quadratique.
+	Soit $x$ un irrationnel quadratique. Alors l'élément $\frac{1}{x - \ent{x}}$
+	est lui aussi un irrationnel quadratique.
 \end{lemme}
 
 Voir \cite{Lauritzen} prop. 2.5.2. Fixons $N$ l'entier à factoriser, $k\in \N*$
-tel que $\sqrt{kN}$ est un irrationel quadratique et $x :=
-\sqrt{kN}$. D'après l'identité \ref{egalite-reduite} et en
-reprenant les notations \ref{notations}, nous pouvons donner un développement
-partiel (jusqu'à un rang donné $n\in \N$) de $x$ en fraction continue \[x =
-[\hat{x}_1, \dots, \hat{x}_{n-1}, x_n].\] D'après le lemme précédent, $x_n$ est
-lui aussi un irrationel quadratique, i.e.  il est solution d'une équation
-quadratique. On peut (\cite{Lauritzen} dém. de 2.5.8) de fait l'écrire de
-manière unique 
+tel que $\sqrt{kN}$ est un irrationnel quadratique et $x := \sqrt{kN}$. D'après
+l'identité \ref{egalite-reduite} et en reprenant les notations \ref{notations},
+nous pouvons donner un développement partiel (jusqu'à un rang donné $n\in \N$)
+de $x$ en fraction continue \[x = [\hat{x}_1, \dots, \hat{x}_{n-1}, x_n].\]
+D'après le lemme précédent, $x_n$ est lui aussi un irrationnel quadratique,
+i.e.  il est solution d'une équation quadratique, ce qui permet de l'écrire
+(\cite{Lauritzen} dém. de 2.5.8) l'écrire de manière unique 
 
 \begin{equation}
 	x_n = \frac{P_n + x}{Q_n}, \quad P_n, Q_n \in \Z.
@@ -230,10 +230,7 @@ irréductible bien définie. Pour tout $n\geqslant 1$, on a (\cite{Lauritzen} §
 \end{equation}
 On a également (\cite{Lauritzen} dém. de 2.5.8)
 \begin{equation}\label{inegalite}
-	\begin{cases}
-		P_n < \sqrt{kN} \\
-		Q_n < 2\sqrt{kN}.
-	\end{cases}
+	Q_n < 2\sqrt{kN}.
 \end{equation}
 
-Ces notations et identitées seront cruciales dans la suite.
+Ces notations et identités seront cruciales dans la suite.

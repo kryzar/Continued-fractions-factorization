@@ -54,34 +54,36 @@ trouver une différence de deux carrés qui soit un multiple de $N$.
 	$N$ divise la différence de leurs carrés, sans vérifier s'ils vérifient $u
 	\not\equiv \pm v\pmod{N}$. Comme le polynôme $X^2 - v^2 \in \Z/N\Z$ a
     exactement quatre racines, il y a \og{} une chance sur deux \fg{}  pour que
-	$u$ et $v$ nous fournissent un facteur non trivial de $N$. \\
+	$u$ et $v$ nous fournissent un facteur non trivial de $N$.
 \end{remarque}
 
 La factorisation de $N$ se fait donc en trouvant de tels couples $(u, v)$.
-Kraitchik cherche dans un premier temps des couples $(u_i, Q_i)_{1\leq i \leq r}$
-vérifiant \[u_i^2 \equiv Q_i \pmod{N}\] et tels que l'entier $\prod_{i=1}^r Q_i$ 
-soit un carré (dans $\Z$). Posant $u = \prod_{i=1}^r u_i$ et $v = 
-\sqrt{\prod_{i=1}^rQ_i}$, il vient \[u^2\equiv v^2 \pmod{N}.\]
-Obtenir des congruences de la forme $u_i^2 \equiv Q_i \pmod{N}$ ne pose pas de 
-difficulté. Kraitchik propose d'utiliser le polynôme $Q:= X^2 - N \in \Z[X]$.
-En se donnant des éléments $u_1,\dots, u_s\in \Z$ et en posant
-$Q_1 = Q(u_1), \cdots, Q_s = Q(u_s)$, on a bien des congruences de la forme 
-souhaitée. Comment exhiber une sous-famille de $\{Q_1, \cdots, Q_s\}$ dont le
-produit est un carré ?
+Kraitchik cherche dans un premier temps des couples $(u_i, Q_i)_{1\leq i \leq
+r}$ vérifiant \[u_i^2 \equiv Q_i \pmod{N}\] et tels que l'entier $\prod_{i=1}^r
+Q_i$ soit un carré (dans $\Z$). Posant $u = \prod_{i=1}^r u_i$ et $v =
+\sqrt{\prod_{i=1}^rQ_i}$, il vient \[u^2\equiv v^2 \pmod{N}.\] Obtenir des
+congruences de la forme $u_i^2 \equiv Q_i \pmod{N}$ ne pose pas de difficulté.
+Kraitchik propose d'utiliser le polynôme\footnote{Ce qui n'est pas sans défaut,
+nous verrons plus tard que l'utilisation des fractions continues en lieu et
+place de ce polynôme est plus efficace.} \[K:= X^2 - N \in \Z[X].\] Se donner
+des éléments $u_1,\dots, u_s\in \Z$ et poser $Q_1 = K(u_1), \cdots, Q_s =
+K(u_s)$ fournit bien des congruences de la forme souhaitée. Il reste à donner
+un algorithme efficace permettant d'exhiber une sous-famille de $\{Q_1, \cdots,
+Q_s\}$ dont le produit est un carré.
 
 \subsubsection{Recherche de congruences de carrés}
 
-Morrison et Brillhart répondent à cette question dans \cite{MB}. Leur méthode
+Morrison et Brillhart proposent un tel algorithme dans \cite{MB}. Leur méthode
 est basée sur la connaissance de congruences de la forme \[u_i^2 \equiv Q_i
 \pmod{N},\] où $| Q_i |$ est suffisamment petit pour être factorisé. On fixe
 pour cela $B = \{p_1, \dots, p_m\}$ une base de factorisation, c'est à dire un
 ensemble non vide fini de nombres premiers, et l'on dit qu'un entier $Q\in
 \N\setminus \{0, 1\}$ est \emph{$B$-friable} si tous ses facteurs premiers sont
-dans $B$. Soit $Q\in \Z$ un entier dont la valeur absolue est
-$B$-friable. Il s'écrit alors \[Q = (-1)^{v_0}\prod_{i=1}^m p_i^{v_{p_i}(Q)}.\]
-Puisque les éléments de $B$ sont fixés et en nombre fini, l'élément $Q$ peut
-être vu comme le vecteur des valuations $(v_{p_m}(Q), \dots, v_{p_1}(Q), v_0 )
-\in \mathbb{N}^{m+1}$.
+dans $B$. Soit $Q\in \Z$ un entier dont la valeur absolue est $B$-friable. Il
+s'écrit alors \[Q = (-1)^{v_0}\prod_{i=1}^m p_i^{v_{p_i}(Q)}.\] Puisque les
+éléments de $B$ sont fixés et en nombre fini, l'élément $Q$ peut être vu comme
+le vecteur des valuations $(v_{p_m}(Q), \dots, v_{p_1}(Q), v_0 ) \in
+\mathbb{N}^{m+1}$.
 
 \begin{definition}
 	On appelle \emph{$B$-vecteur exposant de $Q$}, ou simplement \emph{vecteur
@@ -107,20 +109,21 @@ en extraire une sous-famille dont le produit est un carré.
 	\dots, p_m)$ (de sorte que $\# B = m$). Par hypothèse de friabilité, on
 	peut associer à chaque $Q_j$, $1\leqslant j \leqslant k$, un $B$-vecteur
 	exposant. Fixons $j, j'\in [\![1,k]\!]$. L'entier $Q_j$ est un carré \ssi
-	les composantes de son vecteur de valuations $(v_{p_m}(Q), \dots,
-	v_{p_1}(Q), v_0 ) \in \mathbb{N}^{m+1}$ sont paires, i.e. si son
+	les composantes de son vecteur de valuations \[(v_{p_m}(Q), \dots,
+	v_{p_1}(Q), v_0 ) \in \mathbb{N}^{m+1}\] sont paires, i.e. si son
 	$B$-vecteur exposant est nul. Par propriété des valuations, le $B$-vecteur
 	exposant associé au produit $Q_j\cdot Q_{j'}$ est le vecteur somme
 	$v_B(Q_j) + v_B(Q_{j'})$. Autrement dit, le produit d'une sous-famille
 	$\{Q_{j_1}, \dots, Q_{j_s}\}$ de $F$ est un carré \ssi la somme des
 	$B$-vecteurs exposants $v_B(Q_{j_1}), \dots, v_B(Q_{j_s})$ est nulle. Soit
 	$V$ le $\mathbb{F}_2$-espace vectoriel $\mathbb{F}_2^{m+1}$, qui est de
-	dimension $m+1$. Comme $k\geqslant m+2$, la famille $\{v_B(Q_1), \dots,
-	v_B(Q_k)\}$ est liée dans $V$ et il existe de fait des éléments $l_1,\dots,
+	dimension $m+1$. Comme $k\geqslant m+2$, la famille \[\{v_B(Q_1), \dots,
+	v_B(Q_k)\}\] est liée dans $V$ et il existe de fait des éléments $l_1,\dots,
 	l_k\in \mathbb{F}_2$ tels que \[\sum_{j=1}^k l_j v_B(Q_j) = 0.\] L'élément
 	$\prod_{j=1}^k Q_j^{l_j}$ est alors un carré.
 \end{proof}
 
+\label{matrice-gauss}
 Étant données des congruences de la forme $u_i^2 \equiv Q_i \pmod{N}$, la
 preuve de la proposition fournit un procédé d'algèbre linéaire pour extraire
 une sous-famille des $Q_i$ dont le produit des éléments est un carré. On trouve
