@@ -176,3 +176,53 @@ est, on a le résultat suivant (\cite{MB}, p. 191).
 \end{proof}
 
 \subsubsection{Quelques éléments pour appréhender la complexité de la méthode}
+
+\NTS{mettre référence}
+
+Donnons pour terminer quelques éléments permettant d'appréhender la complexité 
+de ce type de méthode de factorisation. La complexité du pivot de Gau\ss{}, 
+cubique en la taille de la base de factorisation, est négligeable devant la 
+complexité de la phase de recherche de congruences. Nous nous plaçons dans le 
+cadre d'étude suivant : on conjecture que les valeurs absolues des entiers $Q_i$ 
+des relations de congruences $u_i^2 \equiv Q_i \pmod{N}$ sont des nombres 
+aléatoires d'un intervalle [\![1, X]\!] \footnote{Dans le cas de la méthode de 
+factorisation avec les fractions continues $X$ vaut $2\sqrt{N}$. } et on fixe 
+une base de factorisation $B$ comprenant tous les nombres premiers inférieurs à une 
+borne $Y \in \N$, appelée borne d'effritement. L'efficacité de la méthode dépend du
+choix de cette borne d'effritement. Si elle est trop petite, les entiers $Q_i$
+ont peu de chance d'être $B$-friables. A l'inverse, si elle est trop grande, le
+nombre d'entiers $Q_i$ $B$-friables à collecter pour obtenir une relation de 
+dépendance entre les vecteurs exposants est très important.
+\begin{notation}
+    Pour tout réel $Y \in \R^+$ on note $\pi(Y)$ le cardinal de l'ensemble des
+    nombres premiers inférieurs ou égaux à $Y$.
+\end{notation}
+\begin{notation}
+    Soient $X$ et $Y$ des réels vérifiant $0 \leq Y \leq X$. On note $\psi(X,Y)$
+    le nombre d'entiers dans l'intervalle [\![1, X]\!]  dont les facteurs premiers  
+    sont tous inférieurs ou égaux à $Y$. La fonction $\psi$ est appelée fonction 
+    de De Bruijn.
+\end{notation}
+
+La probabilité qu'un entier aléatoire de l'intervalle [\![1, X]\!] soit 
+$B$-friable est donc $\frac{\psi (X,Y)}{\left\lfloor X \right\rfloor}$, soit
+environ $\frac{\psi (X,Y)}{X}$. Le nombre d'entiers $Q_i$ à générer avant d'en 
+trouver un $B$-friable est par conséquent de l'ordre de $\frac{X}{\psi(X,Y)}$.
+Puisque l'on cherche à obtenir autant de $Q_i$ $B$-friables que le cardinal 
+$\pi(Y)$ de la base de factorisation, il faudra tester au total la friabilité
+de $\pi(Y)\frac{X}{\psi(X,Y)}$ entiers $Q_i$. Il faut multiplier ce nombre 
+d'essais par la complexité de la factorisation par divisions succesives par 
+les $\pi(Y)$ premiers de la base de factorisation. Chaque division a une 
+complexité bornée par $\ln(X)\ln(Y)$. On arrive donc finalement à une complexité
+en $O\big(\pi(Y)^2 \frac{X}{\psi(X,Y)} \ln(X)\ln(Y)\big)$.
+
+Ainsi, la borne d'effritement $Y$ optimale est celle qui minimise cette 
+complexité. Interviennent alors dans l'étude des résultats de théorie des 
+nombres. Le théorème des nombres premiers (Hadamard et de la
+Vallée-Poussin, 1896) donne l'équivalence $\pi(x) \sim \frac{x}{ln(x)}$ au 
+voisinage de $+ \infty$. La fonction de De Bruijn a été étudiée par Canfield, 
+Erdös et Pomerance qui ont également établi la borne d'effritement optimale  
+\[ Y = \exp(\frac{1}{2} \sqrt{\log X \log \log X}),\] qui donne une complexité 
+pour la phase de collecte de \[ \exp(2 \sqrt{\log \log X}).\] 
+
+
