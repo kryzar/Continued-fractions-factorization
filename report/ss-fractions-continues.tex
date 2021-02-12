@@ -30,8 +30,8 @@ continue canoniquement associée à $x$ sera notée $\hat{x}$.} \[\hat{x}_0 +
 où l'on a posé \[\hat{x}_i = \ent{x_i}\] pour tout $i\in \N$.
 
 \begin{notation}\label{notations}
-	Soit $x\in \R$ un élément irrationnel. Notons $x_0 = x$, \[x_n :=
-	\frac{1}{x_{n-1} - \ent{x_n}}, \quad \forall n \geq 1,\] puis \[\hat{x}_n
+	Soit $x\in \R$ un élément irrationnel. Notons $x_0 = x$, \[x_n = \frac{1}
+    {x_{n-1} - \ent{x_{n-1}}}, \quad \forall n \geq 1,\] puis \[\hat{x}_n
 	:= \ent{x_n}, \quad \forall n\in \N.\]
 \end{notation}
 
@@ -199,8 +199,8 @@ continue d'un irrationnel quadratique} pour les preuves).
 Ces phénomènes de périodicité devront être pris en compte dans les paramètres
 d'entrée de l'algorithme de factorisation\footnote{Nous verrons qu'il est
 nécessaire de développer $\sqrt{kN}$ jusqu'à un rang très grand pour obtenir
-d'obtenir beaucoup de relations de congruences. Une période trop courte n'en
-fournirait pas suffisamment.}. En plus de la suite des réduites, nous aurons
+beaucoup de relations de congruences. Une période trop courte n'en fournirait
+pas suffisamment.}. En plus de la suite des réduites, nous aurons
 besoin d'une autre suite importante.
 
 \begin{lemme}
@@ -214,8 +214,7 @@ l'identité \ref{egalite-reduite} et en reprenant les notations \ref{notations},
 nous pouvons donner un développement partiel (jusqu'à un rang donné $n\in \N$)
 de $x$ en fraction continue \[x = [\hat{x}_1, \dots, \hat{x}_{n-1}, x_n].\]
 D'après le lemme précédent, $x_n$ est lui aussi un irrationnel quadratique,
-i.e.  il est solution d'une équation quadratique, ce qui permet de l'écrire
-(\cite{Lauritzen} dém. de 2.5.8) l'écrire de manière unique 
+ce qui permet de l'écrire (\cite{Lauritzen} dém. de 2.5.8) de manière unique 
 
 \begin{equation}
 	x_n = \frac{P_n + x}{Q_n}, \quad P_n, Q_n \in \Z.

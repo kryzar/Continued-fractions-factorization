@@ -76,7 +76,7 @@ Q_s\}$ dont le produit est un carré.
 Morrison et Brillhart proposent un tel algorithme dans \cite{MB}. Leur méthode
 est basée sur la connaissance de congruences de la forme \[u_i^2 \equiv Q_i
 \pmod{N},\] où $| Q_i |$ est suffisamment petit pour être factorisé. On fixe
-pour cela $B = \{p_1, \dots, p_m\}$ une base de factorisation, c'est à dire un
+pour cela $B = \{p_1, \dots, p_m\}$ une base de factorisation, c'est-à-dire un
 ensemble non vide fini de nombres premiers, et l'on dit qu'un entier $Q\in
 \N\setminus \{0, 1\}$ est \emph{$B$-friable} si tous ses facteurs premiers sont
 dans $B$. Soit $Q\in \Z$ un entier dont la valeur absolue est $B$-friable. Il
@@ -87,7 +87,7 @@ le vecteur des valuations $(v_{p_m}(Q), \dots, v_{p_1}(Q), v_0 ) \in
 
 \begin{definition}
 	On appelle \emph{$B$-vecteur exposant de $Q$}, ou simplement \emph{vecteur
-	exposant de $B$} si aucune confusion n'est possible, et l'on note $v_B(Q)$
+	exposant de $Q$} si aucune confusion n'est possible, et l'on note $v_B(Q)$
 	le vecteur \footnote{Notez qu'il s'agit d'un élément de
 	$\mathbb{F}_2^{m+1}$ : seule la parité des valuations nous intéresse.
 	L'élément $v_0$ est placé à droite et non au début car il correspondra au
@@ -105,35 +105,35 @@ en extraire une sous-famille dont le produit est un carré.
 \end{proposition}
 
 \begin{proof}
-	Posons $F = \{Q_1, \dots, Q_k\}$ (de sorte que $k = \# F)$ et $B = (p_1,
+	Posons $F = \{Q_1, \dots, Q_s\}$ (de sorte que $s = \# F)$ et $B = (p_1,
 	\dots, p_m)$ (de sorte que $\# B = m$). Par hypothèse de friabilité, on
-	peut associer à chaque $Q_j$, $1\leqslant j \leqslant k$, un $B$-vecteur
-	exposant. Fixons $j, j'\in [\![1,k]\!]$. L'entier $Q_j$ est un carré \ssi
+	peut associer à chaque $Q_j$, $1\leqslant j \leqslant s$, un $B$-vecteur
+	exposant. Fixons $j, j'\in [\![1,s]\!]$. L'entier $Q_j$ est un carré \ssi
 	les composantes de son vecteur de valuations \[(v_{p_m}(Q), \dots,
 	v_{p_1}(Q), v_0 ) \in \mathbb{N}^{m+1}\] sont paires, i.e. si son
 	$B$-vecteur exposant est nul. Par propriété des valuations, le $B$-vecteur
 	exposant associé au produit $Q_j\cdot Q_{j'}$ est le vecteur somme
 	$v_B(Q_j) + v_B(Q_{j'})$. Autrement dit, le produit d'une sous-famille
-	$\{Q_{j_1}, \dots, Q_{j_s}\}$ de $F$ est un carré \ssi la somme des
-	$B$-vecteurs exposants $v_B(Q_{j_1}), \dots, v_B(Q_{j_s})$ est nulle. Soit
+	$\{Q_{j_1}, \dots, Q_{j_r}\}$ de $F$ est un carré \ssi la somme des
+	$B$-vecteurs exposants $v_B(Q_{j_1}), \dots, v_B(Q_{j_r})$ est nulle. Soit
 	$V$ le $\mathbb{F}_2$-espace vectoriel $\mathbb{F}_2^{m+1}$, qui est de
-	dimension $m+1$. Comme $k\geqslant m+2$, la famille \[\{v_B(Q_1), \dots,
-	v_B(Q_k)\}\] est liée dans $V$ et il existe de fait des éléments $l_1,\dots,
-	l_k\in \mathbb{F}_2$ tels que \[\sum_{j=1}^k l_j v_B(Q_j) = 0.\] L'élément
-	$\prod_{j=1}^k Q_j^{l_j}$ est alors un carré.
+	dimension $m+1$. Comme $s\geqslant m+2$, la famille \[\{v_B(Q_1), \dots,
+	v_B(Q_s)\}\] est liée dans $V$ et il existe de fait des éléments $l_1,\dots,
+	l_s\in \mathbb{F}_2$ tels que \[\sum_{j=1}^s l_j v_B(Q_j) = 0.\] L'élément
+	$\prod_{j=1}^s Q_j^{l_j}$ est alors un carré.
 \end{proof}
 
 \label{matrice-gauss}
 Étant données des congruences de la forme $u_i^2 \equiv Q_i \pmod{N}$, la
 preuve de la proposition fournit un procédé d'algèbre linéaire pour extraire
 une sous-famille des $Q_i$ dont le produit des éléments est un carré. On trouve
-tout d'abord des $Q_{i_1}, \dots, Q_{i_k}$ dont la valeur absolue est
+tout d'abord des $Q_{i_1}, \dots, Q_{i_s}$ dont la valeur absolue est
 $B$-friable\footnote{Nous le ferons en factorisant les $Q_i$ à disposition par
 divisions successives.}. Soit $M$ la matrice \[M := \begin{pmatrix}
-v_B(Q_{i_1}) \\ \vdots \\ v_B(Q_{i_k})\end{pmatrix}\in \mathcal{M}_{k,
-\#B+1}(\mathbb{F}_2),\] soient $l_{1}, \dots, l_{k}$ les éléments de
-$\mathbb{F}_2$ donnés dans la preuve de la proposition tels que \[\prod_{j=1}^k
-Q_{i_j}^{l_{i_j}}\] est un carré. Le vecteur $(l_1, \dots, l_{k})$ est un
+v_B(Q_{i_1}) \\ \vdots \\ v_B(Q_{i_s})\end{pmatrix}\in \mathcal{M}_{s,
+\#B+1}(\mathbb{F}_2),\] soient $l_{1}, \dots, l_{s}$ les éléments de
+$\mathbb{F}_2$ donnés dans la preuve de la proposition tels que \[\prod_{j=1}^s
+Q_{i_j}^{l_{i_j}}\] est un carré. Le vecteur $(l_1, \dots, l_{s})$ est un
 élément du noyau de la matrice transposée de $M$. Il peut donc être exhibé 
 par pivot de Gau\ss{}.
 
@@ -141,7 +141,7 @@ par pivot de Gau\ss{}.
 
 L'introduction des fractions continues est motivée par le constat suivant. Si
 \[u_i^2 = Q_i + kNb^2, \quad u_i, Q_i, b\in \Z, k\in \N^*\] de telle sorte que
-$| Q_i |$ soit petit, alors \[\left(\frac{u_i}{b}\right)^2 - kN =
+$| Q_i |$ est petit, alors \[\left(\frac{u_i}{b}\right)^2 - kN =
 \frac{Q_i}{b^2}\] est petit en valeur absolue et $\frac{u_i}{b}$ est une bonne
 approximation de $\sqrt{kN}$ (\cite{Cohen}, p. 478). Fixons $k$ un entier
 naturel non nul, posons $x = \sqrt{kN}$ et reprenons les notations
@@ -180,19 +180,18 @@ est, on a le résultat suivant (\cite{MB}, p. 191).
 \NTS{mettre référence}
 
 Donnons pour terminer quelques éléments permettant d'appréhender la complexité 
-de ce type de méthode de factorisation. La complexité du pivot de Gau\ss{}, 
-cubique en la taille de la base de factorisation, est négligeable devant la 
-complexité de la phase de recherche de congruences. Nous nous plaçons dans le 
-cadre d'étude suivant : on conjecture que les valeurs absolues des entiers $Q_i$ 
+de ce type de méthode de factorisation.  Pour étudier la complexité de la phase 
+de recherche de congruences, nous nous plaçons dans le cadre suivant : on 
+conjecture que les valeurs absolues des entiers $Q_i$ 
 des relations de congruences $u_i^2 \equiv Q_i \pmod{N}$ sont des nombres 
 aléatoires d'un intervalle [\![1, X]\!] \footnote{Dans le cas de la méthode de 
-factorisation avec les fractions continues $X$ vaut $2\sqrt{N}$. } et on fixe 
+factorisation avec les fractions continues $X$ vaut $2\sqrt{kN}$. } et on fixe 
 une base de factorisation $B$ comprenant tous les nombres premiers inférieurs à une 
 borne $Y \in \N$, appelée borne d'effritement. L'efficacité de la méthode dépend du
 choix de cette borne d'effritement. Si elle est trop petite, les entiers $Q_i$
-ont peu de chance d'être $B$-friables. A l'inverse, si elle est trop grande, le
-nombre d'entiers $Q_i$ $B$-friables à collecter pour obtenir une relation de 
-dépendance entre les vecteurs exposants est très important.
+auront peu de chance d'être $B$-friables. A l'inverse, si elle est trop grande,
+le nombre d'entiers $Q_i$ $B$-friables à collecter pour obtenir une relation de 
+dépendance entre les vecteurs exposants sera très important.
 \begin{notation}
     Pour tout réel $Y \in \R^+$ on note $\pi(Y)$ le cardinal de l'ensemble des
     nombres premiers inférieurs ou égaux à $Y$.
@@ -222,7 +221,9 @@ nombres. Le théorème des nombres premiers (Hadamard et de la
 Vallée-Poussin, 1896) donne l'équivalence $\pi(x) \sim \frac{x}{ln(x)}$ au 
 voisinage de $+ \infty$. La fonction de De Bruijn a été étudiée par Canfield, 
 Erdös et Pomerance qui ont également établi la borne d'effritement optimale  
-\[ Y = \exp(\frac{1}{2} \sqrt{\log X \log \log X}),\] qui donne une complexité 
-pour la phase de collecte de \[ \exp(2 \sqrt{\log \log X}).\] 
+\[ Y = \e^{\frac{1}{2} \sqrt{\ln X \ln \ln X}},\] qui donne une complexité 
+pour la phase de collecte de \[ \e^{2 \sqrt{\ln X \ln \ln X}}.\] 
 
-
+La complexité du pivot de Gau\ss{}, $\e^{\frac{3}{2} \sqrt{\ln X \ln \ln X}}$,
+cubique en la taille de la base de factorisation, est alors négligeable devant 
+la complexité de la phase de recherche de congruences.
