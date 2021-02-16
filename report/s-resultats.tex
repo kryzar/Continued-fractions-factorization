@@ -45,10 +45,10 @@ nous obtenons les résultats suivants :
      \begin{tabular}{| l | l| l | l | l |}
      \hline
      variantes                    & \texttt{s\_fb} & \texttt{nb\_AQp} & \texttt{last\_n} & temps de calcul  \\ \hline
-     \textit{lp} et \textit{eas}  &     370        &  385             &    1338269       &     30 s         \\ \hline
+     \textit{lp} et \textit{eas}  &     370        &  385             &    1338269       &   30 s           \\ \hline
      \textit{lp}                  &     370        &  385             &    1013314       &   100 s          \\ \hline
-     \textit{eas}                 &                &                  &                  &                  \\ \hline
-     sans variante                &                &                  &                  &                  \\ \hline
+     \textit{eas}                 &     950        &  965             &    1864721       &   61 s           \\ \hline
+     sans variante                &     950        &  965             &    1205664       &   317 s          \\ \hline
     \end{tabular}
 \end{center}
 
@@ -63,6 +63,10 @@ en fonction du nombre de bits de l'entier que l'on souhaite factoriser. La
 utilisées et les paramètres ont été choisis par les fonctions 
 \texttt{choose\_s\_fb} et \texttt{choose\_k}.\\
 
-
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width = 7 cm ]{graphique.png}
+\end{center}
+\end{figure}
 \NTS{comparer quand k choisi par la fonction et k = 1: prévu de calculer le
 rapport des deux temps}
