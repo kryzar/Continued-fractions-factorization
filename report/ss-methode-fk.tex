@@ -178,8 +178,6 @@ est, on a le résultat suivant (\cite{MB}, p. 191).
 
 \subsubsection{Quelques éléments pour appréhender la complexité de la méthode}
 
-\NTS{mettre référence}
-
 Donnons pour terminer quelques éléments permettant d'appréhender la complexité 
 de ce type de méthode de factorisation.  Pour étudier la complexité de la phase 
 de recherche de congruences, nous nous plaçons dans le cadre suivant : on 
@@ -189,7 +187,7 @@ aléatoires d'un intervalle [\![1, X]\!] \footnote{Dans le cas de la méthode de
 factorisation avec les fractions continues $X$ vaut $2\sqrt{kN}$. } et on fixe 
 une base de factorisation $B$ comprenant tous les nombres premiers inférieurs à une 
 borne $Y \in \N$, appelée borne d'effritement. L'efficacité de la méthode dépend du
-choix de cette borne d'effritement. Si elle est trop petite, les entiers $Q_i$
+choix de cette borne d'effritement (\cite{Guillot}). Si elle est trop petite, les entiers $Q_i$
 auront peu de chance d'être $B$-friables. A l'inverse, si elle est trop grande,
 le nombre d'entiers $Q_i$ $B$-friables à collecter pour obtenir une relation de 
 dépendance entre les vecteurs exposants sera très important.
@@ -221,7 +219,8 @@ complexité. Interviennent alors dans l'étude des résultats de théorie des
 nombres. Le théorème des nombres premiers (Hadamard et de la
 Vallée-Poussin, 1896) donne l'équivalence $\pi(x) \sim \frac{x}{ln(x)}$ au 
 voisinage de $+ \infty$. La fonction de De Bruijn a été étudiée par Canfield, 
-Erdös et Pomerance qui ont également établi la borne d'effritement optimale  
+Erdös et Pomerance qui ont également établi la borne d'effritement optimale
+(\cite{Tale})
 \[ Y = \e^{\frac{1}{2} \sqrt{\ln X \ln \ln X}},\] qui donne une complexité 
 pour la phase de collecte de \[ \e^{2 \sqrt{\ln X \ln \ln X}}.\] 
 

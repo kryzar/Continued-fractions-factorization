@@ -11,8 +11,8 @@ Nous avons cherché à déterminer expérimentalement, selon la taille de l'enti
 $N$ à factoriser, une bonne taille pour la base de factorisation lorsque la \textit{large
 prime variation} et la \textit{early abort strategy} sont utilisées. Pour une
 taille d'entier fixée, nous avons inscrit dans un fichier le temps que met le
-programme pour plusieurs tailles de bases de factorisation (voir les fichiers
-*.txt). Nous donnons ci-dessous des tailles appropriées (il ne s'agit que d'un
+programme pour plusieurs tailles de bases de factorisation.
+Nous donnons ci-dessous des tailles appropriées (il ne s'agit que d'un
 ordre de grandeur, la taille optimale varie d'un entier à l'autre). Ce sont
 elles qui sont renvoyées par la fonction \texttt{choose\_s\_fb}.
 
@@ -20,15 +20,14 @@ elles qui sont renvoyées par la fonction \texttt{choose\_s\_fb}.
     \begin{tabular}{ |l |l | }
         \hline
          nombre de bits de $N$ & taille de la base de factorisation \\ \hline
-         70                    & truc                               \\ \hline
-         80                    & truc                               \\ \hline
-         90                    & truc                               \\ \hline 
-         100                   & truc                               \\ \hline 
-         110                   & ttuc                               \\ \hline 
-         120                   & truc                               \\ \hline 
-         130                   & truc                               \\ \hline 
-         140                   & truc                               \\ \hline 
-         150                   & truc                               \\ \hline
+         70                    & 40                                 \\ \hline
+         80                    & 90                                 \\ \hline
+         90                    & 120                                \\ \hline 
+         100                   & 170                                \\ \hline 
+         110                   & 260                                \\ \hline 
+         120                   & 280                                \\ \hline 
+         130                   & 370                                \\ \hline 
+         140                   & 450                                \\ \hline 
     \end{tabular}
 \end{center}
 
@@ -43,17 +42,17 @@ retourné par la fonction \texttt{choose\_k} - soit $k=38$ - et les paramètres
 nous obtenons les résultats suivants :  
 
 \begin{center}
-     \begin{tabular}{| l | l| l | l | l | l |}
+     \begin{tabular}{| l | l| l | l | l |}
      \hline
-         variantes                    & \texttt{s\_fb} & \texttt{nb\_want\_AQp} &\texttt{nb\_AQp}& \texttt{last\_n}  & temps de calcul  \\ \hline
-     \textit{lp} et \textit{eas}      &                &                        &                &                   &                  \\ \hline
-     \textit{lp}                      &                &                        &                &                   &                  \\ \hline
-     \textit{eas}                     &                &                        &                &                   &                  \\ \hline
-     sans variante                    &                &                        &                &                   &                  \\ \hline
+     variantes                    & \texttt{s\_fb} & \texttt{nb\_AQp} & \texttt{last\_n} & temps de calcul  \\ \hline
+     \textit{lp} et \textit{eas}  &     370        &  385             &    1338269       &     30 s         \\ \hline
+     \textit{lp}                  &     370        &  385             &    1013314       &   100 s          \\ \hline
+     \textit{eas}                 &                &                  &                  &                  \\ \hline
+     sans variante                &                &                  &                  &                  \\ \hline
     \end{tabular}
 \end{center}
 
-\quad \footnotesize{\texttt{last\_n} est l'indice de la dernière paire $(A,Q)$
+\hspace*{1.6 cm} \footnotesize{\texttt{last\_n} est l'indice de la dernière paire $(A,Q)$
 calculée.}
 
 \subsection{Temps de calcul (avec les deux variantes) }

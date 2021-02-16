@@ -28,7 +28,7 @@ La fonction \texttt{is\_Qn\_factorisable} teste si un $Q_n$ est friable
 les premiers de la base de factorisation. Il est possible d'améliorer les
 performances de la fonction en l'empêchant de poursuivre les divisions 
 successives si, après un certain nombre de tentatives, on juge la partie non 
-factorisée de $Q_n$ trop grande. On fixe pour cela une borne
+factorisée de $Q_n$ trop grande (\cite{PW}). On fixe pour cela une borne
 \texttt{eas\_bound\_div} (proportionnelle à la borne déjà connue $2\sqrt{kN}$),
 un palier \texttt{eas\_cut} et l'on arrête les divisions successives sur $Q_n$ 
 si $Q_n$ reste plus grand que \texttt{eas\_bound\_div} après \texttt{eas\_cut}
@@ -37,7 +37,7 @@ tentatives de divisions.
 \subsubsection{La \textit{large prime variation }}
 
 Étant donnée une base de factorisation $B = \{ p_1, \cdots, p_m\}$, la
-\textit{large prime variation } consiste à accepter lors de la collecte, non
+\textit{large prime variation } (\cite{PW}) consiste à accepter lors de la collecte, non
 seulement des $Q_n$ $B$-friables mais aussi des $Q_n$ produits d'un entier
 $B$-friable et d'un entier $lp_n$ inférieur à $p_m^2$. On dira que $Q_n$ est
 \emph{presque friable} et l'on appellera \emph{grand premier (large prime)} le
