@@ -176,25 +176,26 @@ est, on a le résultat suivant (\cite{MB}, p. 191).
 	\frac{A_{n-1}}{B_{n-1}}\right )^2 \equiv kN \pmod{p}$.
 \end{proof}
 
-\subsubsection{Quelques éléments pour appréhender la complexité de la méthode}
+\subsubsection{Complexité de la méthode}
 
-Donnons pour terminer quelques éléments permettant d'appréhender la complexité 
-de ce type de méthode de factorisation.  Pour étudier la complexité de la phase 
-de recherche de congruences, nous nous plaçons dans le cadre suivant : on 
-conjecture que les valeurs absolues des entiers $Q_i$ 
-des relations de congruences $u_i^2 \equiv Q_i \pmod{N}$ sont des nombres 
-aléatoires d'un intervalle [\![1, X]\!] \footnote{Dans le cas de la méthode de 
-factorisation avec les fractions continues $X$ vaut $2\sqrt{kN}$. } et on fixe 
-une base de factorisation $B$ comprenant tous les nombres premiers inférieurs à une 
-borne $Y \in \N$, appelée borne d'effritement. L'efficacité de la méthode dépend du
-choix de cette borne d'effritement (\cite{Guillot}). Si elle est trop petite, les entiers $Q_i$
-auront peu de chance d'être $B$-friables. A l'inverse, si elle est trop grande,
-le nombre d'entiers $Q_i$ $B$-friables à collecter pour obtenir une relation de 
-dépendance entre les vecteurs exposants sera très important.
+Pour étudier la complexité de la phase de recherche de congruences, nous nous
+plaçons dans le cadre suivant : on conjecture que les valeurs absolues des
+entiers $Q_i$ des relations de congruences $u_i^2 \equiv Q_i \pmod{N}$ sont des
+nombres aléatoires d'un intervalle [\![1, X]\!] \footnote{Dans le cas de la
+méthode de factorisation avec les fractions continues $X$ vaut $2\sqrt{kN}$. }
+et on fixe une base de factorisation $B$ comprenant tous les nombres premiers
+inférieurs à une borne $Y \in \N$, appelée borne d'effritement. L'efficacité de
+la méthode dépend du choix de cette borne d'effritement (\cite{Guillot}). Si
+elle est trop petite, les entiers $Q_i$ auront peu de chance d'être
+$B$-friables ~; si elle est trop grande, le nombre d'entiers $Q_i$ $B$-friables
+à collecter pour obtenir une relation de dépendance linéaire entre les vecteurs
+exposants sera très important.
+
 \begin{notation}
-    Pour tout réel $Y \in \R^+$ on note $\pi(Y)$ le cardinal de l'ensemble des
+    Pour tout réel $Y \in \R_+$ on note $\pi(Y)$ le cardinal de l'ensemble des
     nombres premiers inférieurs ou égaux à $Y$.
 \end{notation}
+
 \begin{notation}
     Soient $X$ et $Y$ des réels vérifiant $0 \leq Y \leq X$. On note $\psi(X,Y)$
     le nombre d'entiers dans l'intervalle [\![1, X]\!]  dont les facteurs premiers  
@@ -202,28 +203,28 @@ dépendance entre les vecteurs exposants sera très important.
     de De Bruijn.
 \end{notation}
 
-La probabilité qu'un entier aléatoire de l'intervalle [\![1, X]\!] soit 
-$B$-friable est donc $\frac{\psi (X,Y)}{\left\lfloor X \right\rfloor}$, soit
-environ $\frac{\psi (X,Y)}{X}$. Le nombre d'entiers $Q_i$ à générer avant d'en 
-trouver un $B$-friable est par conséquent de l'ordre de $\frac{X}{\psi(X,Y)}$.
-Puisque l'on cherche à obtenir autant de $Q_i$ $B$-friables que le cardinal 
-$\pi(Y)$ de la base de factorisation, il faudra tester au total la friabilité
-de $\pi(Y)\frac{X}{\psi(X,Y)}$ entiers $Q_i$. Il faut multiplier ce nombre 
-d'essais par la complexité de la factorisation par divisions succesives par 
-les $\pi(Y)$ premiers de la base de factorisation. Chaque division a une 
-complexité bornée par $\ln(X)\ln(Y)$. On arrive donc finalement à une complexité
-en $O\big(\pi(Y)^2 \frac{X}{\psi(X,Y)} \ln(X)\ln(Y)\big)$.
+La \og{} probabilité \fg{} qu'un entier aléatoire de l'intervalle [\![1, X]\!]
+soit $B$-friable est donc \[\frac{\psi (X,Y)}{\left\lfloor X \right\rfloor},\]
+soit environ $\frac{\psi (X,Y)}{X}$. Le nombre d'entiers $Q_i$ à générer avant
+d'en trouver un $B$-friable est par conséquent de l'ordre de
+\[\frac{X}{\psi(X,Y)}.\] Puisque l'on cherche à obtenir autant de $Q_i$
+$B$-friables que le cardinal $\pi(Y)$ de la base de factorisation, il faudra
+tester au total la friabilité de $\pi(Y)\frac{X}{\psi(X,Y)}$ entiers $Q_i$. Il
+faut multiplier ce nombre d'essais par la complexité de la factorisation par
+divisions succesives par les $\pi(Y)$ premiers de la base de factorisation.
+Chaque division a une complexité bornée par $\ln(X)\ln(Y)$. On arrive donc
+finalement à une complexité en \[O\big(\pi(Y)^2 \frac{X}{\psi(X,Y)}
+\ln(X)\ln(Y)\big).\]
 
-Ainsi, la borne d'effritement $Y$ optimale est celle qui minimise cette 
-complexité. Interviennent alors dans l'étude des résultats de théorie des 
-nombres. Le théorème des nombres premiers (Hadamard et de la
-Vallée-Poussin, 1896) donne l'équivalence $\pi(x) \sim \frac{x}{ln(x)}$ au 
-voisinage de $+ \infty$. La fonction de De Bruijn a été étudiée par Canfield, 
-Erdös et Pomerance qui ont également établi la borne d'effritement optimale
-(\cite{Tale})
-\[ Y = \e^{\frac{1}{2} \sqrt{\ln X \ln \ln X}},\] qui donne une complexité 
-pour la phase de collecte de \[ \e^{2 \sqrt{\ln X \ln \ln X}}.\] 
+La borne d'effritement $Y$ optimale est ainsi celle qui minimise cette
+complexité. Interviennent alors dans l'étude des résultats de théorie des
+nombres. Le théorème des nombres premiers (Hadamard et de la Vallée-Poussin,
+1896) donne l'équivalence $\pi(x) \sim \frac{x}{ln(x)}$ au voisinage de $+
+\infty$. La fonction de De Bruijn a été étudiée par Canfield, Erdös et
+Pomerance qui ont également établi la borne d'effritement optimale
+(\cite{Tale}) \[ Y = \e^{\frac{1}{2} \sqrt{\ln X \ln \ln X}},\] qui donne une
+complexité pour la phase de collecte de \[ \e^{2 \sqrt{\ln X \ln \ln X}}.\] 
 
-La complexité du pivot de Gau\ss{}, $\e^{\frac{3}{2} \sqrt{\ln X \ln \ln X}}$,
-cubique en la taille de la base de factorisation, est alors négligeable devant 
-la complexité de la phase de recherche de congruences.
+La complexité du pivot de Gau\ss{} cubique en la taille de la base de
+factorisation ($\e^{\frac{3}{2} \sqrt{\ln X \ln \ln X}}$), est alors
+négligeable devant la complexité de la phase de recherche de congruences.
