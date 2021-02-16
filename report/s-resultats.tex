@@ -57,7 +57,7 @@ calculée.}
 
 \subsection{Temps de calcul (avec les deux variantes) }
 
-Ce graphique représente le temps moyen mis par le programme ( sur ... tests)
+Ce graphique représente le temps moyen mis par le programme (sur une cinquantaine de tests)
 en fonction du nombre de bits de l'entier que l'on souhaite factoriser. La
 \textit{large prime variation} et la \textit{early abort strategy} ont été 
 utilisées et les paramètres ont été choisis par les fonctions 
@@ -65,8 +65,10 @@ utilisées et les paramètres ont été choisis par les fonctions
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width = 7 cm ]{graphique.png}
+%\includegraphics[width = 7 cm ]{graphique.png}
 \end{center}
 \end{figure}
-\NTS{comparer quand k choisi par la fonction et k = 1: prévu de calculer le
-rapport des deux temps}
+
+Concernant le choix du paramètre $k$, utiliser la valeur choisie par la fonction 
+\texttt{choose\_k} plutôt que $k=1$ n'améliore pas en moyenne les performances du 
+programme. 
