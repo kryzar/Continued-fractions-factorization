@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
         printf("Entrez un argument en ligne de commande (cf README.txt). \n"); 
     } else if ( 0 == strcmp(argv[1], "F7_lp_eas") ) {
         fact_F7(1,1); 
-    }  else if ( 0 == strcmp(argv[1], "F7_lp") ) {
+    } else if ( 0 == strcmp(argv[1], "F7_lp") ) {
         fact_F7(1,0); 
     } else if ( 0 == strcmp(argv[1], "F7_eas") ) {
         fact_F7(0,1); 
