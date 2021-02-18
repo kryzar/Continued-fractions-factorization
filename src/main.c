@@ -10,6 +10,7 @@
 #include "test.h"
 
 int main(int argc, char **argv) {
+    // Voir README.txt.
 
     mpz_t       N; 
     mp_bitcnt_t nb_bits; 
