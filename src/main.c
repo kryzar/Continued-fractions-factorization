@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
         fact_F7(1,0); 
     } else if ( 0 == strcmp(argv[1], "F7_eas") ) {
         fact_F7(0,1); 
-    } else if ( 0 == strcmp(argv[1], "F7_eas") ) {
+    } else if ( 0 == strcmp(argv[1], "F7") ) {
         fact_F7(0,0); 
     } else {
         mpz_init_set_str(N, argv[1], 10); 
