@@ -16,7 +16,9 @@ void fact_F7(int lp_var, int eas);
 
 void rand_N(mpz_t N, mp_bitcnt_t nb_bits, gmp_randstate_t state);
 
-void fact_rand_N(mp_bitcnt_t nb_bits); 
+void fact_rand_N(mp_bitcnt_t nb_bits);
+
+void fact_N(mpz_t N); 
 
 int test_s_fb(const char *file_name, unsigned row_S_FB, unsigned nb_tests); 
 

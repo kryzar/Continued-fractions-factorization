@@ -177,43 +177,37 @@ unsigned choose_k(const mpz_t N, unsigned k_max) {
 
 size_t choose_s_fb(const mpz_t N) {
     /*
-    Choose the size of the factor base according to the parameters 
-    of Morrison and Brillhart's paper.
+    Choose the size of the factor base (for our tests, we used the 
+    large prime variation and the early abort strategy)
 
     return: The size choosen for the factor base.
     param N: The integer to be factored.
     */
-    size_t nb_digits = mpz_sizeinbase(N, 10); 
+    size_t nb_bits = mpz_sizeinbase(N, 2); 
 
-    if (nb_digits <= 20) {
-        return 60; 
+    if (nb_bits <= 70) {
+        return 40; 
     }
-    if (nb_digits <= 23) {
-        return 150; 
+    if (nb_bits <= 83) {
+        return 90; 
     }
-    if (nb_digits <= 25) {
-        return 200; 
+    if (nb_bits <= 93) {
+        return 120; 
     }
-    if (nb_digits <= 28) {
-        return 300; 
+    if (nb_bits <= 103) {
+        return 170; 
     }
-    if (nb_digits <= 30) {
-        return 400; 
+    if (nb_bits <= 113) {
+        return 260; 
     }
-    if (nb_digits <= 32) {
+    if (nb_bits <= 123) {
+        return 280; 
+    }
+    if (nb_bits <= 133) {
+        return 370; 
+    }
+    if(nb_bits <= 143) {
         return 450; 
     }
-    if (nb_digits <= 34) {
-        return 500; 
-    }
-    if(nb_digits <= 36) {
-        return 550; 
-    }
-    if(nb_digits <= 38) {
-        return 600; 
-    }
-    if(nb_digits <= 40) {
-        return 650; 
-    }
-    return 750;     
+    return 600;     
 } 

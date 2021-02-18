@@ -1,6 +1,7 @@
 /* test.c */
 
 #include "test.h"
+#include "fact.h"
 #include "init_algo.h"
 #include <float.h>
 
@@ -91,13 +92,38 @@ void fact_rand_N(mp_bitcnt_t nb_bits) {
     
     rand_N(P.N, nb_bits, state); 
     P.k    = choose_k(P.N, K_MAX);
-    P.s_fb = choose_s_fb(P.N); 
+    P.s_fb = choose_s_fb(P.N);  
+    P.nb_want_AQp = P.s_fb + DELTA; 
 
     set_eas_params(&P, EAS_CUT, EAS_COEFF); 
     contfract_factor(&P, &R); 
     print_results(&P, &R);  
 
     gmp_randclear(state); 
+    clear_Params_Results(&P, &R);
+}
+
+void fact_N(mpz_t N) {
+    /*
+    Call contfract_factor to try to find a factor of N. Print the 
+    results.
+
+    param N : Number to be factored. 
+    */
+    Params   P; 
+    Results  R; 
+
+    init_Params_Results(&P, &R);
+    
+    mpz_set(P.N, N); 
+    P.k    = choose_k(P.N, K_MAX);
+    P.s_fb = choose_s_fb(P.N);
+    P.nb_want_AQp = P.s_fb + DELTA; 
+
+    set_eas_params(&P, EAS_CUT, EAS_COEFF); 
+    contfract_factor(&P, &R); 
+    print_results(&P, &R); 
+
     clear_Params_Results(&P, &R);
 }
 
@@ -108,8 +134,8 @@ size_t S_FB[9][12] = { {70 , 10 , 30 , 40 , 50 , 60 , 70 , 80 , 90 , 100, 110, 1
                        {110, 5  , 200, 220, 240, 260, 280, 0  , 0  , 0  , 0  , 0  },
                        {120, 5  , 280, 310, 340, 370, 400, 0  , 0  , 0  , 0  , 0  },
                        {130, 8  , 280, 310 ,340, 370, 400, 430, 460, 490, 0  , 0  },
-                       {140, 0  , 0  , 0  , 0  , 0  , 0  , 0  , 0  , 0  , 0  , 0  },
-                       {150, 0  , 0  , 0  , 0  , 0  , 0  , 0  , 0  , 0  , 0  , 0  }}; 
+                       {140, 6  , 400, 450 ,500, 550, 600, 650, 0  , 0  , 0  , 0  },
+                       {150, 4  , 450, 500, 600, 700, 0  , 0  , 0  , 0  , 0  , 0  }}; 
 
 /*
 Array used to test, with the function test_s_fb, several values of s_fb to
@@ -242,7 +268,7 @@ int test_nb_bits_vs_time(const char *file_name, mp_bitcnt_t nb_bits,
             time_k_default = FLT_MAX; 
         }
 
-        fprintf(file, "%lu\t %d\t %f\t %f\t %f", R.nb_bits, P.k, time_k_1,
+        fprintf(file, "%lu\t %d\t %f\t %f\t %f \n", R.nb_bits, P.k, time_k_1,
                 time_k_default, time_k_1/time_k_default); 
 
     }

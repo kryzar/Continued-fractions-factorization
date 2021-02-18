@@ -9,7 +9,7 @@
 #define EAS_CUT   50        /* Default value to initialize eas_cut         */
 #define EAS_COEFF 1000000   /* Default value used to compute eas_bound_div */
 #define K_MAX     97        /* Default value for the maximum value of k    */
-#define N_LIM     3300000   /* Default value for n_lim                     */
+#define N_LIM     15000000  /* Default value for n_lim                     */
 #define DELTA     15        /* To choose nb_want_AQp := s_fb + DELTA       */ 
 #define S_PRIMES  10        /* Size of the PRIMES array used to choose k   */
 
